@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.MVC_WebApi", "Tournament.MVC_WebApi\Tournament.MVC_WebApi.csproj", "{02BBA406-877B-4E7E-AE1F-D02CC5DC8118}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.DAL", "Tournament.DAL\Tournament.DAL.csproj", "{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.DAL.Common", "Tournament.DAL.Common\Tournament.DAL.Common.csproj", "{75BC6882-9DB2-46D4-917E-6A8B8FBD51D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Common", "Tournament.Common\Tournament.Common.csproj", "{E2485176-A4D9-4617-B945-D899AFD6C9E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.DependencyResolver", "Tournament.DependencyResolver\Tournament.DependencyResolver.csproj", "{763B7C6F-9528-41CB-84E1-E86629476B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Model", "Tournament.Model\Tournament.Model.csproj", "{73D95132-9B5E-4980-8887-6E7E03D60E98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Model.Common", "Tournament.Model.Common\Tournament.Model.Common.csproj", "{9EEC074C-B68C-463B-85F5-5522CB94D4BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Repository", "Tournament.Repository\Tournament.Repository.csproj", "{ECA1AF2E-1C92-46A9-8073-82E77DBB1339}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Repository.Common", "Tournament.Repository.Common\Tournament.Repository.Common.csproj", "{C21D2210-BA8D-46B7-BED3-92355409A1A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Service", "Tournament.Service\Tournament.Service.csproj", "{201D68F4-0973-4F33-A7E3-74D782F1B6E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament.Service.Common", "Tournament.Service.Common\Tournament.Service.Common.csproj", "{043A3105-01BF-47DD-9DA7-84814E1F5ED9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02BBA406-877B-4E7E-AE1F-D02CC5DC8118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02BBA406-877B-4E7E-AE1F-D02CC5DC8118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02BBA406-877B-4E7E-AE1F-D02CC5DC8118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02BBA406-877B-4E7E-AE1F-D02CC5DC8118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75BC6882-9DB2-46D4-917E-6A8B8FBD51D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75BC6882-9DB2-46D4-917E-6A8B8FBD51D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75BC6882-9DB2-46D4-917E-6A8B8FBD51D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75BC6882-9DB2-46D4-917E-6A8B8FBD51D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2485176-A4D9-4617-B945-D899AFD6C9E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2485176-A4D9-4617-B945-D899AFD6C9E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2485176-A4D9-4617-B945-D899AFD6C9E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2485176-A4D9-4617-B945-D899AFD6C9E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{763B7C6F-9528-41CB-84E1-E86629476B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{763B7C6F-9528-41CB-84E1-E86629476B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{763B7C6F-9528-41CB-84E1-E86629476B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{763B7C6F-9528-41CB-84E1-E86629476B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D95132-9B5E-4980-8887-6E7E03D60E98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D95132-9B5E-4980-8887-6E7E03D60E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D95132-9B5E-4980-8887-6E7E03D60E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D95132-9B5E-4980-8887-6E7E03D60E98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EEC074C-B68C-463B-85F5-5522CB94D4BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EEC074C-B68C-463B-85F5-5522CB94D4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EEC074C-B68C-463B-85F5-5522CB94D4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EEC074C-B68C-463B-85F5-5522CB94D4BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECA1AF2E-1C92-46A9-8073-82E77DBB1339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECA1AF2E-1C92-46A9-8073-82E77DBB1339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECA1AF2E-1C92-46A9-8073-82E77DBB1339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECA1AF2E-1C92-46A9-8073-82E77DBB1339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C21D2210-BA8D-46B7-BED3-92355409A1A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C21D2210-BA8D-46B7-BED3-92355409A1A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C21D2210-BA8D-46B7-BED3-92355409A1A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C21D2210-BA8D-46B7-BED3-92355409A1A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201D68F4-0973-4F33-A7E3-74D782F1B6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201D68F4-0973-4F33-A7E3-74D782F1B6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201D68F4-0973-4F33-A7E3-74D782F1B6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201D68F4-0973-4F33-A7E3-74D782F1B6E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043A3105-01BF-47DD-9DA7-84814E1F5ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043A3105-01BF-47DD-9DA7-84814E1F5ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043A3105-01BF-47DD-9DA7-84814E1F5ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043A3105-01BF-47DD-9DA7-84814E1F5ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
