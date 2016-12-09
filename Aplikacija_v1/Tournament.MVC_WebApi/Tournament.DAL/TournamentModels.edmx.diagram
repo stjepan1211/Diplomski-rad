@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1f884c4b2c474a5e90a3ba38ea087ff5" Name="Diagram1">
+      <Diagram DiagramId="d3c06f57ac8c4dd2869f47602f66c816" Name="Diagram1">
         <EntityTypeShape EntityType="Tournament_v1Model.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.AspNetRole" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />

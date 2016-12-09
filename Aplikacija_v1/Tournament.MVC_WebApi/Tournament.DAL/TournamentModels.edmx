@@ -117,7 +117,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TeamOneGoals" Type="int" Nullable="false" />
           <Property Name="TeamTwoGoals" Type="int" Nullable="false" />
           <Property Name="MatchId" Type="uniqueidentifier" Nullable="false" />
@@ -469,6 +469,7 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tournament" Relationship="Self.FK_Location_Location" FromRole="Location" ToRole="Tournament" />
         </EntityType>
         <EntityType Name="Match">
           <Key>
@@ -480,6 +481,10 @@
           <Property Name="TeamOneId" Type="Guid" Nullable="false" />
           <Property Name="TeamTwoId" Type="Guid" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Referee" Relationship="Self.FK_Match_Referee" FromRole="Match" ToRole="Referee" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_Match_Team" FromRole="Match" ToRole="Team" />
+          <NavigationProperty Name="Team1" Relationship="Self.FK_Match_Team1" FromRole="Match" ToRole="Team" />
+          <NavigationProperty Name="Tournament" Relationship="Self.FK_Match_Tournament" FromRole="Match" ToRole="Tournament" />
           <NavigationProperty Name="Results" Relationship="Self.FK_Result_Match" FromRole="Match" ToRole="Result" />
         </EntityType>
         <EntityType Name="Player">
@@ -494,6 +499,7 @@
           <Property Name="YellowCards" Type="Int32" Nullable="false" />
           <Property Name="RedCards" Type="Int32" Nullable="false" />
           <Property Name="GamesPlayed" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_Player_Team" FromRole="Player" ToRole="Team" />
         </EntityType>
         <EntityType Name="Referee">
           <Key>
@@ -504,15 +510,17 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Matches" Relationship="Self.FK_Match_Referee" FromRole="Referee" ToRole="Match" />
+          <NavigationProperty Name="Tournament" Relationship="Self.FK_Referee_Tournament" FromRole="Referee" ToRole="Tournament" />
         </EntityType>
         <EntityType Name="Result">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="TeamOneGoals" Type="Int32" Nullable="false" />
           <Property Name="TeamTwoGoals" Type="Int32" Nullable="false" />
           <Property Name="MatchId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Match" Relationship="Self.FK_Result_Match" FromRole="Result" ToRole="Match" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -528,6 +536,7 @@
           <NavigationProperty Name="Matches" Relationship="Self.FK_Match_Team" FromRole="Team" ToRole="Match" />
           <NavigationProperty Name="Matches1" Relationship="Self.FK_Match_Team1" FromRole="Team" ToRole="Match" />
           <NavigationProperty Name="Players" Relationship="Self.FK_Player_Team" FromRole="Team" ToRole="Player" />
+          <NavigationProperty Name="Tournament" Relationship="Self.FK_Team_Tournament" FromRole="Team" ToRole="Tournament" />
         </EntityType>
         <EntityType Name="Tournament">
           <Key>
@@ -538,6 +547,7 @@
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Tournament_AspNetUsers" FromRole="Tournament" ToRole="AspNetUsers" />
           <NavigationProperty Name="Locations" Relationship="Self.FK_Location_Location" FromRole="Tournament" ToRole="Location" />
           <NavigationProperty Name="Matches" Relationship="Self.FK_Match_Tournament" FromRole="Tournament" ToRole="Match" />
           <NavigationProperty Name="Referees" Relationship="Self.FK_Referee_Tournament" FromRole="Tournament" ToRole="Referee" />

@@ -20,5 +20,7 @@ namespace Tournament.DAL
         public string Description { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }
+    
+        public virtual Tournament Tournament { get; set; }
     }
 }

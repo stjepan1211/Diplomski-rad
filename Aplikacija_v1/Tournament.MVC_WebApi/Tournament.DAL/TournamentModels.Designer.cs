@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\VIsual studio projekti\Diplomski rad\Aplikacija_v1\Tournament.MVC_WebApi\Tournament.DAL\Tournament.edmx'. 
+﻿// T4 code generation is enabled for model 'E:\VIsual studio projekti\Diplomski rad\Aplikacija_v1\Tournament.MVC_WebApi\Tournament.DAL\TournamentModels.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

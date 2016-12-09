@@ -27,6 +27,10 @@ namespace Tournament.DAL
         public System.Guid TeamTwoId { get; set; }
         public System.DateTime DateTime { get; set; }
     
+        public virtual Referee Referee { get; set; }
+        public virtual Team Team { get; set; }
+        public virtual Team Team1 { get; set; }
+        public virtual Tournament Tournament { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Result> Results { get; set; }
     }

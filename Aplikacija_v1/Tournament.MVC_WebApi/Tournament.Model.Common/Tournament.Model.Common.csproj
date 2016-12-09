@@ -40,6 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAspNetRoleDomain.cs" />
+    <Compile Include="IAspNetUserClaimDomain.cs" />
+    <Compile Include="IAspNetUserDomain.cs" />
+    <Compile Include="IAspNetUserLoginDomain.cs" />
+    <Compile Include="ILocationDomain.cs" />
+    <Compile Include="IMatchDomain.cs" />
+    <Compile Include="IPlayerDomain.cs" />
+    <Compile Include="IRefereeDomain.cs" />
+    <Compile Include="IResultDomain.cs" />
+    <Compile Include="ITeamDomain.cs" />
+    <Compile Include="ITournamentDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

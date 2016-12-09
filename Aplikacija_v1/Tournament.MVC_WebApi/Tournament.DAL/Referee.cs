@@ -27,5 +27,6 @@ namespace Tournament.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Match> Matches { get; set; }
+        public virtual Tournament Tournament { get; set; }
     }
 }

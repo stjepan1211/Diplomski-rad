@@ -9,11 +9,12 @@
 
 namespace Tournament.DAL
 {
+    using Common;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
-    public partial class Tournament_v1Entities : DbContext
+
+    public partial class Tournament_v1Entities : DbContext, ITournament_v1Entities
     {
         public Tournament_v1Entities()
             : base("name=Tournament_v1Entities")
@@ -37,5 +38,51 @@ namespace Tournament.DAL
         public virtual DbSet<Result> Results { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<Tournament> Tournaments { get; set; }
+
+        public string ConnectionString
+        {
+            get
+            {
+                return this.Database.Connection.ConnectionString;
+            }
+            set
+            {
+                this.Database.Connection.ConnectionString = value;
+            }
+        }
+
+        bool AutoDetachChangedEnabled
+        {
+            get
+            {
+                return true;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void ExecuteSqlCommand(string p, params object[] os)
+        {
+            this.Database.ExecuteSqlCommand(p, os);
+        }
+
+        public void ExecuteSqlCommand(string p)
+        {
+            this.Database.ExecuteSqlCommand(p);
+        }
+
+        bool ITournament_v1Entities.AutoDetectChangedEnabled
+        {
+            get
+            {
+                return this.Configuration.AutoDetectChangesEnabled;
+            }
+            set
+            {
+                this.Configuration.AutoDetectChangesEnabled = value;
+            }
+        }
     }
 }

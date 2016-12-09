@@ -30,6 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,7 +53,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MappingConfig\MappingProfile.cs" />
+    <Compile Include="NinjectConfig\BottomLayer.cs" />
+    <Compile Include="NinjectConfig\MiddleLayer.cs" />
+    <Compile Include="NinjectConfig\TopLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tournament.DAL.Common\Tournament.DAL.Common.csproj">
+      <Project>{75BC6882-9DB2-46D4-917E-6A8B8FBD51D7}</Project>
+      <Name>Tournament.DAL.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.DAL\Tournament.DAL.csproj">
+      <Project>{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}</Project>
+      <Name>Tournament.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Model.Common\Tournament.Model.Common.csproj">
+      <Project>{9EEC074C-B68C-463B-85F5-5522CB94D4BA}</Project>
+      <Name>Tournament.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Model\Tournament.Model.csproj">
+      <Project>{73D95132-9B5E-4980-8887-6E7E03D60E98}</Project>
+      <Name>Tournament.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

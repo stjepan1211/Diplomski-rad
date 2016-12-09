@@ -22,5 +22,7 @@ namespace Tournament.DAL
         public int YellowCards { get; set; }
         public int RedCards { get; set; }
         public Nullable<int> GamesPlayed { get; set; }
+    
+        public virtual Team Team { get; set; }
     }
 }

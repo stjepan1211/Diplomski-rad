@@ -14,9 +14,11 @@ namespace Tournament.DAL
     
     public partial class Result
     {
-        public string Id { get; set; }
+        public System.Guid Id { get; set; }
         public int TeamOneGoals { get; set; }
         public int TeamTwoGoals { get; set; }
         public System.Guid MatchId { get; set; }
+    
+        public virtual Match Match { get; set; }
     }
 }
