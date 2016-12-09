@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -226,6 +230,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AutoMapperConfig\MapperInit.cs" />
+    <Compile Include="AutoMapperConfig\MappingProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -318,6 +324,20 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tournament.DependencyResolver\Tournament.DependencyResolver.csproj">
+      <Project>{763b7c6f-9528-41cb-84e1-e86629476b30}</Project>
+      <Name>Tournament.DependencyResolver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Model.Common\Tournament.Model.Common.csproj">
+      <Project>{9EEC074C-B68C-463B-85F5-5522CB94D4BA}</Project>
+      <Name>Tournament.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Model\Tournament.Model.csproj">
+      <Project>{73D95132-9B5E-4980-8887-6E7E03D60E98}</Project>
+      <Name>Tournament.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

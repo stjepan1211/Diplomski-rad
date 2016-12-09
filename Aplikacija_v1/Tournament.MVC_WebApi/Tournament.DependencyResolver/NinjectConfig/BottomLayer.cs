@@ -14,7 +14,6 @@ namespace Tournament.DependencyResolver.NinjectConfig
         public override void Load()
         {
             //Binding database context
-            //Bind<IAbsenceTrackerEntities>().To<AbsenceTrackerEntities>();
             Bind<ITournament_v1Entities>().To<Tournament_v1Entities>();
         }
     }

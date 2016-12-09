@@ -79,6 +79,22 @@
       <Project>{73D95132-9B5E-4980-8887-6E7E03D60E98}</Project>
       <Name>Tournament.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tournament.Repository.Common\Tournament.Repository.Common.csproj">
+      <Project>{C21D2210-BA8D-46B7-BED3-92355409A1A1}</Project>
+      <Name>Tournament.Repository.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Repository\Tournament.Repository.csproj">
+      <Project>{ECA1AF2E-1C92-46A9-8073-82E77DBB1339}</Project>
+      <Name>Tournament.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Service.Common\Tournament.Service.Common.csproj">
+      <Project>{043A3105-01BF-47DD-9DA7-84814E1F5ED9}</Project>
+      <Name>Tournament.Service.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Service\Tournament.Service.csproj">
+      <Project>{201D68F4-0973-4F33-A7E3-74D782F1B6E5}</Project>
+      <Name>Tournament.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

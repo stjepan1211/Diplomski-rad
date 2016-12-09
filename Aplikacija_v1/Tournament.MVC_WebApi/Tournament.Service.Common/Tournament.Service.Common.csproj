@@ -40,7 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAspNetUserService.cs" />
+    <Compile Include="ILocationService.cs" />
+    <Compile Include="IMatchService.cs" />
+    <Compile Include="IPlayerService.cs" />
+    <Compile Include="IRefereeService.cs" />
+    <Compile Include="IResultService.cs" />
+    <Compile Include="ITeamService.cs" />
+    <Compile Include="ITournamentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tournament.Model.Common\Tournament.Model.Common.csproj">
+      <Project>{9EEC074C-B68C-463B-85F5-5522CB94D4BA}</Project>
+      <Name>Tournament.Model.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
