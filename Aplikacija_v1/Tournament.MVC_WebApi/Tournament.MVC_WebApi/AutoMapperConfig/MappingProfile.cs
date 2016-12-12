@@ -14,7 +14,7 @@ namespace Tournament.MVC_WebApi.AutoMapperConfig
         protected override void Configure()
         {
             //AspNetUser view <-> AspNetUser domain
-            CreateMap<AspNetUserView, IAspNetUserDomain>().PreserveReferences().ReverseMap().PreserveReferences();
+            CreateMap<IAspNetUserDomain, AspNetUserView>().PreserveReferences().ReverseMap().PreserveReferences();
             CreateMap<AspNetUserView, AspNetUserDomain>().PreserveReferences().ReverseMap().PreserveReferences();
 
             //AspNetRole view <-> AspNetRole domain

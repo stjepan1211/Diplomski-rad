@@ -232,6 +232,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AutoMapperConfig\MapperInit.cs" />
     <Compile Include="AutoMapperConfig\MappingProfile.cs" />
+    <Compile Include="ControllersApi\AspNetUserController.cs" />
+    <Compile Include="ControllersApi\LocationController.cs" />
+    <Compile Include="ControllersApi\MatchController.cs" />
+    <Compile Include="ControllersApi\PlayerController.cs" />
+    <Compile Include="ControllersApi\RefereeController.cs" />
+    <Compile Include="ControllersApi\ResultController.cs" />
+    <Compile Include="ControllersApi\TeamController.cs" />
+    <Compile Include="ControllersApi\TournamentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -337,6 +345,10 @@
     <ProjectReference Include="..\Tournament.Model\Tournament.Model.csproj">
       <Project>{73D95132-9B5E-4980-8887-6E7E03D60E98}</Project>
       <Name>Tournament.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Service.Common\Tournament.Service.Common.csproj">
+      <Project>{043A3105-01BF-47DD-9DA7-84814E1F5ED9}</Project>
+      <Name>Tournament.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
