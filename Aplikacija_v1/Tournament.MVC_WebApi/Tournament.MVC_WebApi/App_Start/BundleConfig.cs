@@ -26,6 +26,17 @@ namespace Tournament.MVC_WebApi
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/app/js").Include(
+                    "~/Scripts/angular.js",
+                    "~/Scripts/angular-ui-router.js"
+                ));
+
+            bundles.Add(new ScriptBundle("~/app").Include(
+                    "~/app/app.js",
+                    "~/app/services/*Service.js",
+                    "~/app/controllers/*Controller.js"
+                ));
         }
     }
 }

@@ -59,6 +59,7 @@ html {
 
 body {
   margin: 0;
+  background-color: red;
 }
 
 a:focus {
@@ -276,6 +277,7 @@ table {
   }
   .navbar {
     display: none;
+    background-color: darkslategray;
   }
   .table td,
   .table th {
@@ -311,11 +313,13 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.428571429;
-  color: #333333;
-  background-color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333333;
+    background-color: #000;
+    background-image: url('pozadina_prviprijedlog.jpg');
+    background-size:cover;
 }
 
 input,
@@ -4025,8 +4029,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   z-index: 1000;
-  min-height: 50px;
-  margin-bottom: 20px;
+  min-height: 70px;
+  margin-bottom: 50px;
   border: 1px solid transparent;
 }
 
@@ -4172,6 +4176,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   right: 0;
   left: 0;
   border-width: 0 0 1px;
+
 }
 
 @media (min-width: 768px) {
@@ -4501,7 +4506,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
+  background-color: #000;
   border-color: #080808;
 }
 
@@ -4559,6 +4564,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
   border-color: #101010;
+  font-size: large;
 }
 
 .navbar-inverse .navbar-nav > .open > a,

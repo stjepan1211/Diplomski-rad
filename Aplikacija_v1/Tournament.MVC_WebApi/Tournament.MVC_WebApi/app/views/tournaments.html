@@ -1,0 +1,46 @@
+﻿<div class="container" ng-controller="tournamentsController" ng-init="getAllTournaments()">
+    <br />
+    <br />
+    <h2>ALL TOURNAMENTS:</h2>
+    <br />
+    <table class="table table-responsive table-hover table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End Date
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Location
+                </th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="item in tournamentData">
+            <tr>
+                <td>
+                    {{item.StartTime}}
+                </td>
+                <td>
+                    {{item.EndTime}}
+                </td>
+                <td>
+                    {{item.Type}}
+                </td>
+                <td>
+                    Treba dodati stupac Name u tablicu
+                </td>
+                <td>
+                    {{item.Locations[0].Place}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
