@@ -12,7 +12,7 @@ namespace Tournament.MVC_WebApi.ViewModels
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
         public string Type { get; set; }
-
+        public string Name { get; set; }
         public virtual ICollection<LocationView> Locations { get; set; }
         public virtual ICollection<MatchView> Matches { get; set; }
         public virtual ICollection<RefereeView> Referees { get; set; }

@@ -273,6 +273,7 @@
     <Content Include="app\controllers\topplayersController.js" />
     <Content Include="app\controllers\topteamsController.js" />
     <Content Include="app\controllers\tournamentsController.js" />
+    <Content Include="app\services\AuthenticationService.js" />
     <Content Include="app\views\gallery.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
@@ -1115,7 +1116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\js\" />
-    <Folder Include="app\services\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

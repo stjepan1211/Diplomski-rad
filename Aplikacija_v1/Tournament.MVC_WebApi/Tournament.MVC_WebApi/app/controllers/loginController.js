@@ -4,7 +4,7 @@ angular.module('TournamentModule').controller('loginController', ['$scope', '$ht
 function loginController($scope, $http, $stateParams, $window, $state) {
 
     $scope.ispis = function () {
-        $window.alert("ispis");
+       
     }
 
 }

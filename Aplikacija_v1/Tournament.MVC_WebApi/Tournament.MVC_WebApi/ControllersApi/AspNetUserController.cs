@@ -74,26 +74,30 @@ namespace Tournament.MVC_WebApi.ControllersApi
         {
             try
             {
-                if (aspNetUser.Email == null || aspNetUser.UserName == null)
+                if (aspNetUser == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User is null.");
+                if (aspNetUser.Address == null || aspNetUser.Place == null || aspNetUser.Age.ToString() == null
+                    || aspNetUser.Name == null || aspNetUser.LastName == null || aspNetUser.PhoneNumber.ToString() == null
+                    || aspNetUser.Email == null || aspNetUser.UserName == null || aspNetUser.PasswordHash == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 aspNetUser.Id = Guid.NewGuid().ToString();
-                aspNetUser.Age = 5;
                 aspNetUser.EmailConfirmed = true;
                 aspNetUser.TwoFactorEnabled = true;
                 aspNetUser.PhoneNumberConfirmed = true;
                 aspNetUser.LockoutEnabled = false;
-                aspNetUser.AccessFailedCount = 2;
+                aspNetUser.AccessFailedCount = 0;
 
                 var response = await AspNetUserService.Add(Mapper.Map<AspNetUserDomain>(aspNetUser));
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
+
 
         [HttpDelete]
         [Route("delete")]

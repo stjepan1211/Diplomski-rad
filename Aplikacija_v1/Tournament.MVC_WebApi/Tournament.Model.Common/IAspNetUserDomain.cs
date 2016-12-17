@@ -23,6 +23,8 @@ namespace Tournament.Model.Common
         bool LockoutEnabled { get; set; }
         int AccessFailedCount { get; set; }
         string UserName { get; set; }
+        string Name { get; set; }
+        string LastName { get; set; }
 
         ICollection<IAspNetUserClaimDomain> AspNetUserClaims { get; set; }
         ICollection<IAspNetUserLoginDomain> AspNetUserLogins { get; set; }

@@ -22,6 +22,8 @@ namespace Tournament.MVC_WebApi.ViewModels
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
 
         public virtual ICollection<AspNetUserClaimView> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLoginView> AspNetUserLogins { get; set; }

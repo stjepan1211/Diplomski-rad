@@ -52,67 +52,67 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspNetRole.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUser.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserClaim.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="AspNetUserLogin.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Location.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Match.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Player.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Referee.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Result.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Team.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Tournament.cs">
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="TournamentModels.Context.cs">
+    <Compile Include="TournamentEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TournamentModels.Context.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="TournamentModels.cs">
+    <Compile Include="TournamentEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TournamentModels.tt</DependentUpon>
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="TournamentModels.Designer.cs">
+    <Compile Include="TournamentEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TournamentModels.edmx</DependentUpon>
+      <DependentUpon>TournamentEntities.edmx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />
-    <EntityDeploy Include="TournamentModels.edmx">
+    <EntityDeploy Include="TournamentEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TournamentModels.Designer.cs</LastGenOutput>
+      <LastGenOutput>TournamentEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="TournamentModels.edmx.diagram">
-      <DependentUpon>TournamentModels.edmx</DependentUpon>
+    <None Include="TournamentEntities.edmx.diagram">
+      <DependentUpon>TournamentEntities.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -125,15 +125,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TournamentModels.Context.tt">
+    <Content Include="TournamentEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TournamentModels.edmx</DependentUpon>
-      <LastGenOutput>TournamentModels.Context.cs</LastGenOutput>
+      <DependentUpon>TournamentEntities.edmx</DependentUpon>
+      <LastGenOutput>TournamentEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="TournamentModels.tt">
+    <Content Include="TournamentEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TournamentModels.edmx</DependentUpon>
-      <LastGenOutput>TournamentModels.cs</LastGenOutput>
+      <DependentUpon>TournamentEntities.edmx</DependentUpon>
+      <LastGenOutput>TournamentEntities.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

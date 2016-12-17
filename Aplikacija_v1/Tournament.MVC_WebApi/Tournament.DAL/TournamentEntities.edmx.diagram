@@ -4,19 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d3c06f57ac8c4dd2869f47602f66c816" Name="Diagram1">
+      <Diagram DiagramId="3001a7674ffc4564868789449da461eb" Name="Diagram1">
         <EntityTypeShape EntityType="Tournament_v1Model.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.AspNetRole" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Tournament_v1Model.AspNetUser" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tournament_v1Model.AspNetUser" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.Location" Width="1.5" PointX="7.5" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="Tournament_v1Model.Match" Width="1.5" PointX="9.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tournament_v1Model.Match" Width="1.5" PointX="9.75" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.Player" Width="1.5" PointX="9.75" PointY="19.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.Referee" Width="1.5" PointX="7.5" PointY="16" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.Result" Width="1.5" PointX="12" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="Tournament_v1Model.Team" Width="1.5" PointX="7.5" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Tournament_v1Model.Tournament" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tournament_v1Model.Tournament" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
         <AssociationConnector Association="Tournament_v1Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="Tournament_v1Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="Tournament_v1Model.FK_Tournament_AspNetUsers" ManuallyRouted="false" />

@@ -13,7 +13,7 @@ namespace Tournament.Model.Common
         System.DateTime StartTime { get; set; }
         System.DateTime EndTime { get; set; }
         string Type { get; set; }
-
+        string Name { get; set; }
         ICollection<ILocationDomain> Locations { get; set; }
         ICollection<IMatchDomain> Matches { get; set; }
         ICollection<IRefereeDomain> Referees { get; set; }

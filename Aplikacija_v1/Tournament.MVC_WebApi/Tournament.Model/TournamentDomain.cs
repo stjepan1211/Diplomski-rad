@@ -14,7 +14,7 @@ namespace Tournament.Model
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
         public string Type { get; set; }
-
+        public string Name { get; set; }
         public virtual ICollection<ILocationDomain> Locations { get; set; }
         public virtual ICollection<IMatchDomain> Matches { get; set; }
         public virtual ICollection<IRefereeDomain> Referees { get; set; }

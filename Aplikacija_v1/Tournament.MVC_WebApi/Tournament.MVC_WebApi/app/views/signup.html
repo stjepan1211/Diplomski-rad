@@ -1,3 +1,68 @@
-﻿<div class="container" ng-controller="signupController" ng-init="ispis()">
-    <h1>Pozdrav iz sign up</h1>
+﻿<div class="container" ng-controller="signupController">
+    <br />
+    <h1 class="well">Sign up</h1>
+    <div class="col-lg-12 well">
+        <div class="row">
+            <form name="signupForm">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-3 form-group">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Enter First Name Here.." class="form-control" required ng-model="signupData.Name">
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Enter Last Name Here.." class="form-control" required ng-model="signupData.LastName">
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <label>Phone Number</label>
+                            <input type="number"  placeholder="Enter Phone Number Here.." class="form-control" required ng-model="signupData.PhoneNumber">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <label>Address</label>
+                                <textarea placeholder="Enter Address Here.." rows="3" class="form-control" required ng-model="signupData.Address"></textarea>
+                            </div>
+
+                            <div class="col-sm-3 form-group">
+                                <label>City</label>
+                                <input type="text" placeholder="Enter City Name Here.." class="form-control" required ng-model="signupData.Place">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <label>Email Address</label>
+                                <input type="email" placeholder="Enter Email Address Here.." class="form-control" required ng-model="signupData.Email">
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>Username</label>
+                                <input type="text" placeholder="Enter Username Here.." class="form-control" required ng-model="signupData.UserName">
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>Age</label>
+                                <input type="number" min="0" placeholder="Enter Number Of Age Here.." class="form-control" required ng-model="signupData.Age"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-sm-3">
+                                <label>Password</label>
+                                <input type="password" placeholder="Enter Password Here.." class="form-control" required ng-model="signupData.PasswordHash">
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label>Confirm Password</label>
+                                <input type="password" placeholder="Enter Password Here.." class="form-control" ng-model="confirmedPassword">
+                            </div>
+                        </div>
+                    </div>
+                    <button ng-disabled="signupForm.$invalid || signupForm.$pending || signupForm.$pristine" type="button" class="btn btn-lg btn-info" ng-click="addUser()">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
