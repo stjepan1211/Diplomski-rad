@@ -273,7 +273,10 @@
     <Content Include="app\controllers\topplayersController.js" />
     <Content Include="app\controllers\topteamsController.js" />
     <Content Include="app\controllers\tournamentsController.js" />
+    <Content Include="app\js\md5.js" />
+    <Content Include="app\js\ngStorage.js" />
     <Content Include="app\services\AuthenticationService.js" />
+    <Content Include="app\views\addtournament.html" />
     <Content Include="app\views\gallery.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
@@ -284,6 +287,8 @@
     <Content Include="app\views\tournaments.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\loading-bar.css" />
+    <Content Include="Content\loading-bar.min.css" />
     <Content Include="Content\pozadina_prviprijedlog.jpg" />
     <Content Include="Content\ronaldinho_icon.png" />
     <Content Include="favicon.ico" />
@@ -1074,6 +1079,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\loading-bar.js" />
+    <Content Include="Scripts\loading-bar.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -1115,7 +1122,6 @@
     <Content Include="Scripts\version.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\js\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

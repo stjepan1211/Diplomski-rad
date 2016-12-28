@@ -16,5 +16,8 @@ namespace Tournament.Service.Common
         Task<IEnumerable<IAspNetUserDomain>> ReadAll();
         Task<int> Update(IAspNetUserDomain entry);
         Task<IAspNetUserDomain> FindByUserName(string userName);
+        Task<IEnumerable<IAspNetUserDomain>> GetAllUsernames();
+        Task<IEnumerable<IAspNetUserDomain>> GetAllEmails();
+
     }
 }

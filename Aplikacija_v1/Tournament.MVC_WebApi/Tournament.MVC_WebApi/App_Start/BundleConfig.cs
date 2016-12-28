@@ -29,12 +29,15 @@ namespace Tournament.MVC_WebApi
 
             bundles.Add(new ScriptBundle("~/app/js").Include(
                     "~/Scripts/angular.js",
-                    "~/Scripts/angular-ui-router.js"
+                    "~/Scripts/angular-ui-router.js",
+                    "~/app/js/md5.js",
+                    "~/Scripts/loading-bar.js",
+                    "~/app/js/ngStorage.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/app").Include(
                     "~/app/app.js",
-                    "~/app/services/*Service.js",
+                    "~/app/services/AuthenticationService.js",
                     "~/app/controllers/*Controller.js"
                 ));
         }

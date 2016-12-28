@@ -107,5 +107,31 @@ namespace Tournament.Service
                 throw e;
             }
         }
+        //Get all Usernames
+        public async Task<IEnumerable<IAspNetUserDomain>> GetAllUsernames()
+        {
+            try
+            {
+                var usernames = await AspNetUserRepository.GetAllUsernames();
+                return usernames;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        //Get all Emails
+        public async Task<IEnumerable<IAspNetUserDomain>> GetAllEmails()
+        {
+            try
+            {
+                var emails = await AspNetUserRepository.GetAllEmails();
+                return emails;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

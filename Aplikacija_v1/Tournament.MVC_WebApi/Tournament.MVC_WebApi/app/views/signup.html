@@ -1,4 +1,4 @@
-﻿<div class="container" ng-controller="signupController">
+﻿<div class="container" ng-controller="signupController" ng-init="getUsers();getEmails()">
     <br />
     <h1 class="well">Sign up</h1>
     <div class="col-lg-12 well">
@@ -60,7 +60,8 @@
                             </div>
                         </div>
                     </div>
-                    <button ng-disabled="signupForm.$invalid || signupForm.$pending || signupForm.$pristine" type="button" class="btn btn-lg btn-info" ng-click="addUser()">Submit</button>
+                    <!--<button ng-disabled="signupForm.$invalid || signupForm.$pending || signupForm.$pristine" type="button" class="btn btn-lg btn-info" ng-click="addUser()">Submit</button>-->
+                    <butto ng-disabled="signupForm.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addUser()">Submit</button>
                 </div>
             </form>
         </div>

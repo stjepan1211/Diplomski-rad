@@ -1,5 +1,5 @@
 ﻿//declare module
-var TournamentModule = angular.module('TournamentModule', ['ui.router']);
+var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'angular-loading-bar']);
 
 TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider) {
 
@@ -75,4 +75,33 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
                 }
             }
         })
+        .state('addtournament', {
+            url: '/addtournament',
+            views: {
+                "root": {
+                    templateUrl: 'app/views/addtournament.html'
+                }
+            }
+        })
+});
+
+TournamentModule.run(function run($rootScope, $http, $location, $localStorage, $state, AuthenticationService) {
+    // keep user logged in after page refresh
+    if ($localStorage.currentUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+
+
+        if ($http.defaults.headers.common.Authorization) {
+            $location.path('/home');
+        }
+    }
+
+    // redirect to login page if not logged in and trying to access a restricted page
+    $rootScope.$on('$locationChangeStart', function (event, next, current) {
+        var publicPages = ['/login'];
+        var restrictedPage = publicPages.indexOf($location.path()) === -1;
+        if (restrictedPage && !$localStorage.currentUser) {
+            $location.path('/login');
+        }
+    });
 });

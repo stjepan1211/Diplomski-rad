@@ -1,3 +1,27 @@
 ﻿<div  class="container" ng-controller="loginController">
-    <h1>Pozdrav iz log in</h1>
+    <br />
+    <h1 class="well">Log in</h1>
+
+        <div class="col-lg-12 well">
+            <center>
+                    <form name="loginform">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" placeholder="Enter Username here.." class="form-control" required ng-model="loginData.UserName" />
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" placeholder="Enter Password Here.." class="form-control" required ng-model="loginData.Password" />
+                                    </div>
+                                </div>
+                            <button ng-disabled="loginform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="checkIsRegistered();ispis()">Log in</button>
+                    </form>
+            </center>
+        </div>
+    <center>
+        <h4 class="well" ng-if="isRegistered">ovo je h41</h4>
+    </center>
 </div>

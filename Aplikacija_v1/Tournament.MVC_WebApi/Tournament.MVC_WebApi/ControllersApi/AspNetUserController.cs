@@ -68,6 +68,36 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getusernames")]
+        public async Task<HttpResponseMessage> GetAllUsernames()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<AspNetUserView>>(await AspNetUserService.GetAllUsernames());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("getemails")]
+        public async Task<HttpResponseMessage> GetAllEmails()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<AspNetUserView>>(await AspNetUserService.GetAllEmails());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(AspNetUserView aspNetUser)
@@ -82,9 +112,9 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 aspNetUser.Id = Guid.NewGuid().ToString();
-                aspNetUser.EmailConfirmed = true;
-                aspNetUser.TwoFactorEnabled = true;
-                aspNetUser.PhoneNumberConfirmed = true;
+                aspNetUser.EmailConfirmed = false;
+                aspNetUser.TwoFactorEnabled = false;
+                aspNetUser.PhoneNumberConfirmed = false;
                 aspNetUser.LockoutEnabled = false;
                 aspNetUser.AccessFailedCount = 0;
 

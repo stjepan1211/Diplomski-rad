@@ -16,5 +16,7 @@ namespace Tournament.Repository.Common.IRepositories
         Task<IEnumerable<IAspNetUserDomain>> GetAll();
         Task<int> Update(IAspNetUserDomain entity);
         Task<IAspNetUserDomain> GetByUsername(string username);
+        Task<IEnumerable<IAspNetUserDomain>> GetAllUsernames();
+        Task<IEnumerable<IAspNetUserDomain>> GetAllEmails();
     }
 }

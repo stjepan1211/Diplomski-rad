@@ -93,6 +93,40 @@ namespace Tournament.Repository.Repositories
             }
         }
 
+        //Get all usernames
+        public async Task<IEnumerable<IAspNetUserDomain>> GetAllUsernames()
+        {
+            try
+            {
+                //var response = Mapper.Map<IEnumerable<IAspNetUserDomain>>(await GenericRepository
+                //    .GetQueryable<AspNetUser>().Select(a => a.UserName).ToListAsync());
+                var response = (await GenericRepository.GetQueryable<AspNetUser>()
+                    .ToListAsync());
+                var responseUsernames = response.Select(a => new AspNetUser{ UserName =  a.UserName }).ToList();
+
+            return Mapper.Map<IEnumerable<IAspNetUserDomain>>(responseUsernames);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //Get all emails
+        public async Task<IEnumerable<IAspNetUserDomain>> GetAllEmails()
+        {
+            try
+            {
+                var response = (await GenericRepository.GetQueryable<AspNetUser>()
+                    .ToListAsync());
+                var responseEmails = response.Select(a => new AspNetUser { Email = a.Email }).ToList();
+
+                return Mapper.Map<IEnumerable<IAspNetUserDomain>>(responseEmails);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         //Update AspNetUser
         public async Task<int> Update(IAspNetUserDomain entity)
         {

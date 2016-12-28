@@ -1,8 +1,15 @@
 ﻿//Define sign up controller
-angular.module('TournamentModule').controller('signupController', ['$scope', '$http', '$stateParams', '$window', '$state', signupController]);
+angular.module('TournamentModule').controller('signupController', ['$scope', '$http', '$stateParams', '$window', '$state', 'md5', signupController]);
 
-function signupController($scope, $http, $stateParams, $window, $state) {
+function signupController($scope, $http, $stateParams, $window, $state, md5) {
 
+    var takenUsernames = {
+        UserName: undefined
+    };
+    var takenEmails = {
+        Email: undefined
+    };
+    $scope.confirmedPassword = undefined;
     //initialize sign up data
     $scope.signupData = {
         Address: undefined,
@@ -15,15 +22,40 @@ function signupController($scope, $http, $stateParams, $window, $state) {
         UserName: undefined,
         PasswordHash: undefined,
     }
-    $scope.confirmedPassword = undefined;
+
+    $scope.getUsers = function() {
+        $http.get('/api/aspnetuser/getusernames').then(function (response) {
+            takenUsernames = response.data;
+        }, function (response) {
+            console.log("Couldn't get response");
+        })
+    }
+    $scope.getEmails = function () {
+        $http.get('/api/aspnetuser/getemails').then(function (response) {
+            takenEmails = response.data;
+        }, function (response) {
+            console.log("Couldn't get response");
+        })
+    }
+    $scope.ispis = function () {
+        console.log(takenUsernames);
+        console.log(takenUsernames.length);
+        for (var i = 0; i < takenUsernames.length; i++) {
+            if(takenUsernames[i].UserName == "sbaricevic")
+            console.log(takenUsernames[i].UserName)
+        }
+    }
 
     $scope.addUser = function () {
         if ($scope.signupData.Address != undefined && $scope.signupData.Place != undefined && $scope.signupData.Age != undefined
             && $scope.signupData.Name != undefined && $scope.signupData.LastName != undefined && $scope.signupData.PhoneNumber != undefined
-            && $scope.signupData.Email != undefined && $scope.signupData.UserName != undefined && $scope.signupData.PasswordHash != undefined) {
+            && $scope.signupData.Email != undefined && $scope.signupData.UserName != undefined && $scope.signupData.PasswordHash != undefined)
 
             if ($scope.signupData.PasswordHash != $scope.confirmedPassword) {
                 $window.alert("Confirmed password doesn't match first password.");
+            }
+            else if ($scope.signupData.PasswordHash.length < 6) {
+                $window.alert("Password is too short.");
             }
             else
             {
@@ -36,36 +68,29 @@ function signupController($scope, $http, $stateParams, $window, $state) {
                     PhoneNumber: $scope.signupData.PhoneNumber,
                     Email: $scope.signupData.Email,
                     UserName: $scope.signupData.UserName,
-                    PasswordHash: $scope.signupData.PasswordHash
+                    PasswordHash: undefined
                 };
 
-                $http.post('/api/aspnetuser/add', user).success(function (data) {
-                    $scope.response = data;
-                    console.log(data);
-                    $window.alert("Success");
-                })
-                .error(function (data) {
-                    $scope.error = "An error has occured while trying to add user";
-                    $window.alert("Error! " + data.Message);
-                });
+                for (var i = 0; i < takenUsernames.length; i++) {
+                    if (takenUsernames[i].UserName == $scope.signupData.UserName) {
+                        return $window.alert("Username is already taken.");
+                    }
+                }
+                for (var i = 0; i < takenEmails.length; i++) {
+                    if (takenEmails[i].Email == $scope.signupData.Email) {
+                        return $window.alert("Email is already taken.");
+                    }
+                }
+
+                user.PasswordHash = md5.createHash($scope.signupData.PasswordHash || '');
+
+                $http.post('/api/aspnetuser/add', user)
+                    .then(function (response) {
+                        $window.alert("You are registered.");
+                    }, function (response) {
+                        $window.alert("Can't register user.");
+                    });
             }
-           
-        }
     }
-
-    $scope.ispis = function () {
-        $window.alert("ispis");
-        console.log($scope.signupData.Address);
-        console.log($scope.signupData.Place);
-        console.log($scope.signupData.Age);
-        console.log($scope.signupData.Name);
-        console.log($scope.signupData.LastName);
-        console.log($scope.signupData.PhoneNumber);
-        console.log($scope.signupData.Email);
-        console.log($scope.signupData.UserName);
-        console.log($scope.signupData.PasswordHash);
-        console.log($scope.signupData.Name);
-        console.log($scope.confirmedPassword);
-    }
-
 }
+

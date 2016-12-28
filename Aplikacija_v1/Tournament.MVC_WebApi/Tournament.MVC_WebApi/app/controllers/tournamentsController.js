@@ -25,7 +25,6 @@ function tournamentsController($scope, $http, $stateParams, $window, $state) {
 
     $scope.ispis = function () {
         $window.alert("ispis");
-        console.log($scope.tournamentData);
     }
 
 }
