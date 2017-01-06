@@ -233,6 +233,7 @@
     <Compile Include="AutoMapperConfig\MapperInit.cs" />
     <Compile Include="AutoMapperConfig\MappingProfile.cs" />
     <Compile Include="ControllersApi\AspNetUserController.cs" />
+    <Compile Include="ControllersApi\AspNetUserLoginController.cs" />
     <Compile Include="ControllersApi\LocationController.cs" />
     <Compile Include="ControllersApi\MatchController.cs" />
     <Compile Include="ControllersApi\PlayerController.cs" />
@@ -1148,6 +1149,10 @@
     <ProjectReference Include="..\Tournament.Service.Common\Tournament.Service.Common.csproj">
       <Project>{043A3105-01BF-47DD-9DA7-84814E1F5ED9}</Project>
       <Name>Tournament.Service.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Token\Tournament.Token.csproj">
+      <Project>{E9C67E0F-93FE-4350-89EC-1F988179272C}</Project>
+      <Name>Tournament.Token</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

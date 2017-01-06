@@ -1,7 +1,7 @@
 ﻿//Define sign up controller
-angular.module('TournamentModule').controller('signupController', ['$scope', '$http', '$stateParams', '$window', '$state', 'md5', signupController]);
+angular.module('TournamentModule').controller('signupController', ['$scope', '$http', '$stateParams', '$window', '$state', '$location', 'md5', signupController]);
 
-function signupController($scope, $http, $stateParams, $window, $state, md5) {
+function signupController($scope, $http, $stateParams, $window, $state, $location, md5) {
 
     var takenUsernames = {
         UserName: undefined
@@ -87,6 +87,7 @@ function signupController($scope, $http, $stateParams, $window, $state, md5) {
                 $http.post('/api/aspnetuser/add', user)
                     .then(function (response) {
                         $window.alert("You are registered.");
+                        $location.path('/login');
                     }, function (response) {
                         $window.alert("Can't register user.");
                     });

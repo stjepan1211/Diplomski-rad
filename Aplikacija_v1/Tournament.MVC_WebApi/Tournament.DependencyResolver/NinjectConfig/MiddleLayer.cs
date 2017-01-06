@@ -24,6 +24,7 @@ namespace Tournament.DependencyResolver.NinjectConfig
             Bind<IGenericRepository>().To<GenericRepository>();
 
             Bind<IAspNetUserRepository>().To<AspNetUserRepository>();
+            Bind<IAspNetUserLoginRepository>().To<AspNetUserLoginRepository>();
             Bind<ILocationRepository>().To<LocationRepository>();
             Bind<IMatchRepository>().To<MatchRepository>();
             Bind<IPlayerRepository>().To<PlayerRepository>();

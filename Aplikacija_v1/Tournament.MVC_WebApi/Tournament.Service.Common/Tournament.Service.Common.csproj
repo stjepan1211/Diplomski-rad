@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAspNetUserLoginService.cs" />
     <Compile Include="IAspNetUserService.cs" />
     <Compile Include="ILocationService.cs" />
     <Compile Include="IMatchService.cs" />
@@ -54,6 +55,10 @@
     <ProjectReference Include="..\Tournament.Model.Common\Tournament.Model.Common.csproj">
       <Project>{9EEC074C-B68C-463B-85F5-5522CB94D4BA}</Project>
       <Name>Tournament.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tournament.Repository.Common\Tournament.Repository.Common.csproj">
+      <Project>{C21D2210-BA8D-46B7-BED3-92355409A1A1}</Project>
+      <Name>Tournament.Repository.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
