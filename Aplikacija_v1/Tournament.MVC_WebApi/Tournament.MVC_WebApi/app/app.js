@@ -1,8 +1,10 @@
 ﻿//declare module
-var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'angular-loading-bar']);
+var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'angular-loading-bar','LocalStorageModule']);
 
-TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider) {
+TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider) {
 
+    localStorageServiceProvider.setPrefix('TournamentModule');
+    localStorageServiceProvider.setStorageType('localStorage');
     //
     $qProvider.errorOnUnhandledRejections(false);
 

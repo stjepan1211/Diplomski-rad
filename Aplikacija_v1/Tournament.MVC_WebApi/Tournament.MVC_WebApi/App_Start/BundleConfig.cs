@@ -32,7 +32,8 @@ namespace Tournament.MVC_WebApi
                     "~/Scripts/angular-ui-router.js",
                     "~/app/js/md5.js",
                     "~/Scripts/loading-bar.js",
-                    "~/app/js/ngStorage.js"
+                    "~/app/js/ngStorage.js",
+                    "~/Scripts/angular-local-storage.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/app").Include(

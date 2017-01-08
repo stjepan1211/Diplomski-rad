@@ -1,4 +1,4 @@
-﻿<div  class="container" ng-controller="loginController">
+﻿<div  class="container" ng-controller="loginController" ng-init="ispis()">
     <br />
     <h1 class="well">Log in</h1>
 
@@ -17,7 +17,7 @@
                                         <input type="password" placeholder="Enter Password Here.." class="form-control" required ng-model="loginData.Password" />
                                     </div>
                                 </div>
-                            <button ng-disabled="loginform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="checkIsRegistered();login()">Log in</button>
+                            <button ng-disabled="loginform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="login()">Log in</button>
                     </form>
             </center>
         </div>
