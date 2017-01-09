@@ -13,24 +13,26 @@
 
 </head>
 <body ng-app="TournamentModule">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <img src="~/Content/ronaldinho_icon.png" alt="ronaldinho icon" style="width:70px;height:70px"/>
-            </div>
-            <div style="margin-left:100px;margin-top:15px" class="navbar-collapse collapse" >
-                <ul class="nav navbar-nav">
-                    <li><a ui-sref="home">Home</a></li>
-                    <li><a ui-sref="tournaments">Tournaments</a></li>
-                    <li><a ui-sref="gallery">Gallery</a></li>
-                    <li><a ui-sref="topteams">Top teams</a></li>
-                    <li><a ui-sref="topplayers">Top players</a></li>
-                    <li><a ui-sref="news">News</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
-                </ul>
+    <div ng-controller="navbarController" ng-init="ispis()">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <img src="~/Content/ronaldinho_icon.png" alt="ronaldinho icon" style="width:70px;height:70px" />
+                </div>
+                <div style="margin-left:100px;margin-top:15px" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a ui-sref="home">Home</a></li>
+                        <li><a ui-sref="tournaments">Tournaments</a></li>
+                        <li><a ui-sref="gallery">Gallery</a></li>
+                        <li><a ui-sref="topteams">Top teams</a></li>
+                        <li><a ui-sref="topplayers">Top players</a></li>
+                        <li><a ui-sref="news">News</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a ng-if="da" ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

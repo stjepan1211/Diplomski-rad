@@ -97,11 +97,11 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 else
                 {
                     //generate token and send it to user
-                    var tokenDuration = DateTime.UtcNow.AddMinutes(1);
+                    var tokenDuration = DateTime.UtcNow.AddMinutes(5);
                     var token = new TokenFactory(tokenDuration).GenerateToken();
                     var tokenResponse = new TokenResponse()
                     {
-                        Username = userCredentials.UserName,
+                        UserName = userCredentials.UserName,
                         Token = token
                     };
 

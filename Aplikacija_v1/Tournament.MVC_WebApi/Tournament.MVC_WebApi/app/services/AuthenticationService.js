@@ -17,15 +17,16 @@ function Service($http, $localStorage, localStorageService) {
         };
         $http.post('/api/aspnetuserlogin/logintoken', obj)
         .then(function successCallback(response) {
-            if (response.data.Token) {
+            if (response.data.Token && response.data.UserName) {
                 // store username and token in local storage
                 $localStorage.currentUser = {
-                    UserName: response.UserName,
-                    Token: response.Token
+                    UserName: response.data.UserName,
+                    Token: response.data.Token
                 };
+                $localStorage.message = "bok";
                 // add jwt token to auth header for all requests made by the $http service
-                console.log(response.data.Token.TokenString);
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.Token.TokenString;
+
                 // execute callback with true to indicate successful login
                 callback(true);
             } else {
@@ -56,13 +57,11 @@ function Service($http, $localStorage, localStorageService) {
         var dateTime = new Date();
         var miliseconds = dateTime.getTime();
 
-        //localStorageService.get(currentUser);
-        //if ($localStorage.getItem("currentUser") != null) {
-            
-        //    if ($localStorage.currentUser.Token.ExpirationTime < miliseconds) {
-        //        Logout();
-        //    }
-        //}
+        if ($localStorage.currentUser != undefined) {
+            if ($localStorage.currentUser.Token.ExpirationTime < miliseconds) {
+                Logout();
+            }
+        }
         if ($http.defaults.headers.common.Authorization == '')
             console.log("nije registriran");
         else
@@ -70,8 +69,9 @@ function Service($http, $localStorage, localStorageService) {
 
     }
     function Check() {
-        if (localStorageService.isSupported) {
-            return localStorageService.keys();
+        if ($localStorage.currentUser != undefined) {
+            console.log($localStorage.message);
+            return $localStorage.currentUser.UserName;
         }
     }
 }

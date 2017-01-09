@@ -269,6 +269,7 @@
     <Content Include="app\controllers\galleryController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\loginController.js" />
+    <Content Include="app\controllers\navbarController.js" />
     <Content Include="app\controllers\newsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\controllers\topplayersController.js" />

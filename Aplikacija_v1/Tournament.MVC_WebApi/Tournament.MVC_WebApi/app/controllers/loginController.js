@@ -12,7 +12,7 @@ function loginController($scope, $http, $stateParams, $window, $state, $location
 
     function initController() {
         // reset login status
-        AuthenticationService.Logout();
+        //AuthenticationService.Logout(); -- ovdje bi trebalo AuthenticationService.CheckIsStoraged();
     };
 
     $scope.login = function () {
@@ -38,7 +38,6 @@ function loginController($scope, $http, $stateParams, $window, $state, $location
     };
 
     $scope.ispis = function () {
-        console.log("pozvala se");
-        console.log(AuthenticationService.Check());
+        $window.alert(AuthenticationService.CheckIsStoraged());
     }
 }

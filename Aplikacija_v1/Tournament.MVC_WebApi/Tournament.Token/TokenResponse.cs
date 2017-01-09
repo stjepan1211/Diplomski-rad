@@ -8,7 +8,7 @@ namespace Tournament.Token
 {
     public class TokenResponse
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public Token Token { get; set; }
     }
 }
