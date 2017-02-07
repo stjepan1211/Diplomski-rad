@@ -1,10 +1,17 @@
 ﻿//declare module
-var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'angular-loading-bar','LocalStorageModule']);
+var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'ngAnimate', 'angular-loading-bar',
+    'ngMessages', '720kb.datepicker', 'LocalStorageModule','uiGmapgoogle-maps']);
 
-TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider) {
+TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider, uiGmapGoogleMapApiProvider) {
 
     localStorageServiceProvider.setPrefix('TournamentModule');
     localStorageServiceProvider.setStorageType('localStorage');
+
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA',
+        v: '3.20', //defaults to latest 3.X anyhow
+        libraries: 'weather,geometry,visualization'
+    });
     //
     $qProvider.errorOnUnhandledRejections(false);
 
@@ -17,9 +24,16 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             url: '/home',
             views: {
                 "root": {
-                    templateUrl: 'app/views/home.html'
+                    templateUrl: 'app/views/home.html',
                 }
-            }
+            },
+            controller: navbarController,
+            //onEnter: function() {
+            //    initController();
+            //},
+            //onExit: function() {
+               
+            //}
         })
         .state('tournaments', {
             url: '/tournaments',
@@ -85,18 +99,76 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
                 }
             }
         })
+        .state('mytournaments', {
+            url: '/mytournaments',
+            views: {
+                "root": {
+                    templateUrl: 'app/views/mytournaments.html'
+                }
+            }
+        })
+        .state('editmytournament', {
+            url: '/editmytournament?tournamentId&tournamentName',
+            views: {
+                "root": {
+                    templateUrl: 'app/views/editmytournament.html'
+                }
+            }
+        })
+        .state('editmytournament.match', {
+            url: '/editmatch',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editmatch.html'
+                }
+            }
+        })
+        .state('editmytournament.team', {
+            url: '/editeam',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editteam.html'
+                }
+            }
+        })
+        .state('editmytournament.player', {
+            url: '/editplayer',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editplayer.html'
+                }
+            }
+        })
+        .state('editmytournament.referee', {
+            url: '/editreferee',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editreferee.html'
+                }
+            }
+        })
+        .state('editmytournament.result', {
+            url: '/editresult',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editresult.html'
+                }
+            }
+        })
 });
 
 TournamentModule.run(function run($rootScope, $http, $location, $localStorage, $state, AuthenticationService) {
     // keep user logged in after page refresh
-    if ($localStorage.currentUser) {
-        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+    //if ($localStorage.currentUser) {
+    //    $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.Token.TokenString;
+
+    //    if ($http.defaults.headers.common.Authorization) {
+    //        $location.path('/home');
+    //    }
+    //    console.log("true");
+    //}
 
 
-        if ($http.defaults.headers.common.Authorization) {
-            $location.path('/home');
-        }
-    }
 
     // redirect to login page if not logged in and trying to access a restricted page
     //$rootScope.$on('$locationChangeStart', function (event, next, current) {
@@ -106,3 +178,4 @@ TournamentModule.run(function run($rootScope, $http, $location, $localStorage, $
     //    }
     //});
 });
+

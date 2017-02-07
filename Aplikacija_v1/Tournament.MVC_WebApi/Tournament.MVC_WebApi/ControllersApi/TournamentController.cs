@@ -55,7 +55,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
 
         [HttpPost]
         [Route("add")]
-        public async Task<HttpResponseMessage> Add(TournamentView tournament)
+        public async Task<HttpResponseMessage> Add(TournamentView tournament, LocationView location)
         {
             try
             {

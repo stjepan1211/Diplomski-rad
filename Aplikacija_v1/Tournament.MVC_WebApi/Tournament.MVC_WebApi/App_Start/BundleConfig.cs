@@ -25,7 +25,8 @@ namespace Tournament.MVC_WebApi
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/angular-datepicker.css"));
 
             bundles.Add(new ScriptBundle("~/app/js").Include(
                     "~/Scripts/angular.js",
@@ -33,13 +34,20 @@ namespace Tournament.MVC_WebApi
                     "~/app/js/md5.js",
                     "~/Scripts/loading-bar.js",
                     "~/app/js/ngStorage.js",
-                    "~/Scripts/angular-local-storage.js"
+                    "~/Scripts/angular-local-storage.js",
+                    "~/Scripts/angular-animate.js",
+                    "~/Scripts/angular-messages.js",
+                    "~/app/js/ngDatepicker.js",
+                    "~/Scripts/lodash.js",
+                    "~/app/js/angular-simple-loger.js",
+                    "~/app/js/angular-google-maps.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/app").Include(
                     "~/app/app.js",
                     "~/app/services/AuthenticationService.js",
-                    "~/app/controllers/*Controller.js"
+                    "~/app/controllers/*Controller.js",
+                    "~/app/directives/*Directive.js"
                 ));
         }
     }

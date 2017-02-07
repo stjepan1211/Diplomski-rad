@@ -6820,3 +6820,8 @@ td.visible-print {
     display: none !important;
   }
 }
+.angular-google-map-container { height: 400px; }
+#gmaps {
+    width: 450px;
+    height: 450px;
+}

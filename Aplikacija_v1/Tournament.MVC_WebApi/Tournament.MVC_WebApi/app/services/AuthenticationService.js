@@ -8,6 +8,7 @@ function Service($http, $localStorage, localStorageService) {
     service.Logout = Logout;
     service.CheckIsStoraged = CheckIsStoraged;
     service.Check = Check;
+    service.GetUsername = GetUsername;
     return service;
 
     function Login(username, password, callback) {
@@ -23,7 +24,6 @@ function Service($http, $localStorage, localStorageService) {
                     UserName: response.data.UserName,
                     Token: response.data.Token
                 };
-                $localStorage.message = "bok";
                 // add jwt token to auth header for all requests made by the $http service
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.Token.TokenString;
 
@@ -58,19 +58,24 @@ function Service($http, $localStorage, localStorageService) {
         var miliseconds = dateTime.getTime();
 
         if ($localStorage.currentUser != undefined) {
+            //check if token has expired
             if ($localStorage.currentUser.Token.ExpirationTime < miliseconds) {
                 Logout();
             }
         }
-        if ($http.defaults.headers.common.Authorization == '')
-            console.log("nije registriran");
-        else
-            console.log("registriran je");
-
     }
+
     function Check() {
+        if ($localStorage.currentUser != undefined && $http.defaults.headers.common.Authorization != '') {
+            console.log($localStorage.currentUser.UserName);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    function GetUsername() {
         if ($localStorage.currentUser != undefined) {
-            console.log($localStorage.message);
             return $localStorage.currentUser.UserName;
         }
     }

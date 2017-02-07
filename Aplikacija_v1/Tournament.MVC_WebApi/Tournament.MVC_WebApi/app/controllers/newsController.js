@@ -3,8 +3,14 @@ angular.module('TournamentModule').controller('newsController', ['$scope', '$htt
 
 function newsController($scope, $http, $stateParams, $window, $state) {
 
-    $scope.ispis = function () {
+    initController();
+
+    function initController() {
         $window.alert("ispis");
+    }
+
+    $scope.ispis = function () {
+        
     }
 
 }

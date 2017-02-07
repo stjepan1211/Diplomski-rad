@@ -13,7 +13,7 @@
 
 </head>
 <body ng-app="TournamentModule">
-    <div ng-controller="navbarController" ng-init="ispis()">
+    <div  ng-controller="navbarController">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -21,16 +21,18 @@
                 </div>
                 <div style="margin-left:100px;margin-top:15px" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a ui-sref="home">Home</a></li>
+                        <li ng-click="Check()"><a ui-sref="home">Home</a></li>                        
                         <li><a ui-sref="tournaments">Tournaments</a></li>
                         <li><a ui-sref="gallery">Gallery</a></li>
                         <li><a ui-sref="topteams">Top teams</a></li>
                         <li><a ui-sref="topplayers">Top players</a></li>
+                        <li><a ui-sref="mytournaments">My tournaments</a></li>
                         <li><a ui-sref="news">News</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a ng-if="da" ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+                        <li><a ng-hide="!isLogged" ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+                        <li><a ng-hide="isLogged" ng-click="LogOut()" ui-sref="home"><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,7 +44,7 @@
 
         <hr />
     </div>
-
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA"></script>-->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

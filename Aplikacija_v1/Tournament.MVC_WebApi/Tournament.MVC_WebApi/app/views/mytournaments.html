@@ -1,7 +1,7 @@
-﻿<div class="container" ng-controller="tournamentsController" ng-init="getAllTournaments()">
+﻿<div class="container" ng-controller="mytournamentsController" ng-init="getMyTournaments()">
     <br />
     <br />
-    <h2 class="well">ALL TOURNAMENTS:</h2>
+    <h2 class="well">MY TOURNAMENTS:</h2>
     <br />
     <table class="table table-responsive table-hover table-bordered table-striped well">
         <thead>
@@ -21,9 +21,12 @@
                 <th>
                     Location
                 </th>
+                <th>
+                    Edit
+                </th>
             </tr>
         </thead>
-        <tbody ng-repeat="item in tournamentData">  
+        <tbody ng-repeat="item in myTournamentData">
             <tr>
                 <td ng-bind="item.StartTime | date:'yyyy-dd-MM'">
                     {{item.StartTime}}
@@ -40,8 +43,12 @@
                 <td>
                     {{item.Locations[0].Place}}
                 </td>
+                <td>
+                    <a class="btn btn-lg btn-info" ui-sref="editmytournament({tournamentId: item.Id, tournamentName: item.Name})">Edit</a>
+                </td>
             </tr>
         </tbody>
     </table>
-    <a class="btn btn-lg btn-info" ng-click="addTournament()">Create new tournament</a>
+
+    <h3 ng-show="tournamentNotAdded">You haven't add any tournament</h3>
 </div>

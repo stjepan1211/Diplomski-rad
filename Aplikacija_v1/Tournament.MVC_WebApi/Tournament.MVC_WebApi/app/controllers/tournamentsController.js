@@ -1,7 +1,9 @@
 ﻿//Define tournaments controller
-angular.module('TournamentModule').controller('tournamentsController', ['$scope', '$http', '$stateParams', '$window', '$state', tournamentsController]);
+angular.module('TournamentModule').controller('tournamentsController', ['$scope', '$http', '$stateParams', '$window', '$state','AuthenticationService', tournamentsController]);
 
-function tournamentsController($scope, $http, $stateParams, $window, $state) {
+function tournamentsController($scope, $http, $stateParams, $window, $state, AuthenticationService) {
+
+    
 
     $scope.tournamentData = {
         StartTime: undefined,
@@ -13,6 +15,13 @@ function tournamentsController($scope, $http, $stateParams, $window, $state) {
         Teams: undefined
     }
     
+    initController();
+
+    function initController() {
+        // reset login status
+        AuthenticationService.CheckIsStoraged();
+    };
+
     //get all tournaments
     $scope.getAllTournaments = function () {
         $http.get('api/tournament/getall')
@@ -23,8 +32,17 @@ function tournamentsController($scope, $http, $stateParams, $window, $state) {
         });
     }
 
+    $scope.addTournament = function () {
+        if (!AuthenticationService.Check()) {
+            $window.alert("To add tournament you need to log in first.");
+        }
+        else {
+            $state.go('addtournament');
+        }
+    }
+
     $scope.ispis = function () {
-        $window.alert("ispis");
+        
     }
 
 }

@@ -12,8 +12,9 @@ function loginController($scope, $http, $stateParams, $window, $state, $location
 
     function initController() {
         // reset login status
-        //AuthenticationService.Logout(); -- ovdje bi trebalo AuthenticationService.CheckIsStoraged();
+        AuthenticationService.CheckIsStoraged(); 
     };
+
 
     $scope.login = function () {
         
@@ -26,7 +27,8 @@ function loginController($scope, $http, $stateParams, $window, $state, $location
         AuthenticationService.Login(userToLogin.UserName, userToLogin.Password, function (result) {
             if (result === true) {
                 $window.alert("You are logged.");
-                $location.path('/home');
+                //$state.transitionTo('home', null, { reload: true, inherit: true, notify: true });
+                $state.go('home');
             } else if (result == 404) {
                 $window.alert("Username not found.");
             } else if (result == 400) {
@@ -36,8 +38,4 @@ function loginController($scope, $http, $stateParams, $window, $state, $location
             }
         });
     };
-
-    $scope.ispis = function () {
-        $window.alert(AuthenticationService.CheckIsStoraged());
-    }
 }
