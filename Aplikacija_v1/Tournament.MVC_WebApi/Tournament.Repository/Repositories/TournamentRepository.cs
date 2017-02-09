@@ -91,6 +91,20 @@ namespace Tournament.Repository.Repositories
                 throw ex;
             }
         }
+        //Get tournaments by username
+        public async Task<IEnumerable<ITournamentDomain>> GetByUsername(string username)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<ITournamentDomain>>(GenericRepository.GetQueryable<DAL.Tournament>()
+                    .Where(t => t.AspNetUser.UserName == username));
+                return response;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         //Update Result
         public async Task<int> Update(ITournamentDomain entity)

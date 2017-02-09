@@ -88,7 +88,6 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
     $scope.$watch('StartDate', function (value) {
         try {
             StartDate = new Date(value);
-            $scope.addtournamentdata.StartTime = StartDate.toISOString().slice(0, 10).replace(/-/g, "-");
         } catch (e) { }
         //haven't been used in ng-error
         if (!StartDate) {
@@ -101,7 +100,6 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
     $scope.$watch('EndDate', function (value) {
         try {
             EndDate = new Date(value);
-            $scope.addtournamentdata.EndTime = EndDate.toISOString().slice(0, 10).replace(/-/g, "-");;
         } catch (e) { }
         //haven't been used in ng-error
         if (!EndDate) {
@@ -112,15 +110,21 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
     });
 
     $scope.addtournament = function () {
+
+        //StartDate.setHours(0, 0, 0);
+        $scope.addtournamentdata.StartTime = StartDate.toISOString().slice(0, 10).replace(/-/g, "-");
+        //EndDate.setHours(0, 0, 0);
+        $scope.addtournamentdata.EndTime = EndDate.toISOString().slice(0, 10).replace(/-/g, "-");
+
         if ($scope.addtournamentdata.Name == undefined) {
             $window.alert("Please add tournament name.");
         }
         else if ($scope.addtournamentdata.Type == undefined) {
             $window.alert("Please select tournament type.");
         }
-        //else if($scope.map.markers[0] == undefined) {
-        //    $window.alert("Please mark tournament position.");
-        //}
+        else if($scope.map.markers[0] == undefined) {
+            $window.alert("Please mark tournament position.");
+        }
         else if ($scope.addtournamentdata.StartTime == undefined) {
             $window.alert("Please select start date.");
         }
@@ -131,23 +135,22 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
         //    $window.alert("To add tournament you need to log in first.");
         //}
         else {
-            
-            console.log(AuthenticationService.GetUsername());
-            //TODO: post method
             console.log($scope.addtournamentdata.Name);
             console.log($scope.addtournamentdata.Type);
             console.log($scope.addtournamentdata.StartTime);
             console.log($scope.addtournamentdata.EndTime);
-            //console.log($scope.map.markers[0].coords.latitude);
-            //console.log($scope.map.markers[0].coords.longitude);
-            //console.log(Place);
+            console.log($scope.map.markers[0].coords.latitude);
+            console.log($scope.map.markers[0].coords.longitude);
+            console.log(Place);
+
             //$scope.map.markers[0].coords.latitude = "45.00000"
             //$scope.map.markers[0].coords.longitude = "45.000000"
-            Place = "Osijek,Croatia";
-            Description = "None";
+            //Place = "Osijek,Croatia";
+            var Description = "None";
             var tournament = {
+                AspNetUserId: AuthenticationService.GetId(),
                 UserName: AuthenticationService.GetUsername(),
-                StarTime: $scope.addtournamentdata.StartTime,
+                StartTime: $scope.addtournamentdata.StartTime,
                 EndTime: $scope.addtournamentdata.EndTime,
                 Type: $scope.addtournamentdata.Type,
                 Name: $scope.addtournamentdata.Name
@@ -155,14 +158,22 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
             var location = {
                 Place: Place,
                 Description: Description,
-                Longitude: "45.00000",
-                Latitude: "45.00000"
+                Longitude: $scope.map.markers[0].coords.longitude,
+                Latitude: $scope.map.markers[0].coords.latitude
             }
 
-            $http.post('/api/tournament/add', tournament, location)
-                    .then(function (response) {
+            //post two different objects
+            $http({
+                method: 'POST',
+                url: '/api/tournament/add',
+                data: {
+                    tournament: tournament,
+                    location: location
+                }
+            }).then(function (response) {
                         console.log(response);
-                        $window.alert("Sad cu dodat turnir.");
+                        $window.alert("Tournament added successfully.");
+                        $state.go('mytournaments');
                     }, function (response) {
                         $window.alert("Can't add tournament.");
                     });

@@ -1,3 +1,12 @@
-﻿<div>
-    <p>bok iz edit match</p>
+﻿<div class="container" ng-controller="editplayerController">
+
+    <input type="radio" name="crudplayer" value="editmytournament.player.details" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Details
+    <input type="radio" name="crudplayer" value="editmytournament.player.add" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Add
+    <input type="radio" name="crudplayer" value="editmytournament.player.update" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Update
+    <input type="radio" name="crudplayer" value="editmytournament.player.delete" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Delete
+    <br />
+    <br />
+    <div class="form-group col-lg-8" ui-view="editplayer">
+
+    </div>
 </div>

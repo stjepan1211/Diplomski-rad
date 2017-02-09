@@ -89,7 +89,6 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "User is not registered.");
                 }
-
                 else if (userCredentials.Password != userToLogin.PasswordHash)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Password is incorrect.");
@@ -101,6 +100,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     var token = new TokenFactory(tokenDuration).GenerateToken();
                     var tokenResponse = new TokenResponse()
                     {
+                        Id = userToLogin.Id,
                         UserName = userCredentials.UserName,
                         Token = token
                     };

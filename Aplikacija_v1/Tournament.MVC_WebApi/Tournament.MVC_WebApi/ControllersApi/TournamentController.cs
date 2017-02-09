@@ -9,6 +9,7 @@ using Tournament.Service.Common;
 using AutoMapper;
 using Tournament.MVC_WebApi.ViewModels;
 using Tournament.Model;
+using Newtonsoft.Json.Linq;
 
 namespace Tournament.MVC_WebApi.ControllersApi
 {
@@ -17,10 +18,11 @@ namespace Tournament.MVC_WebApi.ControllersApi
     public class TournamentController : ApiController
     {
         protected ITournamentService TournamentService { get; set; }
-
-        public TournamentController(ITournamentService service)
+        protected ILocationService LocationService { get; set; }
+        public TournamentController(ITournamentService tournamentService, ILocationService locationService)
         {
-            this.TournamentService = service;
+            this.TournamentService = tournamentService;
+            this.LocationService = locationService;
         }
 
         [HttpGet]
@@ -53,24 +55,50 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
-        [HttpPost]
-        [Route("add")]
-        public async Task<HttpResponseMessage> Add(TournamentView tournament, LocationView location)
+        [HttpGet]
+        [Route("getbyusername")]
+        public async Task<HttpResponseMessage> GetByUsername(string username)
         {
             try
             {
-                tournament.StartTime = DateTime.Now;
-                tournament.EndTime = DateTime.Now;
-                tournament.AspNetUserId = "035bd3bd-f696-4679-bff3-f291ad6f9fa5";
+                var response = Mapper.Map<IEnumerable<TournamentView>>(await TournamentService.ReadByUsername(username));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
 
-                if (tournament.StartTime == null || tournament.EndTime == null || tournament.Type == null)
+        [HttpPost]
+        [Route("add")]
+        public async Task<HttpResponseMessage> Add(JObject data)
+        {
+            
+            try
+            {
+                TournamentView tournament = data["tournament"].ToObject<TournamentView>();
+                LocationView location = data["location"].ToObject<LocationView>();
+
+                if (tournament.StartTime == null || tournament.EndTime == null || tournament.Type == null
+                    || tournament.AspNetUserId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 tournament.Id = Guid.NewGuid();
+                location.Id = Guid.NewGuid();
+                location.TournamentId = tournament.Id;
+                var responseTournament = await TournamentService.Add(Mapper.Map<TournamentDomain>(tournament));
+                var responseLocation = await LocationService.Add(Mapper.Map<LocationDomain>(location));
 
-                var response = await TournamentService.Add(Mapper.Map<TournamentDomain>(tournament));
-
-                return Request.CreateResponse(HttpStatusCode.OK, response);
+                if(responseTournament == 1 && responseLocation == 1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, 1);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, 0);
+                }
+               
             }
             catch (Exception e)
             {

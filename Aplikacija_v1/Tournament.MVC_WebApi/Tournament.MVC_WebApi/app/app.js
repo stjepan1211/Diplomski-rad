@@ -1,6 +1,6 @@
 ﻿//declare module
 var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'ngAnimate', 'angular-loading-bar',
-    'ngMessages', '720kb.datepicker', 'LocalStorageModule','uiGmapgoogle-maps']);
+    'ngMessages', '720kb.datepicker', 'LocalStorageModule', 'uiGmapgoogle-maps', 'ADM-dateTimePicker']);
 
 TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider, uiGmapGoogleMapApiProvider) {
 
@@ -152,6 +152,166 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             views: {
                 "editcategory": {
                     templateUrl: 'app/views/editcategory/editresult.html'
+                }
+            }
+        })
+        .state('editmytournament.match.details', {
+            url: '/editmatchdetails',
+            views: {
+                "editmatch": {
+                    templateUrl: 'app/views/editcategory/editmatch/detailsmatch.html'
+                }
+            }
+        })
+        .state('editmytournament.match.add', {
+            url: '/editmatchadd',
+            views: {
+                "editmatch": {
+                    templateUrl: 'app/views/editcategory/editmatch/addmatch.html'
+                }
+            }
+        })
+        .state('editmytournament.match.update', {
+            url: '/editmatchupdate',
+            views: {
+                "editmatch": {
+                    templateUrl: 'app/views/editcategory/editmatch/updatematch.html'
+                }
+            }
+        })
+        .state('editmytournament.match.delete', {
+            url: '/editmatchdelete',
+            views: {
+                "editmatch": {
+                    templateUrl: 'app/views/editcategory/editmatch/deletematch.html'
+                }
+            }
+        })
+        .state('editmytournament.team.delete', {
+            url: '/editteamdelete',
+            views: {
+                "editteam": {
+                    templateUrl: 'app/views/editcategory/editteam/deleteteam.html'
+                }
+            }
+        })
+        .state('editmytournament.team.add', {
+            url: '/editteamadd',
+            views: {
+                "editteam": {
+                    templateUrl: 'app/views/editcategory/editteam/addteam.html'
+                }
+            }
+        })
+        .state('editmytournament.team.details', {
+            url: '/editteamdetails',
+            views: {
+                "editteam": {
+                    templateUrl: 'app/views/editcategory/editteam/detailsteam.html'
+                }
+            }
+        })
+        .state('editmytournament.team.update', {
+            url: '/editteamupdate',
+            views: {
+                "editteam": {
+                    templateUrl: 'app/views/editcategory/editteam/updateteam.html'
+                }
+            }
+        })
+        .state('editmytournament.player.update', {
+            url: '/editplayerupdate',
+            views: {
+                "editplayer": {
+                    templateUrl: 'app/views/editcategory/editplayer/updateplayer.html'
+                }
+            }
+        })
+        .state('editmytournament.player.add', {
+            url: '/editplayeradd',
+            views: {
+                "editplayer": {
+                    templateUrl: 'app/views/editcategory/editplayer/addplayer.html'
+                }
+            }
+        })
+        .state('editmytournament.player.details', {
+            url: '/editplayerdetails',
+            views: {
+                "editplayer": {
+                    templateUrl: 'app/views/editcategory/editplayer/detailsplayer.html'
+                }
+            }
+        })
+        .state('editmytournament.player.delete', {
+            url: '/editplayerdelete',
+            views: {
+                "editplayer": {
+                    templateUrl: 'app/views/editcategory/editplayer/deleteplayer.html'
+                }
+            }
+        })
+        .state('editmytournament.referee.delete', {
+            url: '/editrefereedelete',
+            views: {
+                "editreferee": {
+                    templateUrl: 'app/views/editcategory/editreferee/deletereferee.html'
+                }
+            }
+        })
+        .state('editmytournament.referee.add', {
+            url: '/editrefereeadd',
+            views: {
+                "editreferee": {
+                    templateUrl: 'app/views/editcategory/editreferee/addreferee.html'
+                }
+            }
+        })
+        .state('editmytournament.referee.update', {
+            url: '/editrefereeupdate',
+            views: {
+                "editreferee": {
+                    templateUrl: 'app/views/editcategory/editreferee/updatereferee.html'
+                }
+            }
+        })
+        .state('editmytournament.referee.details', {
+            url: '/editrefereedetails',
+            views: {
+                "editreferee": {
+                    templateUrl: 'app/views/editcategory/editreferee/detailsreferee.html'
+                }
+            }
+        })
+        .state('editmytournament.result.details', {
+            url: '/editresultdetails',
+            views: {
+                "editresult": {
+                    templateUrl: 'app/views/editcategory/editresult/detailsresult.html'
+                }
+            }
+        })
+        .state('editmytournament.result.add', {
+            url: '/editresultadd',
+            views: {
+                "editresult": {
+                    templateUrl: 'app/views/editcategory/editresult/addresult.html'
+                }
+            }
+        })
+        .state('editmytournament.result.delete', {
+            url: '/editresultdelete',
+            views: {
+                "editresult": {
+                    templateUrl: 'app/views/editcategory/editresult/deleteresult.html'
+                }
+            }
+        })
+        .state('editmytournament.result.update', {
+            url: '/editresultupdate',
+            views: {
+                "editresult": {
+                    templateUrl: 'app/views/editcategory/editresult/updateresult.html'
                 }
             }
         })

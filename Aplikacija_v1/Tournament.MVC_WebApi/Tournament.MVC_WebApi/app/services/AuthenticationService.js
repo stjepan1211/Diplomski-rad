@@ -9,6 +9,7 @@ function Service($http, $localStorage, localStorageService) {
     service.CheckIsStoraged = CheckIsStoraged;
     service.Check = Check;
     service.GetUsername = GetUsername;
+    service.GetId = GetId;
     return service;
 
     function Login(username, password, callback) {
@@ -18,9 +19,10 @@ function Service($http, $localStorage, localStorageService) {
         };
         $http.post('/api/aspnetuserlogin/logintoken', obj)
         .then(function successCallback(response) {
-            if (response.data.Token && response.data.UserName) {
-                // store username and token in local storage
+            if (response.data.Id && response.data.Token && response.data.UserName) {
+                // store username, id and token in local storage
                 $localStorage.currentUser = {
+                    Id: response.data.Id,
                     UserName: response.data.UserName,
                     Token: response.data.Token
                 };
@@ -77,6 +79,13 @@ function Service($http, $localStorage, localStorageService) {
     function GetUsername() {
         if ($localStorage.currentUser != undefined) {
             return $localStorage.currentUser.UserName;
+        }
+    }
+
+    function GetId() {
+        if ($localStorage.currentUser != undefined) {
+            var id = $localStorage.currentUser.Id;
+            return id;
         }
     }
 }

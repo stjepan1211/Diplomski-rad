@@ -81,6 +81,20 @@ namespace Tournament.Service
             }
 
         }
+        //Get Tournament by Username
+        public async Task<IEnumerable<ITournamentDomain>> ReadByUsername(string username)
+        {
+            try
+            {
+                var response = await TournamentRepository.GetByUsername(username);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         //Update Tournament 
         public async Task<int> Update(ITournamentDomain entry)
         {

@@ -3,7 +3,7 @@
     <br />
     <h2 class="well">MY TOURNAMENTS:</h2>
     <br />
-    <table class="table table-responsive table-hover table-bordered table-striped well">
+    <table class="table table-responsive table-hover table-bordered table-striped well" ng-show="!tournamentNotAdded">
         <thead>
             <tr>
                 <th>
@@ -50,5 +50,5 @@
         </tbody>
     </table>
 
-    <h3 ng-show="tournamentNotAdded">You haven't add any tournament</h3>
+    <h3 class="well" ng-show="tournamentNotAdded">You haven't add any tournament</h3>
 </div>

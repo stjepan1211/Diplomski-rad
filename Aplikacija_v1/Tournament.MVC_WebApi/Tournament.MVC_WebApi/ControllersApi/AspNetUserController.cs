@@ -10,6 +10,8 @@ using AutoMapper;
 using Tournament.MVC_WebApi.ViewModels;
 using Tournament.Model.Common;
 using Tournament.Model;
+using Tournament.MVC_WebApi.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Tournament.MVC_WebApi.ControllersApi
 {
@@ -17,7 +19,6 @@ namespace Tournament.MVC_WebApi.ControllersApi
     public class AspNetUserController : ApiController
     {
         protected IAspNetUserService AspNetUserService { get; set; }
-
         public AspNetUserController(IAspNetUserService service)
         {
             this.AspNetUserService = service;
@@ -117,7 +118,6 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 aspNetUser.PhoneNumberConfirmed = false;
                 aspNetUser.LockoutEnabled = false;
                 aspNetUser.AccessFailedCount = 0;
-
                 var response = await AspNetUserService.Add(Mapper.Map<AspNetUserDomain>(aspNetUser));
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);

@@ -2,20 +2,22 @@
     <br />
     <br />
     <h2 class="well">EDIT {{tournamentName}} TOURNAMENT</h2>
-    <div class="form-group col-lg-12 well">
-        <label>Select category to edit:</label>
-        <div>
-            <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="route.selectedRoute" ng-change="changeState(route.selectedRoute)">
-                <option value="editmytournament.match">Match</option>
-                <option value="editmytournament.team">Team</option>
-                <option value="editmytournament.player">Player</option>
-                <option value="editmytournament.referee">Referee</option>
-                <option value="editmytournament.result">Result </option>
-            </select>
+    <div class="row well">
+        <div class="form-group col-lg-4">
+            <label>Select category to edit:</label>
+            <div>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="route.selectedRoute" ng-change="changeState(route.selectedRoute)">
+                    <option value="editmytournament.match">Match</option>
+                    <option value="editmytournament.team">Team</option>
+                    <option value="editmytournament.player">Player</option>
+                    <option value="editmytournament.referee">Referee</option>
+                    <option value="editmytournament.result">Result </option>
+                </select>
+            </div>
         </div>
         <br />
-        <div ui-view="editcategory">
-            <p>upucaj view</p>
+        <div class="form-group" col-lg-8" ui-view="editcategory">
+
         </div>
     </div>
     <br />

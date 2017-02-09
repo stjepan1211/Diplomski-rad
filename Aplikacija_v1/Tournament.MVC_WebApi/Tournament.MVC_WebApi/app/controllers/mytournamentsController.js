@@ -1,7 +1,7 @@
 ﻿//Define gallery controller
-angular.module('TournamentModule').controller('mytournamentsController', ['$scope', '$http', '$stateParams', '$window', '$state', mytournamentsController]);
+angular.module('TournamentModule').controller('mytournamentsController', ['$scope', '$http', '$stateParams', '$window', '$state', 'AuthenticationService', mytournamentsController]);
 
-function mytournamentsController($scope, $http, $stateParams, $window, $state) {
+function mytournamentsController($scope, $http, $stateParams, $window, $state, AuthenticationService) {
 
     initController();
 
@@ -21,22 +21,21 @@ function mytournamentsController($scope, $http, $stateParams, $window, $state) {
 
     //get all logged user tournaments
     $scope.getMyTournaments = function () {
-        var myTournamentData = undefined;
-        var username = 'stjepanbaricevic1211@gmail.com';
-        $http.get('api/aspnetuser/getbyusername?username=' + username)
+        var username = AuthenticationService.GetUsername();
+        $http.get('api/tournament/getbyusername?username=' + username)
         .then(function (response) {
-            $scope.tournamentNotAdded = false;
-            $scope.myTournamentData = response.data.Tournaments;
-
+            $scope.myTournamentData = response.data;
+            if(response.data != undefined)
+                $scope.tournamentNotAdded = false;
         }, function (response) {
-            console.log("Couldn't get response.");
+            $window.alert("Couldn't get response.");
             return "Couldn't get response.";
         });
     }
 
     //edit tournament part
     $scope.tournamentName = $stateParams.tournamentName;
-
+    //change state when dropdown is changed
     $scope.changeState = function (path) {
         $state.go(path, {});
     }
