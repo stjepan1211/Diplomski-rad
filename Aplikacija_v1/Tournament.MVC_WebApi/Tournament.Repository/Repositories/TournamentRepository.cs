@@ -8,6 +8,7 @@ using AutoMapper;
 using Tournament.Repository.Common.IGenericRepository;
 using Tournament.Model.Common;
 using Tournament.DAL;
+using System.Data.Entity;
 
 namespace Tournament.Repository.Repositories
 {
@@ -96,8 +97,8 @@ namespace Tournament.Repository.Repositories
         {
             try
             {
-                var response = Mapper.Map<IEnumerable<ITournamentDomain>>(GenericRepository.GetQueryable<DAL.Tournament>()
-                    .Where(t => t.AspNetUser.UserName == username));
+                var response = Mapper.Map<IEnumerable<ITournamentDomain>>(await GenericRepository.GetQueryable<DAL.Tournament>()
+                    .Where(t => t.AspNetUser.UserName == username).ToListAsync());
                 return response;
             }
             catch(Exception ex)

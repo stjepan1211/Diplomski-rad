@@ -54,22 +54,34 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getallwheretournamentid")]
+        public async Task<HttpResponseMessage> GetWhereTournamentId(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<TeamView>>(await TeamService.GetWhereTournamentId(tournamentId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(TeamView team)
         {
             try
             {
-                Guid guid;
-
-                if (team.Name == null)
+                if (team.Name == null || team.NumberOfPlayers == null || team.TournamentId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 team.Id = Guid.NewGuid();
-
-                Guid.TryParse("8888D36F-6B44-421C-BFCC-A64C698E3B09", out guid);
-
-                team.TournamentId = guid;
+                team.MatchesPlayed = 0;
+                team.Won = 0;
+                team.Lost = 0;
 
                 var response = await TeamService.Add(Mapper.Map<TeamDomain>(team));
 
@@ -118,10 +130,10 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
                 toBeUpdated.Name = team.Name;
-                //toBeUpdated.Lost = team.Lost;
-                //toBeUpdated.Won = team.Won;
-                //toBeUpdated.MatchesPlayed = team.MatchesPlayed;
-                //toBeUpdated.NumberOfPlayers = team.NumberOfPlayers;
+                toBeUpdated.Lost = toBeUpdated.Lost;
+                toBeUpdated.Won = toBeUpdated.Won;
+                toBeUpdated.MatchesPlayed = toBeUpdated.MatchesPlayed;
+                toBeUpdated.NumberOfPlayers = team.NumberOfPlayers;
 
                 var response = await TeamService.Update(Mapper.Map<TeamDomain>(toBeUpdated));
 
@@ -132,5 +144,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
         }
+
+
     }
 }

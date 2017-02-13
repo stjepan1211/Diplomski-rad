@@ -1,8 +1,31 @@
-﻿<div ng-controller="editteamController">
-    <label>Team details:</label>
-    <p>Name: </p>
-    <p>Matches played: </p>
-    <p>Won: </p>
-    <p>Lost: </p>
-    <p>Number of players: </p>
+﻿<div ng-controller="editteamController" ng-init="getTeamDataByTournament()">
+    
+    <div class="row">
+        <label class="col-lg-3">Team details:</label>
+        <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="detailsteamselected" ng-options="item as item.Name for item in getTeamDataByTournament">
+            <optgroup label="Select team:">
+            </optgroup>
+        </select>
+    </div>
+    
+    <div class="row">
+        <label class="col-lg-3">Name:</label>
+        <p  class="col-lg-6"> {{detailsteamselected.Name}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Matches played:</label>
+        <p class="col-lg-6"> {{detailsteamselected.MatchesPlayed}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Won:</label>
+        <p class="col-lg-6"> {{detailsteamselected.Won}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Lost:</label>
+        <p class="col-lg-6"> {{detailsteamselected.Lost}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Number of players:</label>
+        <p class="col-lg-6"> {{detailsteamselected.NumberOfPlayers}}</p>
+    </div>
 </div>

@@ -1,11 +1,22 @@
 ﻿<div ng-controller="editteamController">
-    <label>Add new team:</label>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Name: </p>
+    <form name="addteamform">
+        <label>Add new team:</label>
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Name:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="text" placeholder="Enter Tournament Name Here.." class="form-control" required ng-model="addTeamData.Name"/>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Number of players:</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Number of players:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="number" min="8" max="14" placeholder="Enter Number Of Players Here..." class="form-control" required ng-model="addTeamData.NumberOfPlayers"/>
+            </div>
         </div>
-    </div>
+        <button ng-disabled="addteamform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addTeam()">Add</button>     
+    </form>
 </div>

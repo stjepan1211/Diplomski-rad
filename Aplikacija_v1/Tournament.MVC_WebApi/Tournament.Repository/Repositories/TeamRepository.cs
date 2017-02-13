@@ -8,6 +8,7 @@ using AutoMapper;
 using Tournament.Repository.Common.IGenericRepository;
 using Tournament.Model.Common;
 using Tournament.DAL;
+using System.Data.Entity;
 
 namespace Tournament.Repository.Repositories
 {
@@ -98,6 +99,21 @@ namespace Tournament.Repository.Repositories
             try
             {
                 return await GenericRepository.Update(Mapper.Map<Team>(entity));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Get Team Where TournamentId
+        public async Task<IEnumerable<ITeamDomain>> GetAllWhereTournamentId(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<ITeamDomain>>
+                    (await GenericRepository.GetQueryable<Team>().Where(t => t.TournamentId == tournamentId).ToListAsync());
+                return response;
             }
             catch (Exception ex)
             {

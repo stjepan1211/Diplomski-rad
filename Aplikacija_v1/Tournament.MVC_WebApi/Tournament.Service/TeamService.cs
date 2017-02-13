@@ -93,5 +93,19 @@ namespace Tournament.Service
                 throw e;
             }
         }
+        //Get All Teams Where Tournament Id == Tournament Id
+        public async Task<IEnumerable<ITeamDomain>> GetWhereTournamentId(Guid tournamentId)
+        {
+            try
+            {
+                var response = await TeamRepository.GetAllWhereTournamentId(tournamentId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

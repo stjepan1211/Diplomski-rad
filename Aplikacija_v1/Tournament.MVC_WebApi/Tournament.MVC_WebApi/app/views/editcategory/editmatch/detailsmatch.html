@@ -1,7 +1,17 @@
 ﻿<div ng-controller="editmatchController">
-        <label>Match details:</label>
-        <p>Team 1: </p>
-        <p>Team 2: </p>
-        <p>Referee: </p>
-        <p>Date and time: </p>
+    <label>Select match to display details:</label>
+    <div>
+        <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="route.selectedRoute" ng-change="changeState(route.selectedRoute)">
+            <option value="editmytournament.match">Match</option>
+            <option value="editmytournament.team">Team</option>
+            <option value="editmytournament.player">Player</option>
+            <option value="editmytournament.referee">Referee</option>
+            <option value="editmytournament.result">Result </option>
+        </select>
+    </div>
+    <label>Match details:</label>
+    <p>Team 1: </p>
+    <p>Team 2: </p>
+    <p>Referee: </p>
+    <p>Date and time: </p>
 </div>
