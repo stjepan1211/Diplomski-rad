@@ -67,6 +67,19 @@ namespace Tournament.Service
                 throw e;
             }
         }
+        //Get Matches by Tournament
+        public async Task<IEnumerable<IMatchDomain>> ReadMatchesByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = await MatchRepository.GetMatchesByTournament(tournamentId);
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         //Get All Matches
         public async Task<IEnumerable<IMatchDomain>> ReadAll()
         {

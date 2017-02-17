@@ -52,25 +52,50 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getplayersbyteam")]
+        public async Task<HttpResponseMessage> GetPlayersByTeam(Guid teamId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<PlayerView>>(await PlayerService.ReadPlayersByTeam(teamId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("getplayersbytournament")]
+        public async Task<HttpResponseMessage> GetPlayersByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<PlayerView>>(await PlayerService.ReadPlayersByTournament(tournamentId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(PlayerView player)
         {
             try
             {
-                Guid guid;
-
-                if (player.Name == null || player.Surname == null)
+                if (player.Name == null || player.Surname == null || player.TeamId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 player.Id = Guid.NewGuid();
-                player.Goals = 9;
-                player.RedCards = 2;
-                player.YellowCards = 2;
-                player.GamesPlayed = 9;
-                Guid.TryParse("1D4B5874-9C48-4D2A-9745-B9724996A25A", out guid);
-
-                player.TeamId = guid;
+                player.Goals = 0;
+                player.RedCards = 0;
+                player.YellowCards = 0;
+                player.GamesPlayed = 0;
 
                 var response = await PlayerService.Add(Mapper.Map<PlayerDomain>(player));
 
@@ -119,7 +144,12 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
                 toBeUpdated.Name = player.Name;
-
+                toBeUpdated.Surname = player.Surname;
+                toBeUpdated.Goals = player.Goals;
+                toBeUpdated.YellowCards = player.YellowCards;
+                toBeUpdated.RedCards = player.RedCards;
+                toBeUpdated.GamesPlayed = player.GamesPlayed;
+                toBeUpdated.TeamId = player.TeamId;
                 var response = await PlayerService.Update(Mapper.Map<PlayerDomain>(toBeUpdated));
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);

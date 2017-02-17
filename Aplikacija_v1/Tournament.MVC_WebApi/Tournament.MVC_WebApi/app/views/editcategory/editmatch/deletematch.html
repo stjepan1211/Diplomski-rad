@@ -1,10 +1,14 @@
-﻿<div ng-controller="editmatchController">
-    <div class="row">
-        <div class="col-lg-3">
-            <label>Delete match:</label>
+﻿<div ng-controller="editmatchController" ng-init="getMatchDataByTournament()">
+    <form name="deletematchform">
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Delete match:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" required ng-model="deletematchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches">
+                </select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Select dropdown match</p>
-        </div>
-    </div>
+        <button ng-disabled="deletematchform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="deleteMatch()">Delete match</button>
+    </form>
 </div>

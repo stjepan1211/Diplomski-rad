@@ -8,6 +8,7 @@ using Tournament.Repository.Common.IGenericRepository;
 using Tournament.Repository.Common.IRepositories;
 using AutoMapper;
 using Tournament.DAL;
+using System.Data.Entity;
 
 namespace Tournament.Repository.Repositories
 {
@@ -78,12 +79,42 @@ namespace Tournament.Repository.Repositories
             }
         }
 
+        //Get collection of players by team
+        public async Task<IEnumerable<IPlayerDomain>> GetPlayersByTeam(Guid teamId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<IPlayerDomain>>(await GenericRepository.GetQueryable<Player>()
+                    .Where(p => p.TeamId == teamId).ToListAsync());
+                return response;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //Get all Players
         public async Task<IEnumerable<IPlayerDomain>> GetAll()
         {
             try
             {
                 var response = Mapper.Map<IEnumerable<IPlayerDomain>>(await GenericRepository.GetAll<Player>());
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Get all Players by Tournament
+        public async Task<IEnumerable<IPlayerDomain>> GetAllPlayersByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<IPlayerDomain>>(await GenericRepository.GetQueryable<Player>()
+                    .Where(p => p.Team.TournamentId == tournamentId).ToListAsync());
                 return response;
             }
             catch (Exception ex)

@@ -1,7 +1,12 @@
-﻿<div ng-controller="editresultController">
-    <label>Result details:</label>
-    <p>Team 1: </p>
-    <p>Team 2: </p>
-    <p>Referee: </p>
-    <p>Date and time: </p>
+﻿<div ng-controller="editresultController" ng-init="getMatchDataByTournament()">
+    <div class="row">
+        <label class="col-lg-3">Select match:</label>
+        <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="detailsresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="getresultdetails(detailsresultmatchselected.Id)"></select>
+    </div>
+    <div class="row">
+        <label class="col-lg-4">Team {{detailsresultmatchselected.Team.Name}}:</label><p>{{detailsResultData.TeamOneGoals}} goals</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-4">Team {{detailsresultmatchselected.Team1.Name}}: </label><p>{{detailsResultData.TeamTwoGoals}} goals</p>
+    </div>
 </div>

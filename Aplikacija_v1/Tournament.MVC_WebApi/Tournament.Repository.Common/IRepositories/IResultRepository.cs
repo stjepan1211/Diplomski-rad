@@ -15,5 +15,6 @@ namespace Tournament.Repository.Common.IRepositories
         Task<IResultDomain> Get(Guid id);
         Task<IEnumerable<IResultDomain>> GetAll();
         Task<int> Update(IResultDomain entity);
+        Task<IEnumerable<IResultDomain>> GetResultByMatch(Guid matchId);
     }
 }

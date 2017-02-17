@@ -1,25 +1,30 @@
-﻿<div ng-controller="editrefereeController">
-    <label>Update referee:</label>
-    <div>
-        <p>Match select dropdown</p>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Date picker</p>
+﻿<div ng-controller="editrefereeController" ng-init="getRefereesByTournament()">
+    <form name="updaterefereeform">
+        <label>Update referee:</label>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Select referee:</label>
+            </div>
+            <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updaterefereeselected" ng-options="item as item.Surname + ' , ' + item.Name for item in refereesByTournamentData">
+                <optgroup label="Select team:"></optgroup>
+            </select>
+        </div> 
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Name:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="text" placeholder="Enter Referee Name Here.." class="form-control" required ng-model="editRefereeData.Name" />
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Time picker</p>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Surname:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="text" placeholder="Enter Referee Surname Here.." class="form-control" required ng-model="editRefereeData.Surname" />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Team one select dropdown</p>
-        </div>
-        <div class="col-lg-6">
-            <p>Team two select dropdown</p>
-        </div>
-    </div>
-    <div>
-        <p>Referee select dropdown</p>
-    </div>
+        <button type="button" class="btn btn-lg btn-info" ng-click="editReferee()">Update referee</button>
+    </form>
 </div>

@@ -1,7 +1,38 @@
-﻿<div ng-controller="editplayerController">
-    <label>Player details:</label>
-    <p>Team 1: </p>
-    <p>Team 2: </p>
-    <p>Referee: </p>
-    <p>Date and time: </p>
+﻿<div ng-controller="editplayerController" ng-init="getTeamDataByTournament()">
+    <div class="row">
+        <label class="col-lg-3">Select team:</label>
+        <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="detailteamselected" ng-options="item as item.Name for item in getTeamDataByTournament" ng-change="getPlayers(detailteamselected.Id)">
+            <optgroup label="Select team:"></optgroup>
+        </select>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Select player:</label>
+        <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="detailplayerselected" ng-options="item as item.Surname + ' - ' + item.Name for item in getPlayerDataByTeam">
+            <optgroup label="Select team:"></optgroup>
+        </select>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Name:</label>
+        <p class="col-lg-6"> {{detailplayerselected.Name}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Surname:</label>
+        <p class="col-lg-6"> {{detailplayerselected.Surname}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Goals:</label>
+        <p class="col-lg-6"> {{detailplayerselected.Goals}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Yellow cards:</label>
+        <p class="col-lg-6"> {{detailplayerselected.YellowCards}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Red cards:</label>
+        <p class="col-lg-6"> {{detailplayerselected.RedCards}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Matches played:</label>
+        <p class="col-lg-6"> {{detailplayerselected.GamesPlayed}}</p>
+    </div>
 </div>

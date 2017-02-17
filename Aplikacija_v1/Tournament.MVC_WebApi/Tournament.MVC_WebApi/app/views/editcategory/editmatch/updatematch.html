@@ -1,25 +1,39 @@
-﻿<div ng-controller="editmatchController">
-    <label>Update match:</label>
-    <div>
-        <p>Match select dropdown</p>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Date picker</p>
+﻿<div ng-controller="editmatchController" ng-init="getRefereesByTournament();getTeamDataByTournament();getMatchDataByTournament()">
+    <form name="updatematchform">
+        <div class="row col-lg-12">
+            <div class="col-lg-5">
+                <label>Select match to edit:
+                </label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updatematchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches">
+                    <optgroup label="Select team:"></optgroup>
+                </select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Time picker</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-6">
+                <label>Select match date and time:</label>
+                <adm-dtp ng-model="selectdatetime" options='{format: "YYYY-MM-DD hh:mm"}'></adm-dtp>
+            </div>
+            <div class="col-lg-6">
+                <label>Select match referee: </label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="updaterefereeselected" ng-options="item as item.Name + ', ' + item.Surname for item in refereesByTournamentData" required>
+                    <optgroup label="Select team:"></optgroup>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Team one select dropdown</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-6">
+                <label>Select team 1:</label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateteamoneselected" ng-options="item as item.Name for item in getTeamDataByTournament" required></select>
+            </div>
+            <div class="col-lg-6">
+                <label>Select team 2:</label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateteamtwoselected" ng-options="item as item.Name for item in getTeamDataByTournament" required></select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Team two select dropdown</p>
-        </div>
-    </div>
-    <div>
-        <p>Referee select dropdown</p>
-    </div>
+        <br />
+        <button ng-disabled="updatematchform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="editMatch()">Edit match</button>
+    </form>
 </div>

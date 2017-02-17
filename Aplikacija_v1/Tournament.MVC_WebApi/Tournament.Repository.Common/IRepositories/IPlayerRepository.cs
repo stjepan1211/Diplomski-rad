@@ -15,5 +15,7 @@ namespace Tournament.Repository.Common.IRepositories
         Task<IPlayerDomain> Get(Guid id);
         Task<IEnumerable<IPlayerDomain>> GetAll();
         Task<int> Update(IPlayerDomain entity);
+        Task<IEnumerable<IPlayerDomain>> GetPlayersByTeam(Guid teamId);
+        Task<IEnumerable<IPlayerDomain>> GetAllPlayersByTournament(Guid tournamentId);
     }
 }

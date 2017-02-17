@@ -1,22 +1,33 @@
-﻿<div ng-controller="editrefereeController">
-    <label>Add new referee:</label>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Date picker</p>
+﻿<div ng-controller="editrefereeController" ng-init="getTournamentsByUsername()">
+    <form name="addrefereeform">
+        <label>Add new referee:</label>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Select tournament:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="tournamentselected" ng-options="item as item.Name for item in tournamentsByUsername" required>
+                    <optgroup label="Select team:"></optgroup>
+                </select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Time picker</p>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Name:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="text" placeholder="Enter Referee Name Here.." class="form-control" required ng-model="addRefereeData.Name" />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Team one select dropdown</p>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Surname:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="text" placeholder="Enter Referee Surname Here.." class="form-control" required ng-model="addRefereeData.Surname" />
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Team two select dropdown</p>
-        </div>
-    </div>
-    <div>
-        <p>Referee select dropdown</p>
-    </div>
+        <button ng-disabled="addrefereeform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addReferee()">Add referee</button>
+    </form>
+    
 </div>

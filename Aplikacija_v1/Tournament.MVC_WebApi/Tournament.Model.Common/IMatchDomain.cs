@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tournament.DAL;
 
 namespace Tournament.Model.Common
 {
@@ -16,5 +17,8 @@ namespace Tournament.Model.Common
         System.DateTime DateTime { get; set; }
 
         ICollection<IResultDomain> Results { get; set; }
+        IRefereeDomain Referee { get; set; }
+        ITeamDomain Team { get; set; }
+        ITeamDomain Team1 { get; set; }
     }
 }

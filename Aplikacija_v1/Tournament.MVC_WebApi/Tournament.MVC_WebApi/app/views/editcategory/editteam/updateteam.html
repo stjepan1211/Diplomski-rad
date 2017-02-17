@@ -13,7 +13,7 @@
                 <p>Name: </p>
             </div>
             <div class="col-lg-6">
-                <input type="text" placeholder="Enter Tournament Name Here.." class="form-control" required ng-model="updateTeamData.Name" />
+                <input type="text" placeholder="Enter Tournament Name Here.." class="form-control" ng-model="updateTeamData.Name" />
             </div>
         </div>
         <div class="row">
@@ -21,9 +21,9 @@
                 <p>Number of players:</p>
             </div>
             <div class="col-lg-6">
-                <input type="number" min="8" max="14" placeholder="Enter Number Of Players Here..." class="form-control" required ng-model="updateTeamData.NumberOfPlayers" />
+                <input type="number" min="8" max="14" placeholder="Enter Number Of Players Here..." class="form-control" ng-model="updateTeamData.NumberOfPlayers" />
             </div>
         </div>
-        <button ng-disabled="updateteamform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="updateTeam()">Update</button> 
+        <button type="button" class="btn btn-lg btn-info" ng-click="updateTeam()">Update</button> 
     </form>
 </div>

@@ -53,32 +53,32 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getmatchesbytournament")]
+        public async Task<HttpResponseMessage> GetMatchesByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<MatchView>>(await MatchService.ReadMatchesByTournament(tournamentId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(MatchView match)
         {
             try
             {
-                Guid TournamentId;
-                Guid RefereeId;
-                Guid TeamOneId;
-                Guid TeamTwoId;
 
-                //if (true)
-                //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
+                if (match.TournametId == null || match.TeamOneId == null || match.TeamTwoId == null || match.DateTime == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 match.Id = Guid.NewGuid();
-
-                Guid.TryParse("8888D36F-6B44-421C-BFCC-A64C698E3B09", out TournamentId);
-                Guid.TryParse("F12CB751-0B2E-496E-A9C2-45EE53EE9B32", out RefereeId);
-                Guid.TryParse("1D4B5874-9C48-4D2A-9745-B9724996A25A", out TeamOneId);
-                Guid.TryParse("ec7e1b39-4878-4a84-8636-281546402369", out TeamTwoId);
-
-                match.TournametId = TournamentId;
-                match.RefereeId = RefereeId;
-                match.TeamOneId = TeamOneId;
-                match.TeamTwoId = TeamTwoId;
-                match.DateTime = DateTime.Now;
 
                 var response = await MatchService.Add(Mapper.Map<MatchDomain>(match));
 
@@ -126,10 +126,15 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 if (toBeUpdated == null)
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
-                Guid teamTwoId;
+                if (match.TournametId == null || match.RefereeId == null || match.TeamOneId == null
+                    || match.TeamTwoId == null || match.DateTime == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input");
 
-                Guid.TryParse("ec7e1b39-4878-4a84-8636-281546402369", out teamTwoId);
-                toBeUpdated.TeamOneId = teamTwoId;
+                toBeUpdated.TournametId = match.TournametId;
+                toBeUpdated.RefereeId = match.RefereeId;
+                toBeUpdated.TeamOneId = match.TeamOneId;
+                toBeUpdated.TeamTwoId = match.TeamTwoId;
+                toBeUpdated.DateTime = match.DateTime;
 
                 var response = await MatchService.Update(Mapper.Map<MatchDomain>(toBeUpdated));
 

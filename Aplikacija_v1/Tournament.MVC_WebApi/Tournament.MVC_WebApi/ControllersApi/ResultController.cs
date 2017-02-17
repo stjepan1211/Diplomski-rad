@@ -52,22 +52,31 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getresultbymatch")]
+        public async Task<HttpResponseMessage> GetResultByMatch(Guid matchId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<ResultView>>(await ResultService.ReadResultByMatchId(matchId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(ResultView result)
         {
             try
             {
-                Guid guid;
-
-                if (result.TeamOneGoals.ToString() == null || result.TeamTwoGoals.ToString() == null)
+                if (result.TeamOneGoals.ToString() == null || result.TeamTwoGoals.ToString() == null || result.MatchId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 result.Id = Guid.NewGuid();
-
-                Guid.TryParse("41aec337-5509-4eb7-9cef-d51b5fe192f0", out guid);
-
-                result.MatchId = guid;
 
                 var response = await ResultService.Add(Mapper.Map<ResultDomain>(result));
 
@@ -115,9 +124,10 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 if (toBeUpdated == null)
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
+                toBeUpdated.TeamOneGoals = result.TeamOneGoals;
                 toBeUpdated.TeamTwoGoals = result.TeamTwoGoals;
-
-
+                toBeUpdated.Id = toBeUpdated.Id;
+                toBeUpdated.MatchId = toBeUpdated.MatchId;
                 var response = await ResultService.Update(Mapper.Map<ResultDomain>(toBeUpdated));
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);

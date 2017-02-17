@@ -1,25 +1,38 @@
-﻿<div ng-controller="editresultController">
-    <label>Update result:</label>
-    <div>
-        <p>Match select dropdown</p>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Date picker</p>
+﻿<div ng-controller="editresultController" ng-init="getMatchDataByTournament()">
+    <form name="updateresultform">
+        <label>Edit result:</label>
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Select match:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="getresultdetails(updateresultmatchselected.Id)"></select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Time picker</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Previous result:</label>
+            </div>
+            <div class="col-lg-6">
+                 <p>{{detailsResultData.TeamOneGoals}}:{{detailsResultData.TeamTwoGoals}}</p>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <p>Team one select dropdown</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-6">
+                <label>Team {{updateresultmatchselected.Team.Name}} goals:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="updateResultData.TeamOneGoals" />
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Team two select dropdown</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-6">
+                <label>Team {{updateresultmatchselected.Team1.Name}} goals:</label>
+            </div>
+            <div class="col-lg-6">
+                <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="updateResultData.TeamTwoGoals" />
+            </div>
         </div>
-    </div>
-    <div>
-        <p>Referee select dropdown</p>
-    </div>
+        <button ng-disabled="updateresultform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="updateResult()">Edit result</button>
+    </form>
 </div>

@@ -53,6 +53,12 @@
     <Compile Include="ITournamentDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tournament.DAL\Tournament.DAL.csproj">
+      <Project>{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}</Project>
+      <Name>Tournament.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

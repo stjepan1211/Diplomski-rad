@@ -67,6 +67,32 @@ namespace Tournament.Service
                 throw e;
             }
         }
+        //Get Player by Team
+        public async Task<IEnumerable<IPlayerDomain>> ReadPlayersByTeam(Guid teamId)
+        {
+            try
+            {
+                var response = await PlayerRepository.GetPlayersByTeam(teamId);
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        //Get Players by Tournament
+        public async Task<IEnumerable<IPlayerDomain>> ReadPlayersByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = await PlayerRepository.GetAllPlayersByTournament(tournamentId);
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         //Get All Players
         public async Task<IEnumerable<IPlayerDomain>> ReadAll()
         {

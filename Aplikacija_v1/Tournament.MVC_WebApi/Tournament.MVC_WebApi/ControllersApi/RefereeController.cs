@@ -53,23 +53,31 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getrefereesbytournament")]
+        public async Task<HttpResponseMessage> GetRefereesByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<RefereeView>>(await RefereeService.ReadRefereeByTournament(tournamentId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(RefereeView referee)
         {
             try
             {
-                Guid guid;
-
-                //TODO
-                if (referee.Name == null || referee.Surname == null)
+                if (referee.Name == null || referee.Surname == null ||referee.TournamentId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 referee.Id = Guid.NewGuid();
-
-                Guid.TryParse("8888D36F-6B44-421C-BFCC-A64C698E3B09", out guid);
-
-                referee.TournamentId = guid;
 
                 var response = await RefereeService.Add(Mapper.Map<RefereeDomain>(referee));
 
@@ -117,7 +125,29 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 if (toBeUpdated == null)
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
-                toBeUpdated.Name = referee.Name;
+                if(referee.Name == null)
+                {
+                    toBeUpdated.Name = toBeUpdated.Name;
+                    toBeUpdated.Surname = referee.Surname;
+                    toBeUpdated.Id = toBeUpdated.Id;
+                    toBeUpdated.TournamentId = toBeUpdated.TournamentId;
+
+                }
+                else if(referee.Surname == null)
+                {
+                    toBeUpdated.Name = referee.Name;
+                    toBeUpdated.Surname = toBeUpdated.Surname;
+                    toBeUpdated.Id = toBeUpdated.Id;
+                    toBeUpdated.TournamentId = toBeUpdated.TournamentId;
+                }
+                else
+                {
+                    toBeUpdated.Id = toBeUpdated.Id;
+                    toBeUpdated.TournamentId = toBeUpdated.TournamentId;
+                    toBeUpdated.Name = referee.Name;
+                    toBeUpdated.Surname = referee.Surname;
+                }
+                
 
                 var response = await RefereeService.Update(Mapper.Map<RefereeDomain>(toBeUpdated));
 

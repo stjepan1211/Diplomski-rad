@@ -81,6 +81,20 @@ namespace Tournament.Service
             }
 
         }
+        //Get Results By Match Id 
+        public async Task<IEnumerable<IResultDomain>> ReadResultByMatchId(Guid matchId)
+        {
+            try
+            {
+                var response = await ResultRepository.GetResultByMatch(matchId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         //Update Result 
         public async Task<int> Update(IResultDomain entry)
         {

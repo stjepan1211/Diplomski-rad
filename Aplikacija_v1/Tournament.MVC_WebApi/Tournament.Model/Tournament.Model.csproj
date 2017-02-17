@@ -54,6 +54,10 @@
     <Compile Include="TournamentDomain.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tournament.DAL\Tournament.DAL.csproj">
+      <Project>{9FC7C525-FF57-4EB1-897A-738AF4A68A6D}</Project>
+      <Name>Tournament.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tournament.Model.Common\Tournament.Model.Common.csproj">
       <Project>{9EEC074C-B68C-463B-85F5-5522CB94D4BA}</Project>
       <Name>Tournament.Model.Common</Name>

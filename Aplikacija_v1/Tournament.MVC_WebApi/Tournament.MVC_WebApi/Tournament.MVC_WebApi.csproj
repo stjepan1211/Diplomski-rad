@@ -290,6 +290,7 @@
     <Content Include="app\js\ngDatepicker.js" />
     <Content Include="app\js\ngStorage.js" />
     <Content Include="app\services\AuthenticationService.js" />
+    <Content Include="app\services\PromiseUtilsService.js" />
     <Content Include="app\views\addtournament.html" />
     <Content Include="app\views\editcategory\editmatch\addmatch.html" />
     <Content Include="app\views\editcategory\editmatch\deletematch.html" />

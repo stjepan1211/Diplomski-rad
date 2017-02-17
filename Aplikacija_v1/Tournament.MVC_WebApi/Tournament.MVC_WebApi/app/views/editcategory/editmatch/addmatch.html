@@ -1,26 +1,31 @@
-﻿<div ng-controller="editmatchController">
+﻿<div ng-controller="editmatchController" ng-init="getRefereesByTournament();getTeamDataByTournament()">
+    <form name="addmatchform">
         <label>Add new match:</label>
-        <br />
-        <div class="row">
+        <div class="row col-lg-12">
             <div class="col-lg-6">
-                    <label>Select match date and time:</label>
-                    <adm-dtp ng-model="datetime" options='{format: "YYYY-MM-DD hh:mm"}'></adm-dtp>
+                <label>Select match date and time:</label>
+                <adm-dtp ng-model="datetime" options='{format: "YYYY-MM-DD hh:mm"}'></adm-dtp>
             </div>
             <div class="col-lg-6">
-                    <label>Select match referee: </label>
-                    <p>Referee select dropdown</p>
+                <label>Select match referee: </label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="addrefereeselected" ng-options="item as item.Name + ', ' + item.Surname for item in refereesByTournamentData" required>
+                    <optgroup label="Select team:"></optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="row col-lg-12">
+            <div class="col-lg-6">
+                <label>Select team 1:</label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="addteamoneselected" ng-options="item as item.Name for item in getTeamDataByTournament" required>
+                </select>
+            </div>
+            <div class="col-lg-6">
+                <label>Select team 2:</label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="addteamtwoselected" ng-options="item as item.Name for item in getTeamDataByTournament" required>
+                </select>
             </div>
         </div>
         <br />
-        <div class="row">
-            <div class="col-lg-6">
-                <p>Team one select dropdown</p>
-            </div>
-            <div class="col-lg-6">
-                <p>Team two select dropdown</p>
-            </div>
-        </div>
-        <div>
-           
-        </div>
+        <button ng-disabled="addmatchform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addMatch()">Add match</button>
+    </form>
 </div>

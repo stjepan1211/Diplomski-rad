@@ -1,17 +1,25 @@
-﻿<div ng-controller="editmatchController">
-    <label>Select match to display details:</label>
-    <div>
-        <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="route.selectedRoute" ng-change="changeState(route.selectedRoute)">
-            <option value="editmytournament.match">Match</option>
-            <option value="editmytournament.team">Team</option>
-            <option value="editmytournament.player">Player</option>
-            <option value="editmytournament.referee">Referee</option>
-            <option value="editmytournament.result">Result </option>
+﻿<div ng-controller="editmatchController" ng-init="getMatchDataByTournament()">
+    <div class="row">
+        <label class="col-lg-3">Select match:</label>
+        <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="detailmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches">
+            <optgroup label="Select team:"></optgroup>
         </select>
     </div>
-    <label>Match details:</label>
-    <p>Team 1: </p>
-    <p>Team 2: </p>
-    <p>Referee: </p>
-    <p>Date and time: </p>
+    <div class="row">
+        <label class="col-lg-3">Team one:</label>
+        <p class="col-lg-6"> {{detailmatchselected.Team.Name}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Team two:</label>
+        <p class="col-lg-6"> {{detailmatchselected.Team1.Name}}</p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Date and time:</label>
+        <p class="col-lg-6" ng-bind="detailmatchselected.DateTime | date:'yyyy/MM/dd hh:mm'"></p>
+    </div>
+    <div class="row">
+        <label class="col-lg-3">Referee:</label>
+        <p class="col-lg-6"> {{detailmatchselected.Referee.Name}} {{detailmatchselected.Referee.Surname}}</p>
+    </div>
+    <button class="btn" ng-click="ispis()">Stisni</button>
 </div>

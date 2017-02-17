@@ -15,5 +15,6 @@ namespace Tournament.Repository.Common.IRepositories
         Task<IRefereeDomain> Get(Guid id);
         Task<IEnumerable<IRefereeDomain>> GetAll();
         Task<int> Update(IRefereeDomain entity);
+        Task<IEnumerable<IRefereeDomain>> GetRefereesByTournament(Guid tournamentId);
     }
 }

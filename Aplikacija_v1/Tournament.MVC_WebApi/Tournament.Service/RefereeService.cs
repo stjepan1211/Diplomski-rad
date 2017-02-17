@@ -81,6 +81,19 @@ namespace Tournament.Service
             }
 
         }
+        //Get referee by tournament
+        public async Task<IEnumerable<IRefereeDomain>> ReadRefereeByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = await RefereeRepository.GetRefereesByTournament(tournamentId);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         //Update Player 
         public async Task<int> Update(IRefereeDomain entry)
         {

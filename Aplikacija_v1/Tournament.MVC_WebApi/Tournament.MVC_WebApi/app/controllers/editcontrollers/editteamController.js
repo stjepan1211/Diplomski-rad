@@ -72,11 +72,11 @@ function editteamController($scope, $http, $stateParams, $window, $state) {
 
     $scope.updateTeam = function () {
 
-        if ($scope.updateTeamData.Name == undefined) {
-            $window.alert("Please add team name.");
+        if ($scope.updateTeamData.Name == undefined && $scope.updateTeamData.NumberOfPlayers == undefined) {
+            $window.alert("You need to edit minimum one property.");
         }
-        else if ($scope.updateTeamData.NumberOfPlayers == undefined) {
-            $window.alert("Please add number of players.")
+        else if ($scope.selectedTeamUpdateItem.Id == undefined) {
+            $window.alert("Please select tournament.");
         }
         else {
             var team = {

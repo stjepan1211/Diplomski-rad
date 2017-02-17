@@ -8,6 +8,7 @@ using AutoMapper;
 using Tournament.Repository.Common.IGenericRepository;
 using Tournament.Model.Common;
 using Tournament.DAL;
+using System.Data.Entity;
 
 namespace Tournament.Repository.Repositories
 {
@@ -84,6 +85,21 @@ namespace Tournament.Repository.Repositories
             try
             {
                 var response = Mapper.Map<IEnumerable<IRefereeDomain>>(await GenericRepository.GetAll<Referee>());
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Get Referees by Tournament
+        public async Task<IEnumerable<IRefereeDomain>> GetRefereesByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<IRefereeDomain>>(await GenericRepository.GetQueryable<Referee>()
+                    .Where(r => r.TournamentId == tournamentId).ToListAsync());
                 return response;
             }
             catch (Exception ex)

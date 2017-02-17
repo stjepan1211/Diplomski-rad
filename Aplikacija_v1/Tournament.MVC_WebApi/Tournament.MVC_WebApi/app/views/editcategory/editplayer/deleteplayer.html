@@ -1,10 +1,13 @@
-﻿<div ng-controller="editplayerController">
-    <div class="row">
-        <div class="col-lg-3">
-            <label>Delete player:</label>
+﻿<div ng-controller="editplayerController" ng-init="getPlayerDataByTournament()">
+    <form name="deletePlayerForm">
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Delete player:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="deleteplayerselected" ng-options="item as item.Surname + ' - ' + item.Name for item in getPlayerDataByTournament"></select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Select dropdown match</p>
-        </div>
-    </div>
+        <button ng-disabled="deletePlayerForm.$invalid" type="button" class="btn btn-lg btn-info" ng-click="deletePlayer()">Delete player</button>
+    </form>
 </div>

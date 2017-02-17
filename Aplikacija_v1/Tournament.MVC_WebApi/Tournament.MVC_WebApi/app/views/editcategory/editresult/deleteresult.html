@@ -1,10 +1,21 @@
-﻿<div ng-controller="editresultController">
-    <div class="row">
-        <div class="col-lg-3">
-            <label>Delete result:</label>
+﻿<div ng-controller="editresultController" ng-init="getMatchDataByTournament()">
+    <form name="deleteresultform">
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Delete result:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="deleteresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="getresultdetails(deleteresultmatchselected.Id)"></select>
+            </div>
         </div>
-        <div class="col-lg-6">
-            <p>Select dropdown match</p>
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Result:</label>
+            </div>
+            <div class="col-lg-6">
+                <p>{{detailsResultData.TeamOneGoals}}:{{detailsResultData.TeamTwoGoals}}</p>
+            </div>
         </div>
-    </div>
+        <button ng-disabled="deleteresultform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="deleteResult()">Delete</button>
+    </form>
 </div>

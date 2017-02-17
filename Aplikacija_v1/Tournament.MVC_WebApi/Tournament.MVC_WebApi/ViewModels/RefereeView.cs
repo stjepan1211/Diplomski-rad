@@ -12,6 +12,6 @@ namespace Tournament.MVC_WebApi.ViewModels
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public virtual ICollection<MatchView> Matches { get; set; }
+        //public virtual ICollection<MatchView> Matches { get; set; }
     }
 }

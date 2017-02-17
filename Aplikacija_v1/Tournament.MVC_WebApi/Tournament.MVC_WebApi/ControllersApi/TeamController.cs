@@ -129,11 +129,31 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 if (toBeUpdated == null)
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
-                toBeUpdated.Name = team.Name;
-                toBeUpdated.Lost = toBeUpdated.Lost;
-                toBeUpdated.Won = toBeUpdated.Won;
-                toBeUpdated.MatchesPlayed = toBeUpdated.MatchesPlayed;
-                toBeUpdated.NumberOfPlayers = team.NumberOfPlayers;
+                if(team.Name == null)
+                {
+                    toBeUpdated.Name = toBeUpdated.Name;
+                    toBeUpdated.Lost = toBeUpdated.Lost;
+                    toBeUpdated.Won = toBeUpdated.Won;
+                    toBeUpdated.MatchesPlayed = toBeUpdated.MatchesPlayed;
+                    toBeUpdated.NumberOfPlayers = team.NumberOfPlayers;
+                }
+                else if(team.NumberOfPlayers == null)
+                {
+                    toBeUpdated.Name = team.Name;
+                    toBeUpdated.Lost = toBeUpdated.Lost;
+                    toBeUpdated.Won = toBeUpdated.Won;
+                    toBeUpdated.MatchesPlayed = toBeUpdated.MatchesPlayed;
+                    toBeUpdated.NumberOfPlayers = toBeUpdated.NumberOfPlayers;
+                }
+                else
+                {
+                    toBeUpdated.Name = team.Name;
+                    toBeUpdated.Lost = toBeUpdated.Lost;
+                    toBeUpdated.Won = toBeUpdated.Won;
+                    toBeUpdated.MatchesPlayed = toBeUpdated.MatchesPlayed;
+                    toBeUpdated.NumberOfPlayers = team.NumberOfPlayers;
+                }
+                
 
                 var response = await TeamService.Update(Mapper.Map<TeamDomain>(toBeUpdated));
 

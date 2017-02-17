@@ -15,5 +15,8 @@ namespace Tournament.MVC_WebApi.ViewModels
         public System.DateTime DateTime { get; set; }
 
         public virtual ICollection<ResultView> Results { get; set; }
+        public virtual RefereeView Referee { get; set; }
+        public virtual TeamView Team { get; set; }
+        public virtual TeamView Team1 { get; set; }
     }
 }
