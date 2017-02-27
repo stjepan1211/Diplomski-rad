@@ -57,6 +57,10 @@ namespace Tournament.DependencyResolver.MappingConfig
             //Tournament database <-> Tournament domain
             CreateMap<Tournament.DAL.Tournament, ITournamentDomain>().PreserveReferences().ReverseMap().PreserveReferences();
             CreateMap<Tournament.DAL.Tournament, TournamentDomain>().PreserveReferences().ReverseMap().PreserveReferences();
+
+            //Gallery database <-> Gallery domain
+            CreateMap<Gallery, IGalleryDomain>().PreserveReferences().ReverseMap().PreserveReferences();
+            CreateMap<Gallery, GalleryDomain>().PreserveReferences().ReverseMap().PreserveReferences();
         }
     }
 }

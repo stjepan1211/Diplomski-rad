@@ -1,7 +1,7 @@
-﻿<div ng-controller="mytournamentsController" class="container">
+﻿<div ng-controller="mytournamentsController" class="container" ng-init="getSelectedTournament()">
     <br />
     <br />
-    <h2 class="well">EDIT {{tournamentName}} TOURNAMENT</h2>
+    <h2 class="well">EDIT {{getSelectedTournament.Name}} TOURNAMENT</h2>
     <div class="row well">
         <div class="form-group col-lg-4">
             <label>Select category to edit:</label>
@@ -14,6 +14,8 @@
                     <option value="editmytournament.result">Result </option>
                 </select>
             </div>
+            <br />
+            <button class="btn-default btn btn-info" ng-click="generateSchedule()">Generate schedule</button>
         </div>
         <br />
         <div class="form-group" col-lg-8" ui-view="editcategory">

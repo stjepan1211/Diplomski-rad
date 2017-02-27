@@ -26,6 +26,7 @@ namespace Tournament.DAL
         public System.Guid TeamOneId { get; set; }
         public System.Guid TeamTwoId { get; set; }
         public System.DateTime DateTime { get; set; }
+        public Nullable<int> Round { get; set; }
     
         public virtual Referee Referee { get; set; }
         public virtual Team Team { get; set; }

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IAspNetUserLoginService.cs" />
     <Compile Include="IAspNetUserService.cs" />
+    <Compile Include="IGalleryService.cs" />
     <Compile Include="ILocationService.cs" />
     <Compile Include="IMatchService.cs" />
     <Compile Include="IPlayerService.cs" />

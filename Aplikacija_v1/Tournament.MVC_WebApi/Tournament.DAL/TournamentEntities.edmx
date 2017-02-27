@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Tournament_v1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Tournament_v1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -71,6 +71,18 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Gallery">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="TournamentId" />
+            <PropertyRef Name="Url" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TournamentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Url" Type="nchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
@@ -92,6 +104,7 @@
           <Property Name="TeamOneId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TeamTwoId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Round" Type="int" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -135,6 +148,9 @@
           <Property Name="Won" Type="int" />
           <Property Name="Lost" Type="int" />
           <Property Name="NumberOfPlayers" Type="int" />
+          <Property Name="NumberOfMatches" Type="int" />
+          <Property Name="Draw" Type="int" />
+          <Property Name="Points" Type="int" />
         </EntityType>
         <EntityType Name="Tournament">
           <Key>
@@ -146,6 +162,9 @@
           <Property Name="EndTime" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="128" />
+          <Property Name="NumberOfMatches" Type="int" />
+          <Property Name="NumberOfTeams" Type="int" />
+          <Property Name="Rounds" Type="int" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -200,6 +219,18 @@
             </Principal>
             <Dependent Role="AspNetUserRoles">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gallery_Tournament">
+          <End Role="Tournament" Type="Self.Tournament" Multiplicity="1" />
+          <End Role="Gallery" Type="Self.Gallery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gallery">
+              <PropertyRef Name="TournamentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -337,6 +368,13 @@
           <EntitySet Name="Result" EntityType="Self.Result" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tournament" EntityType="Self.Tournament" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gallery" EntityType="Self.Gallery" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Gallery].[Id] AS [Id], 
+    [Gallery].[TournamentId] AS [TournamentId], 
+    [Gallery].[Url] AS [Url]
+    FROM [dbo].[Gallery] AS [Gallery]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -352,6 +390,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gallery_Tournament" Association="Self.FK_Gallery_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="Gallery" EntitySet="Gallery" />
           </AssociationSet>
           <AssociationSet Name="FK_Location_Location" Association="Self.FK_Location_Location">
             <End Role="Tournament" EntitySet="Tournament" />
@@ -394,8 +436,7 @@
             <End Role="Tournament" EntitySet="Tournament" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Tournament_v1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -491,6 +532,7 @@
           <NavigationProperty Name="Team1" Relationship="Self.FK_Match_Team1" FromRole="Match" ToRole="Team" />
           <NavigationProperty Name="Tournament" Relationship="Self.FK_Match_Tournament" FromRole="Match" ToRole="Tournament" />
           <NavigationProperty Name="Results" Relationship="Self.FK_Result_Match" FromRole="Match" ToRole="Result" />
+          <Property Name="Round" Type="Int32" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -542,6 +584,9 @@
           <NavigationProperty Name="Matches1" Relationship="Self.FK_Match_Team1" FromRole="Team" ToRole="Match" />
           <NavigationProperty Name="Players" Relationship="Self.FK_Player_Team" FromRole="Team" ToRole="Player" />
           <NavigationProperty Name="Tournament" Relationship="Self.FK_Team_Tournament" FromRole="Team" ToRole="Tournament" />
+          <Property Name="NumberOfMatches" Type="Int32" />
+          <Property Name="Draw" Type="Int32" />
+          <Property Name="Points" Type="Int32" />
         </EntityType>
         <EntityType Name="Tournament">
           <Key>
@@ -558,6 +603,10 @@
           <NavigationProperty Name="Matches" Relationship="Self.FK_Match_Tournament" FromRole="Tournament" ToRole="Match" />
           <NavigationProperty Name="Referees" Relationship="Self.FK_Referee_Tournament" FromRole="Tournament" ToRole="Referee" />
           <NavigationProperty Name="Teams" Relationship="Self.FK_Team_Tournament" FromRole="Tournament" ToRole="Team" />
+          <Property Name="NumberOfMatches" Type="Int32" />
+          <Property Name="NumberOfTeams" Type="Int32" />
+          <Property Name="Rounds" Type="Int32" />
+          <NavigationProperty Name="Galleries" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Tournament" ToRole="Gallery" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -776,7 +825,35 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Galleries" EntityType="Tournament_v1Model.Gallery" />
+          <AssociationSet Name="FK_Gallery_Tournament" Association="Tournament_v1Model.FK_Gallery_Tournament">
+            <End Role="Tournament" EntitySet="Tournaments" />
+            <End Role="Gallery" EntitySet="Galleries" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Gallery">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="TournamentId" />
+            <PropertyRef Name="Url" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="TournamentId" Type="Guid" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="128" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Tournament" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Gallery" ToRole="Tournament" />
+        </EntityType>
+        <Association Name="FK_Gallery_Tournament">
+          <End Type="Tournament_v1Model.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="Tournament_v1Model.Gallery" Role="Gallery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gallery">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -858,6 +935,7 @@
           <EntitySetMapping Name="Matches">
             <EntityTypeMapping TypeName="Tournament_v1Model.Match">
               <MappingFragment StoreEntitySet="Match">
+                <ScalarProperty Name="Round" ColumnName="Round" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TournametId" ColumnName="TournametId" />
                 <ScalarProperty Name="RefereeId" ColumnName="RefereeId" />
@@ -904,6 +982,9 @@
           <EntitySetMapping Name="Teams">
             <EntityTypeMapping TypeName="Tournament_v1Model.Team">
               <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="Draw" ColumnName="Draw" />
+                <ScalarProperty Name="NumberOfMatches" ColumnName="NumberOfMatches" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -917,6 +998,9 @@
           <EntitySetMapping Name="Tournaments">
             <EntityTypeMapping TypeName="Tournament_v1Model.Tournament">
               <MappingFragment StoreEntitySet="Tournament">
+                <ScalarProperty Name="Rounds" ColumnName="Rounds" />
+                <ScalarProperty Name="NumberOfTeams" ColumnName="NumberOfTeams" />
+                <ScalarProperty Name="NumberOfMatches" ColumnName="NumberOfMatches" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -934,6 +1018,15 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Galleries">
+            <EntityTypeMapping TypeName="Tournament_v1Model.Gallery">
+              <MappingFragment StoreEntitySet="Gallery">
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -44,6 +44,7 @@
     <Compile Include="IAspNetUserClaimDomain.cs" />
     <Compile Include="IAspNetUserDomain.cs" />
     <Compile Include="IAspNetUserLoginDomain.cs" />
+    <Compile Include="IGalleryDomain.cs" />
     <Compile Include="ILocationDomain.cs" />
     <Compile Include="IMatchDomain.cs" />
     <Compile Include="IPlayerDomain.cs" />

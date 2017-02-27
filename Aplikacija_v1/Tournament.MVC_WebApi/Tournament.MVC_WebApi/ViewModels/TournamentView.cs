@@ -13,6 +13,10 @@ namespace Tournament.MVC_WebApi.ViewModels
         public System.DateTime EndTime { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
+        public Nullable<int> NumberOfMatches { get; set; }
+        public Nullable<int> NumberOfTeams { get; set; }
+        public Nullable<int> Rounds { get; set; }
+        public virtual ICollection<GalleryView> Galleries { get; set; }
         public virtual ICollection<LocationView> Locations { get; set; }
         public virtual ICollection<MatchView> Matches { get; set; }
         public virtual ICollection<RefereeView> Referees { get; set; }

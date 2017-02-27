@@ -1,0 +1,167 @@
+﻿<div class="container" ng-controller="tournamentsController" ng-init="getTeamsByTournament();getRefereesByTournament();getMatchesData();getLocationData()">
+    <br />
+    <br />
+    <h2 class="well">Tournament details</h2>
+    <div class="well col-lg-12">
+        <h4>Teams in this tournament:</h4>
+        <table class="table table-responsive table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Number Of Matches
+                    </th>
+                    <th>
+                        Matches Played
+                    </th>
+                    <th>
+                        Won
+                    </th>
+                    <th>
+                        Lost
+                    </th>
+                    <th>
+                        Draw
+                    </th>
+                    <th>
+                        Points
+                    </th>
+                    <th>
+                        Number of players
+                    </th>
+                    <th>
+                        Players
+                    </th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="item in teamData">
+                <tr>
+                    <td>
+                        {{item.Name}}
+                    </td>
+                    <td>
+                        {{item.NumberOfMatches}}
+                    </td>
+                    <td>
+                        {{item.MatchesPlayed}}
+                    </td>
+                    <td>
+                        {{item.Won}}
+                    </td>
+                    <td>
+                        {{item.Lost}}
+                    </td>
+                    <td>
+                        {{item.Draw}}
+                    </td>
+                    <td>
+                        {{item.Points}}
+                    </td>
+                    <td>
+                        {{item.NumberOfPlayers}}
+                    </td>
+                    <td>
+                        <a class="btn btn-lg btn-info" ui-sref="players({teamId: item.Id})">Show</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col-lg-12 row">
+            <div class="col-lg-7">
+                <h4>Referees in this tournament:</h4>
+                <table class="table table-responsive table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Surname
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="item in refereeData">
+                        <tr>
+                            <td>
+                                {{item.Name}}
+                            </td>
+                            <td>
+                                {{item.Surname}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-5">
+                <ui-gmap-google-map
+                                ng-if="map.center"
+                                center="map.center"
+                                zoom="map.zoom"
+                                events="map.events">
+                    <ui-gmap-window
+                        coords="map.marker.coords"
+                        show="map.window.show"
+                        options="windowOptions"
+                        closeClick="map.window.closeClick()">
+                        <h5>{{address}}</h5>
+                    </ui-gmap-window>
+                    <ui-gmap-marker
+                        coords="map.marker.coords"
+                        icon="map.marker.icon"
+                        idkey="map.marker.id"
+                        events="map.markersEvents">
+                    </ui-gmap-marker>
+                </ui-gmap-google-map>
+            </div>
+        </div>
+        <h4>Matches in this tournament:</h4>
+        <table class="table table-responsive table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Team One
+                    </th>
+                    <th>
+                        Team Two
+                    </th>
+                    <th>
+                        Referee
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Round
+                    </th>
+                    <th>
+                        Result
+                    </th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="item in matchData">
+                <tr>
+                    <td>
+                        {{item.Team.Name}}
+                    </td>
+                    <td>
+                        {{item.Team1.Name}}
+                    </td>
+                    <td>
+                        {{item.Referee.Name + " "}}{{item.Referee.Surname}}
+                    </td>
+                    <td>
+                        {{item.DateTime}}
+                    </td>
+                    <td>
+                        {{item.Round}}
+                    </td>
+                    <td>
+                        ispravi algoritam
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+</div>

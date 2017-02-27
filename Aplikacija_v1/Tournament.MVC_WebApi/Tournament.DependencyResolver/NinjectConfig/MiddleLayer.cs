@@ -32,6 +32,7 @@ namespace Tournament.DependencyResolver.NinjectConfig
             Bind<IResultRepository>().To<ResultRepository>();
             Bind<ITeamRepository>().To<TeamRepository>();
             Bind<ITournamentRepository>().To<TournamentRepository>();
+            Bind<IGalleryRepository>().To<GalleryRepository>();
         }
     }
 }

@@ -74,19 +74,28 @@ namespace Tournament.MVC_WebApi.ControllersApi
         [Route("add")]
         public async Task<HttpResponseMessage> Add(JObject data)
         {
-            
             try
             {
                 TournamentView tournament = data["tournament"].ToObject<TournamentView>();
                 LocationView location = data["location"].ToObject<LocationView>();
 
                 if (tournament.StartTime == null || tournament.EndTime == null || tournament.Type == null
-                    || tournament.AspNetUserId == null)
+                    || tournament.AspNetUserId == null || tournament.NumberOfTeams == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 tournament.Id = Guid.NewGuid();
                 location.Id = Guid.NewGuid();
                 location.TournamentId = tournament.Id;
+                //Algorithm for generate number of matches and rounds
+                if (tournament.Type == "League")
+                {
+                    if (tournament.NumberOfTeams % 2 == 0)
+                    {
+                        tournament.Rounds = tournament.NumberOfTeams - 1;
+                        tournament.NumberOfMatches = tournament.Rounds * tournament.NumberOfTeams / 2;
+                    }
+                }
+
                 var responseTournament = await TournamentService.Add(Mapper.Map<TournamentDomain>(tournament));
                 var responseLocation = await LocationService.Add(Mapper.Map<LocationDomain>(location));
 

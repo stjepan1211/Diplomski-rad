@@ -15,6 +15,10 @@ namespace Tournament.Model
         public System.DateTime EndTime { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
+        public Nullable<int> NumberOfMatches { get; set; }
+        public Nullable<int> NumberOfTeams { get; set; }
+        public Nullable<int> Rounds { get; set; }
+        public virtual ICollection<IGalleryDomain> Galleries { get; set; }
         public virtual ICollection<ILocationDomain> Locations { get; set; }
         public virtual ICollection<IMatchDomain> Matches { get; set; }
         public virtual ICollection<IRefereeDomain> Referees { get; set; }

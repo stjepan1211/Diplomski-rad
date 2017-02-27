@@ -29,6 +29,9 @@ namespace Tournament.DAL
         public Nullable<int> Won { get; set; }
         public Nullable<int> Lost { get; set; }
         public Nullable<int> NumberOfPlayers { get; set; }
+        public Nullable<int> NumberOfMatches { get; set; }
+        public Nullable<int> Draw { get; set; }
+        public Nullable<int> Points { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Match> Matches { get; set; }

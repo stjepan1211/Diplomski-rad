@@ -54,6 +54,21 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+        [HttpGet]
+        [Route("getbytournament")]
+        public async Task<HttpResponseMessage> GetByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<LocationView>>(await LocationService.ReadByTournament(tournamentId));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(LocationView location)

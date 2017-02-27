@@ -33,6 +33,7 @@ function editmatchController($scope, $http, $stateParams, $window, $state) {
         TeamOne: undefined,
         TeamTwo: undefined,
         DateTime: undefined,
+        Round: undefined
     }
 
     $scope.changestate = function (path) {

@@ -13,15 +13,15 @@ using Tournament.Model.Common;
 
 namespace Tournament.MVC_WebApi.ControllersApi
 {
-    //methods are tested
     [RoutePrefix("api/team")]
     public class TeamController : ApiController
     {
         protected ITeamService TeamService { get; set; }
-
-        public TeamController(ITeamService service)
+        protected ITournamentService TournamentService { get; set; }
+        public TeamController(ITeamService teamService, ITournamentService tournamentService)
         {
-            this.TeamService = service;
+            this.TeamService = teamService;
+            this.TournamentService = tournamentService;
         }
 
         [HttpGet]
@@ -78,10 +78,16 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 if (team.Name == null || team.NumberOfPlayers == null || team.TournamentId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
+                var tournament = Mapper.Map<TournamentView>(await TournamentService.Read(team.TournamentId));
+
                 team.Id = Guid.NewGuid();
                 team.MatchesPlayed = 0;
                 team.Won = 0;
                 team.Lost = 0;
+                team.Draw = 0;
+                //team.NumberOfPlayers = 0;
+                team.NumberOfMatches = tournament.NumberOfTeams - 1;
+                team.Points = 0;
 
                 var response = await TeamService.Add(Mapper.Map<TeamDomain>(team));
 

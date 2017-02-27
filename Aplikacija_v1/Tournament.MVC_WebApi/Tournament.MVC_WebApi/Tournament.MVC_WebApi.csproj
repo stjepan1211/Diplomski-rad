@@ -234,11 +234,13 @@
     <Compile Include="AutoMapperConfig\MappingProfile.cs" />
     <Compile Include="ControllersApi\AspNetUserController.cs" />
     <Compile Include="ControllersApi\AspNetUserLoginController.cs" />
+    <Compile Include="ControllersApi\GalleryController.cs" />
     <Compile Include="ControllersApi\LocationController.cs" />
     <Compile Include="ControllersApi\MatchController.cs" />
     <Compile Include="ControllersApi\PlayerController.cs" />
     <Compile Include="ControllersApi\RefereeController.cs" />
     <Compile Include="ControllersApi\ResultController.cs" />
+    <Compile Include="ControllersApi\ScheduleController.cs" />
     <Compile Include="ControllersApi\TeamController.cs" />
     <Compile Include="ControllersApi\TournamentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="ViewModels\AspNetUserClaimView.cs" />
     <Compile Include="ViewModels\AspNetUserLoginView.cs" />
     <Compile Include="ViewModels\AspNetUserView.cs" />
+    <Compile Include="ViewModels\GalleryView.cs" />
     <Compile Include="ViewModels\LocationView.cs" />
     <Compile Include="ViewModels\MatchView.cs" />
     <Compile Include="ViewModels\PlayerView.cs" />
@@ -292,6 +295,8 @@
     <Content Include="app\services\AuthenticationService.js" />
     <Content Include="app\services\PromiseUtilsService.js" />
     <Content Include="app\views\addtournament.html" />
+    <Content Include="app\views\detailsplayers.html" />
+    <Content Include="app\views\detailstournament.html" />
     <Content Include="app\views\editcategory\editmatch\addmatch.html" />
     <Content Include="app\views\editcategory\editmatch\deletematch.html" />
     <Content Include="app\views\editcategory\editmatch\detailsmatch.html" />

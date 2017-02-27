@@ -22,6 +22,7 @@ namespace Tournament.DependencyResolver.NinjectConfig
             Bind<ITeamService>().To<TeamService>();
             Bind<ITournamentService>().To<TournamentService>();
             Bind<IAspNetUserLoginService>().To<AspNetUserLoginService>();
+            Bind<IGalleryService>().To<GalleryService>();
         }
     }
 }

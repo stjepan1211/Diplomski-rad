@@ -114,7 +114,8 @@ namespace Tournament.Repository.Repositories
             try
             {
                 var x = await GenericRepository.GetQueryable<Match>()
-                    .Where(m => m.TournametId == tournamentId).Include(m => m.Referee).Include(m => m.Team).Include(m => m.Team1).ToListAsync();
+                    .Where(m => m.TournametId == tournamentId).Include(m => m.Referee).Include(m => m.Team).Include(m => m.Team1)
+                    .OrderBy(m => m.Round).ToListAsync();
                 var response = Mapper.Map<IEnumerable<IMatchDomain>>(x);
                 return response;
             }

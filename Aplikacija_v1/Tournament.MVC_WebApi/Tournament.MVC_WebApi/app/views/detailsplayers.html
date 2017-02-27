@@ -1,0 +1,53 @@
+﻿<div class="container" ng-controller="tournamentsController" ng-init="getPlayersByTeam()">
+    <br />
+    <br />
+    <h2 class="well">Players details</h2>
+    <div class="well col-lg-12">
+        <table class="table table-responsive table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Surname
+                    </th>
+                    <td>
+                        Goals
+                    </td>
+                    <td>
+                        Yellow cards
+                    </td>
+                    <td>
+                        Red cards
+                    </td>
+                    <td>
+                        Games played
+                    </td>
+                </tr>
+            </thead>
+            <tbody ng-repeat="item in playerData">
+                <tr>
+                    <td>
+                        {{item.Name}}
+                    </td>
+                    <td>
+                        {{item.Surname}}
+                    </td>
+                    <td>
+                        {{item.Goals}}
+                    </td>
+                    <td>
+                        {{item.YellowCards}}
+                    </td>
+                    <td>
+                        {{item.RedCards}}
+                    </td>
+                    <td>
+                        {{item.GamesPlayed}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

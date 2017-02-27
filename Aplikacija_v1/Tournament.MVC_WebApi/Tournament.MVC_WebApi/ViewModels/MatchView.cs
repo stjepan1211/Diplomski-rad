@@ -13,7 +13,7 @@ namespace Tournament.MVC_WebApi.ViewModels
         public System.Guid TeamOneId { get; set; }
         public System.Guid TeamTwoId { get; set; }
         public System.DateTime DateTime { get; set; }
-
+        public Nullable<int> Round { get; set; }
         public virtual ICollection<ResultView> Results { get; set; }
         public virtual RefereeView Referee { get; set; }
         public virtual TeamView Team { get; set; }

@@ -66,6 +66,9 @@
     <Compile Include="C__MigrationHistory.cs">
       <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Gallery.cs">
+      <DependentUpon>TournamentEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs">
       <DependentUpon>TournamentEntities.tt</DependentUpon>
     </Compile>

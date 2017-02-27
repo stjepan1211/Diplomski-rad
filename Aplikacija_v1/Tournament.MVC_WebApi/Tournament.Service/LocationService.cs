@@ -67,6 +67,19 @@ namespace Tournament.Service
                 throw e;
             }
         }
+        //Get Location by tournament
+        public async Task<IEnumerable<ILocationDomain>> ReadByTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = await LocationRepository.GetWhereTournamentId(tournamentId);
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         //Get All Locations
         public async Task<IEnumerable<ILocationDomain>> ReadAll()
         {

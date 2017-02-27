@@ -43,6 +43,7 @@
     <Compile Include="IGenericRepository\IGenericRepository.cs" />
     <Compile Include="IRepositories\IAspNetUserLoginRepository.cs" />
     <Compile Include="IRepositories\IAspNetUserRepository.cs" />
+    <Compile Include="IRepositories\IGalleryRepository.cs" />
     <Compile Include="IRepositories\ILocationRepository.cs" />
     <Compile Include="IRepositories\IMatchRepository.cs" />
     <Compile Include="IRepositories\IPlayerRepository.cs" />

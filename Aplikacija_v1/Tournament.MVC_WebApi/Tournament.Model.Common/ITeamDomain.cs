@@ -15,7 +15,9 @@ namespace Tournament.Model.Common
         Nullable<int> Won { get; set; }
         Nullable<int> Lost { get; set; }
         Nullable<int> NumberOfPlayers { get; set; }
-
+        Nullable<int> NumberOfMatches { get; set; }
+        Nullable<int> Draw { get; set; }
+        Nullable<int> Points { get; set; }
         ICollection<IMatchDomain> Matches { get; set; }
         ICollection<IMatchDomain> Matches1 { get; set; }
         ICollection<IPlayerDomain> Players { get; set; }

@@ -40,6 +40,9 @@
                 <td>
                     {{item.Locations[0].Place}}
                 </td>
+                <td>
+                    <a class="btn btn-lg btn-info" ui-sref="detailstournament({tournamentId: item.Id, reloaded: false})" ui-sref-opts="{reload: true}">Details</a>
+                </td>
             </tr>
         </tbody>
     </table>

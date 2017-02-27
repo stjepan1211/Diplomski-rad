@@ -15,5 +15,6 @@ namespace Tournament.Service.Common
         Task<ILocationDomain> Read(Guid id);
         Task<IEnumerable<ILocationDomain>> ReadAll();
         Task<int> Update(ILocationDomain entry);
+        Task<IEnumerable<ILocationDomain>> ReadByTournament(Guid tournamentId);
     }
 }

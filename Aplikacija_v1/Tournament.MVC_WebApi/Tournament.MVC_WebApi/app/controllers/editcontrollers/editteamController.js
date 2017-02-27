@@ -23,7 +23,10 @@ function editteamController($scope, $http, $stateParams, $window, $state) {
         MatchesPlayed: undefined,
         Won: undefined,
         Lost: undefined,
-        NumberOfPlayers: undefined
+        Draw: undefined,
+        NumberOfPlayers: undefined,
+        NumberOfMatches: undefined,
+        Points: undefined
     }
 
     $scope.detailsteamselected = {

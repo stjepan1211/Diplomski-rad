@@ -19,7 +19,8 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
         StarTime: undefined,
         EndTime: undefined,
         Type: undefined,
-        Name: undefined
+        Name: undefined,
+        NumberOfTeams: undefined
     }
     //initial and handle objects and events on google map
     angular.extend($scope, {
@@ -131,17 +132,23 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
         else if ($scope.addtournamentdata.EndTime == undefined) {
             $window.alert("Please select end date.");
         }
+        else if ($scope.addtournamentdata.NumberOfTeams == undefined) {
+            $window.alert("Please add number of teams.");
+        }
+        else if ($scope.addtournamentdata.NumberOfTeams > 20 || $scope.addtournamentdata.NumberOfTeams < 2) {
+            $window.alert("Number of teams for league type must be lower than 20 annd greater than 2.");
+        }
         //else if ($scope.addtournamentdata.AspNetUserId == undefined) {
         //    $window.alert("To add tournament you need to log in first.");
         //}
         else {
-            console.log($scope.addtournamentdata.Name);
-            console.log($scope.addtournamentdata.Type);
-            console.log($scope.addtournamentdata.StartTime);
-            console.log($scope.addtournamentdata.EndTime);
-            console.log($scope.map.markers[0].coords.latitude);
-            console.log($scope.map.markers[0].coords.longitude);
-            console.log(Place);
+            //console.log($scope.addtournamentdata.Name);
+            //console.log($scope.addtournamentdata.Type);
+            //console.log($scope.addtournamentdata.StartTime);
+            //console.log($scope.addtournamentdata.EndTime);
+            //console.log($scope.map.markers[0].coords.latitude);
+            //console.log($scope.map.markers[0].coords.longitude);
+            //console.log(Place);
 
             //$scope.map.markers[0].coords.latitude = "45.00000"
             //$scope.map.markers[0].coords.longitude = "45.000000"
@@ -153,7 +160,8 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
                 StartTime: $scope.addtournamentdata.StartTime,
                 EndTime: $scope.addtournamentdata.EndTime,
                 Type: $scope.addtournamentdata.Type,
-                Name: $scope.addtournamentdata.Name
+                Name: $scope.addtournamentdata.Name,
+                NumberOfTeams: $scope.addtournamentdata.NumberOfTeams
             };
             var location = {
                 Place: Place,

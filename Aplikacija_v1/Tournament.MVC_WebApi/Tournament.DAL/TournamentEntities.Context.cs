@@ -38,6 +38,7 @@ namespace Tournament.DAL
         public virtual DbSet<Result> Results { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<Tournament> Tournaments { get; set; }
+        public virtual DbSet<Gallery> Galleries { get; set; }
 
         public string ConnectionString
         {
@@ -85,4 +86,5 @@ namespace Tournament.DAL
             }
         }
     }
+
 }

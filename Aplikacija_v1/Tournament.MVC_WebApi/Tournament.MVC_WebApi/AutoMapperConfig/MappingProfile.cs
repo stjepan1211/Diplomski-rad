@@ -56,6 +56,10 @@ namespace Tournament.MVC_WebApi.AutoMapperConfig
             //Tournament view <-> Tournament domain
             CreateMap<TournamentView, ITournamentDomain>().PreserveReferences().ReverseMap().PreserveReferences();
             CreateMap<TournamentView, TournamentDomain>().PreserveReferences().ReverseMap().PreserveReferences();
+
+            //Gallery view <-> Gallery domain
+            CreateMap<GalleryView, IGalleryDomain>().PreserveReferences().ReverseMap().PreserveReferences();
+            CreateMap<GalleryView, GalleryDomain>().PreserveReferences().ReverseMap().PreserveReferences();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿//declare module
-var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'ngAnimate', 'angular-loading-bar',
+var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'ngAnimate', 
     'ngMessages', '720kb.datepicker', 'LocalStorageModule', 'uiGmapgoogle-maps', 'ADM-dateTimePicker', 'ngRoute']);
+    //'angular-loading-bar',
 
 TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider, uiGmapGoogleMapApiProvider) {
 
@@ -40,6 +41,23 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             views: {
                 "root": {
                     templateUrl: 'app/views/tournaments.html'
+                }
+            }
+        })
+        .state('detailstournament', {
+            url: '/detailstournament?tournamentId&reloaded',
+            views: {
+                "root": {
+                    templateUrl: 'app/views/detailstournament.html'
+                }
+            },
+            controller: 'tournamentsController'
+        })
+        .state('players', {
+            url: '/teamplayers?teamId',
+            views: {
+                "root": {
+                    templateUrl: 'app/views/detailsplayers.html'
                 }
             }
         })
@@ -108,7 +126,7 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             }
         })
         .state('editmytournament', {
-            url: '/editmytournament?tournamentId&tournamentName',
+            url: '/editmytournament?tournamentId',
             views: {
                 "root": {
                     templateUrl: 'app/views/editmytournament.html'
