@@ -1,0 +1,47 @@
+﻿<div class="well" ng-controller="edittournamentController" ng-init="gettournamentdata()">
+    <form name="updatetournamentform">
+        <div class="col-lg-12">
+            <div class="row col-lg-12">
+                <div>
+                    <label>Name:</label>
+                     <input type="text" class="form-control" name="inputname" ng-model="edittournamentData.Name" required  ng-trim="false"/>
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <label>Type:</label>
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" required ng-model="edittournamentData.Type">
+                    <option>League</option>
+                    <option>Playoff</option>
+                </select>
+            </div>
+            <div class="row col-lg-12">
+                <label>Number of teams:</label>
+                <input type="number" min="2" max="20" placeholder="Enter Number of Teams Name Here.." class="form-control" required ng-model="edittournamentData.NumberOfTeams" />
+            </div>
+            <div class="row col-lg-12">
+                <label>Start date:</label>
+                <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                    <div class="input-group">
+                        <input class="form-control" required placeholder="Choose a date" ng-model="edittournamentData.StartTime" />
+                        <span class="input-group-addon" style="cursor: pointer">
+                            <i class="fa fa-lg fa-calendar"></i>
+                        </span>
+                    </div>
+                </datepicker>
+            </div>
+            <div class="row col-lg-12">
+                <label>End date:</label>
+                <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Choose a date" ng-model="edittournamentData.EndTime" />
+                        <span class="input-group-addon" style="cursor: pointer">
+                            <i class="fa fa-lg fa-calendar"></i>
+                        </span>
+                    </div>
+                </datepicker>
+            </div>
+        </div>
+        <br />
+        <button ng-disabled="updatetournamentform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="editMatch()">Edit match</button>
+    </form>
+</div>

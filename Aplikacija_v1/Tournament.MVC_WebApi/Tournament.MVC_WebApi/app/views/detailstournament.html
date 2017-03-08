@@ -151,7 +151,7 @@
                     <td>
                         {{item.Referee.Name + " "}}{{item.Referee.Surname}}
                     </td>
-                    <td>
+                    <td ng-bind="item.DateTime | date:'yyyy-dd-MM'">
                         {{item.DateTime}}
                     </td>
                     <td>

@@ -113,7 +113,7 @@ function editplayerController($scope, $http, $stateParams, $window, $state) {
                     $window.alert("Player added successfully.");
                     //$state.go('editmytournament.team');
                 }, function (response) {
-                    $window.alert("Can't add player.");
+                    $window.alert("Warning: " + response.data.Message);
                 });
         }
     }

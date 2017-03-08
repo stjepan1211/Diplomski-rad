@@ -79,6 +79,12 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 var tournament = Mapper.Map<TournamentView>(await TournamentService.Read(team.TournamentId));
+                var teamsInTournament = Mapper.Map<IEnumerable<TeamView>>(await TeamService.GetWhereTournamentId(team.TournamentId));
+                //check if teams are already added
+                if(teamsInTournament.Count() == tournament.NumberOfTeams)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You already added " + tournament.NumberOfTeams + " teams.");
+                }
 
                 team.Id = Guid.NewGuid();
                 team.MatchesPlayed = 0;

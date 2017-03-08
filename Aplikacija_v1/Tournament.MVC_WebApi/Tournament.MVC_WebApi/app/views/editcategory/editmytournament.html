@@ -1,0 +1,8 @@
+﻿<div ng-controller="edittournamentController">
+    <input type="radio" name="crudtournament" value="editmytournament.tournament.update" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Update
+    <br />
+    <br />
+    <div class="form-group col-lg-8" ui-view="edittournament">
+
+    </div>
+</div>

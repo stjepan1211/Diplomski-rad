@@ -46,8 +46,9 @@ namespace Tournament.MVC_WebApi
                     "~/app/js/angular-simple-loger.js",
                     "~/app/js/angular-google-maps.js",
                     "~/app/js/moment.js",
-                    "~/app/js/angular-google-maps.js",
-                    "~/app/js/ADM-dateTimePicker.js"
+                    "~/app/js/ADM-dateTimePicker.js",
+                    "~/app/js/angularToArrayFilter.js",
+                    "~/app/js/dirPagination.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/app").Include(

@@ -33,6 +33,7 @@ namespace Tournament.DAL
         public Nullable<int> NumberOfMatches { get; set; }
         public Nullable<int> NumberOfTeams { get; set; }
         public Nullable<int> Rounds { get; set; }
+        public Nullable<bool> IsScheduled { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,7 +1,7 @@
 ﻿//declare module
 var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'ngAnimate', 
-    'ngMessages', '720kb.datepicker', 'LocalStorageModule', 'uiGmapgoogle-maps', 'ADM-dateTimePicker', 'ngRoute']);
-    //'angular-loading-bar',
+    'ngMessages', '720kb.datepicker', 'LocalStorageModule', 'uiGmapgoogle-maps', 'ADM-dateTimePicker', 'ngRoute','angular-loading-bar',
+    'angular-toArrayFilter','angularUtils.directives.dirPagination']);
 
 TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider, uiGmapGoogleMapApiProvider) {
 
@@ -10,7 +10,7 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
 
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA',
-        v: '3.20', //defaults to latest 3.X anyhow
+        v: '3.26', //defaults to latest 3.X anyhow
         libraries: 'weather,geometry,visualization'
     });
     //
@@ -133,6 +133,14 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
                 }
             }
         })
+        .state('editmytournament.tournament', {
+            url: '/edittournament',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editmytournament.html'
+                }
+            }
+        })
         .state('editmytournament.match', {
             url: '/editmatch',
             views: {
@@ -170,6 +178,14 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             views: {
                 "editcategory": {
                     templateUrl: 'app/views/editcategory/editresult.html'
+                }
+            }
+        })
+        .state('editmytournament.tournament.update', {
+            url: '/edittournament',
+            views: {
+                "edittournament": {
+                    templateUrl: 'app/views/editcategory/edittournament/updatetournament.html'
                 }
             }
         })

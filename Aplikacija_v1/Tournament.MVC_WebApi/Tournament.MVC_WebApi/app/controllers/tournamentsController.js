@@ -6,19 +6,6 @@ function tournamentsController($scope, $http, $stateParams, $window, $state, $ro
 
     //initController();
 
-    //var initController = function () {
-    //    if ($stateParams.reloaded != undefined)
-    //        if (!$stateParams.reloaded) {
-    //            //$scope.windowTitle = angular.element(window.document)[0].title;
-    //            //$window.alert($scope.windowTitle);
-    //            $window.location.reload();
-    //        }
-    //}
-
-    //$scope.reload = function () {
-    //    $window.location.reload();
-    //}
-
     $scope.tournamentData = {
         StartTime: undefined,
         EndTime: undefined,
@@ -82,6 +69,7 @@ function tournamentsController($scope, $http, $stateParams, $window, $state, $ro
     $scope.addTournament = function () {
         if (!AuthenticationService.Check()) {
             $window.alert("To add tournament you need to log in first.");
+            location.reload(true);
         }
         else {
             $state.go('addtournament');
@@ -168,5 +156,10 @@ function tournamentsController($scope, $http, $stateParams, $window, $state, $ro
             }, function (arguments) {
                 console.log("fail", arguments);
             })
+    }
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
 }

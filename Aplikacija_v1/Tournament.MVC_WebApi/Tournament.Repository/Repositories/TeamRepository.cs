@@ -112,7 +112,8 @@ namespace Tournament.Repository.Repositories
             try
             {
                 var response = Mapper.Map<IEnumerable<ITeamDomain>>
-                    (await GenericRepository.GetQueryable<Team>().Where(t => t.TournamentId == tournamentId).ToListAsync());
+                    (await GenericRepository.GetQueryable<Team>().Where(t => t.TournamentId == tournamentId).OrderByDescending(t => t.Points)
+                    .ToListAsync());
                 return response;
             }
             catch (Exception ex)

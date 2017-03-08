@@ -16,10 +16,11 @@ namespace Tournament.MVC_WebApi.ControllersApi
     public class PlayerController : ApiController
     {
         protected IPlayerService PlayerService { get; set; }
-
-        public PlayerController(IPlayerService service)
+        protected ITeamService TeamService { get; set; }
+        public PlayerController(IPlayerService service, ITeamService teamService)
         {
             this.PlayerService = service;
+            this.TeamService = teamService;
         }
 
         [HttpGet]
@@ -90,6 +91,13 @@ namespace Tournament.MVC_WebApi.ControllersApi
             {
                 if (player.Name == null || player.Surname == null || player.TeamId == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
+                var team = Mapper.Map<TeamView>(await TeamService.Read(player.TeamId));
+                var playersByTeam = Mapper.Map<IEnumerable<PlayerView>>(await PlayerService.ReadPlayersByTeam(player.TeamId));
+
+                if(playersByTeam.Count() == team.NumberOfPlayers)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You already added players for that team.");
+                }
 
                 player.Id = Guid.NewGuid();
                 player.Goals = 0;

@@ -16,10 +16,11 @@ namespace Tournament.MVC_WebApi.ControllersApi
     public class MatchController : ApiController
     {
         protected IMatchService MatchService { get; set; }
-
-        public MatchController(IMatchService service)
+        protected ITournamentService TournamentService { get; set; }
+        public MatchController(IMatchService service, ITournamentService tournamentService)
         {
             this.MatchService = service;
+            this.TournamentService = tournamentService;
         }
 
         [HttpGet]
@@ -77,6 +78,14 @@ namespace Tournament.MVC_WebApi.ControllersApi
 
                 if (match.TournametId == null || match.TeamOneId == null || match.TeamTwoId == null || match.DateTime == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
+
+                var matches = Mapper.Map<IEnumerable<MatchView>>(await MatchService.ReadMatchesByTournament(match.TournametId));
+                var tournament = Mapper.Map<TournamentView>(await TournamentService.Read(match.TournametId));
+
+                if(matches.Count() == tournament.NumberOfMatches)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Matches are added already.");
+                }
 
                 match.Id = Guid.NewGuid();
                 match.Round = 0;

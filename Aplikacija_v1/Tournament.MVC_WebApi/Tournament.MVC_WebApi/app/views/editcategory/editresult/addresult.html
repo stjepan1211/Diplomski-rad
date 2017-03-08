@@ -1,31 +1,186 @@
-﻿<div ng-controller="editresultController" ng-init="getMatchDataByTournament()">
-    <form name="addresultform">
-        <label>Add new result:</label>
+﻿<div ng-controller="editresultController" ng-init="getMatchDataByTournament();checkDependencies();">
+  <!-- SHOW ONLY IF ALL DEPENDICESA ARE ADDED - MATHES -->
+    <h5 ng-show="!areDependenciesAdded.MatchesTeamsAdded"></h5>
+    <label>Add new result:</label>
+
+    <!-- CHECK MATCH DROPDOWN -->
         <div class="row col-lg-12">
             <div class="col-lg-3">
                 <label>Select match:</label>
             </div>
             <div class="col-lg-6">
-                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="addresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="addresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="checkTeamDependencies(addresultmatchselected.Team.Id,addresultmatchselected.Team1.Id);"></select>
+            </div>
+        </div>
+    <!-- SHOW ONLY IF ALL DEPENDICESA ARE ADDED - PLAYERS -->
+        <div ng-show="areDependenciesAdded.PlayersTeam1Added && areDependenciesAdded.PlayersTeam2Added">
+            <!-- ADD RESULT FORM -->
+            <form name="addresultform">
+                <div class="row col-lg-12">
+                    <div class="col-lg-4">
+                        <label>Team {{addresultmatchselected.Team.Name}} goals:</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="addResultData.TeamOneGoals" />
+                    </div>
+                </div>
+                <div class="row col-lg-12">
+                    <div class="col-lg-4">
+                        <label>Team {{addresultmatchselected.Team1.Name}} goals:</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="addResultData.TeamTwoGoals" />
+                    </div>
+                </div>
+            </form>
+    <br />
+    <!-- SELECT SCORERS AND ADD GOALS FOR TEAM 1 -->
+    <div ng-show="showTeamOneSelectScorer && addResultData.TeamOneGoals != 0">
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Select {{addresultmatchselected.Team.Name}} scorers:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="scorerteam1selected" ng-options="item as item.Surname + ' , ' + item.Name for item in Team1Players" ng-change="showScorerOneAddGoals=true"></select>
+            </div>
+        </div>
+        <hr style="border-width: 10px" />
+        <div class="row col-lg-12" ng-show="showScorerOneAddGoals">
+            <div class="col-lg-3">
+                <label>Scorer {{scorerteam1selected.Surname}}, {{scorerteam1selected.Name}}:</label>
+            </div>
+            <div class="col-lg-4">
+                <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" ng-model="team1scorergoals" />
+                <p>goals</p>
+            </div>
+            <div class="col-lg-3">
+                <button class="btn btn-lg btn-info" ng-click="addTeam1Scorer()">Add player's goals</button>
+                <button class="btn btn-lg btn-info" ng-click="resetTeam1Scorer()">Reset</button>
+            </div>
+        </div>
+        <hr style="border-width: 10px" />
+    </div>
+    <br />
+    <!-- SELECT SCORERS AND ADD GOALS FOR TEAM 1 -->
+    <div ng-show="showTeamTwoSelectScorer && addResultData.TeamTwoGoals != 0">
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Select {{addresultmatchselected.Team1.Name}} scorers:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="scorerteam2selected" ng-options="item as item.Surname + ' , ' + item.Name for item in Team2Players" ng-change="showScorerTwoAddGoals=true"></select>
+            </div>
+        </div>
+        <hr style="border-width: 10px" />
+        <div class="row col-lg-12" ng-show="showScorerTwoAddGoals">
+            <div class="col-lg-3">
+                <label>Scorer {{scorerteam2selected.Surname}}, {{scorerteam2selected.Name}}:</label>
+            </div>
+            <div class="col-lg-4">
+                <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" ng-model="team2scorergoals" />
+                <p>goals</p>
+            </div>
+            <div class="col-lg-3">
+                <button class="btn btn-lg btn-info" ng-click="addTeam2Scorer()">Add player's goals</button>
+                <button class="btn btn-lg btn-info" ng-click="resetTeam2Scorer()">Reset</button>
+            </div>
+        </div>
+        <hr style="border-width: 10px" />
+    </div>
+            <!-- SELECT TEAM WHICH WON ON PENALTIES -->
+    <div class="row col-lg-12">
+        <div class="col-lg-2">
+            <label>Penalties?</label>
+        </div>
+        <div class="col-lg-1">
+            <input type="checkbox" ng-model="checkBox.Penalties" />
+        </div>
+        <div class="col-lg-9" ng-show="checkBox.Penalties">
+            <div class="col-lg-4">
+                <p>Who won? </p>
+            </div>
+            <div class="col-lg-4">
+                <input type="radio" ng-model="winnerOnPenalties" value="{{addresultmatchselected.Team.Id}}"/>
+                {{addresultmatchselected.Team.Name}}
+            </div>
+            <div class="col-lg-4">
+                <input type="radio" ng-model="winnerOnPenalties" value="{{addresultmatchselected.Team1.Id}}" />
+                {{addresultmatchselected.Team1.Name}}
+            </div>
+        </div>
+    </div>
+        <!-- ADD PLAYERS WITH YELLOW CARDS -->
+        <div class="row col-lg-12">
+            <div class="col-lg-3">
+                <label>Yellow cards?</label>
+            </div>
+            <div class="col-lg-1">
+                <input type="checkbox" ng-model="checkBox.YellowCards" />
+            </div>
+        </div>
+        <div class="row col-lg-12" ng-show="checkBox.YellowCards">
+            <div class="col-lg-3">
+                <label>Select team:</label>
+            </div>
+            <div class="col-lg-3">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="selectedTeamYellowCards" ng-change="getplayersyellowcards()">
+                    <option value="{{addresultmatchselected.Team.Id}}">{{addresultmatchselected.Team.Name}}</option>
+                    <option value="{{addresultmatchselected.Team1.Id}}">{{addresultmatchselected.Team1.Name}}</option>
                 </select>
             </div>
+            <div class="col-lg-1">
+                <label>Players:</label>
+            </div>
+            <div class="col-lg-3">
+                <ul>
+                    <li ng-repeat="player in getplayersforyellowcards">
+                        <label> {{player.Surname}},{{player.Name}} </label>
+                        <input type="checkbox" ng-model="newObjectYellowCard[player.Id]">
+                    </li>
+                </ul>
+                <!--<pre>{{newObject | json}}</pre>-->
+            </div>
+            <div class="log-lg-1" ng-show="checkBox.YellowCards">
+           
+                        <button class="btn btn-lg btn-info" ng-click="addYellowCardPlayers()">Confirm</button>
+            </div>
         </div>
+
+       <!-- ADD PLAYERS WITH RED CARDS -->
         <div class="row col-lg-12">
-            <div class="col-lg-6">
-                <label>Team {{addresultmatchselected.Team.Name}} goals:</label>
+            <div class="col-lg-2">
+                <label>Red cards?</label>
             </div>
-            <div class="col-lg-6">
-                <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="addResultData.TeamOneGoals" />
-            </div>
-        </div>
-        <div class="row col-lg-12">
-            <div class="col-lg-6">
-                <label>Team {{addresultmatchselected.Team1.Name}} goals:</label>
-            </div>
-            <div class="col-lg-6">
-                <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="addResultData.TeamTwoGoals" />
+            <div class="col-lg-1">
+                <input type="checkbox" ng-model="checkBox.RedCards" />
             </div>
         </div>
-        <button ng-disabled="addresultform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addResult()">Add result</button>
-    </form>
+        <div class="row col-lg-12" ng-show="checkBox.RedCards">
+            <div class="col-lg-3">
+                <label>Select team:</label>
+            </div>
+            <div class="col-lg-3">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="selectedTeamRedCards" ng-change="getplayersredcards()">
+                    <option value="{{addresultmatchselected.Team.Id}}">{{addresultmatchselected.Team.Name}}</option>
+                    <option value="{{addresultmatchselected.Team1.Id}}">{{addresultmatchselected.Team1.Name}}</option>
+                </select>
+            </div>
+            <div class="col-lg-1">
+                <label>Players:</label>
+            </div>
+            <div class="col-lg-3">
+                <ul>
+                    <li ng-repeat="player in getplayersforredcards">
+                        <label> {{player.Surname}},{{player.Name}} </label>
+                        <input type="checkbox" ng-model="newObjectRedCard[player.Id]">
+                    </li>
+                </ul>
+            </div>
+            <div class="log-lg-1" ng-show="checkBox.RedCards">
+                <button class="btn btn-lg btn-info" ng-click="addRedCardPlayers()">Confirm</button>
+            </div>
+        </div>
+            <br />
+        <button ng-disabled="addresultform.$invalid" class="btn btn-lg btn-info" ng-click="postAll()">Confirm and add all.</button>
+    </div>
 </div>

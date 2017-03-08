@@ -17,7 +17,8 @@ namespace Tournament.Model
         public System.Guid TeamTwoId { get; set; }
         public System.DateTime DateTime { get; set; }
         public Nullable<int> Round { get; set; }
-
+        public Nullable<System.Guid> Winner { get; set; }
+        public Nullable<bool> Penalties { get; set; }
         public virtual IRefereeDomain Referee { get; set; }
         public virtual ITeamDomain Team { get; set; }
         public virtual ITeamDomain Team1 { get; set; }

@@ -104,7 +104,9 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="TeamOneId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TeamTwoId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateTime" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="Round" Type="int" />
+          <Property Name="Round" Type="int" Nullable="false" />
+          <Property Name="Winner" Type="uniqueidentifier" />
+          <Property Name="Penalties" Type="bit" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -165,6 +167,7 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="NumberOfMatches" Type="int" />
           <Property Name="NumberOfTeams" Type="int" />
           <Property Name="Rounds" Type="int" />
+          <Property Name="IsScheduled" Type="bit" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -532,7 +535,9 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <NavigationProperty Name="Team1" Relationship="Self.FK_Match_Team1" FromRole="Match" ToRole="Team" />
           <NavigationProperty Name="Tournament" Relationship="Self.FK_Match_Tournament" FromRole="Match" ToRole="Tournament" />
           <NavigationProperty Name="Results" Relationship="Self.FK_Result_Match" FromRole="Match" ToRole="Result" />
-          <Property Name="Round" Type="Int32" />
+          <Property Name="Round" Type="Int32" Nullable="false" />
+          <Property Name="Winner" Type="Guid" />
+          <Property Name="Penalties" Type="Boolean" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -607,6 +612,7 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="NumberOfTeams" Type="Int32" />
           <Property Name="Rounds" Type="Int32" />
           <NavigationProperty Name="Galleries" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Tournament" ToRole="Gallery" />
+          <Property Name="IsScheduled" Type="Boolean" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -935,6 +941,8 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <EntitySetMapping Name="Matches">
             <EntityTypeMapping TypeName="Tournament_v1Model.Match">
               <MappingFragment StoreEntitySet="Match">
+                <ScalarProperty Name="Penalties" ColumnName="Penalties" />
+                <ScalarProperty Name="Winner" ColumnName="Winner" />
                 <ScalarProperty Name="Round" ColumnName="Round" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TournametId" ColumnName="TournametId" />
@@ -998,6 +1006,7 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <EntitySetMapping Name="Tournaments">
             <EntityTypeMapping TypeName="Tournament_v1Model.Tournament">
               <MappingFragment StoreEntitySet="Tournament">
+                <ScalarProperty Name="IsScheduled" ColumnName="IsScheduled" />
                 <ScalarProperty Name="Rounds" ColumnName="Rounds" />
                 <ScalarProperty Name="NumberOfTeams" ColumnName="NumberOfTeams" />
                 <ScalarProperty Name="NumberOfMatches" ColumnName="NumberOfMatches" />

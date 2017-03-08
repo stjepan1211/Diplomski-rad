@@ -87,14 +87,42 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 location.Id = Guid.NewGuid();
                 location.TournamentId = tournament.Id;
                 //Algorithm for generate number of matches and rounds
-                if (tournament.Type == "League")
+                switch(tournament.Type)
                 {
-                    if (tournament.NumberOfTeams % 2 == 0)
-                    {
-                        tournament.Rounds = tournament.NumberOfTeams - 1;
-                        tournament.NumberOfMatches = tournament.Rounds * tournament.NumberOfTeams / 2;
-                    }
+                    case "League":
+                        if(tournament.NumberOfTeams > 20 || tournament.NumberOfTeams < 2)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Number of teams in league format can't be greater than 20.");
+                        }
+                        if (tournament.NumberOfTeams % 2 == 0)
+                        {
+                            tournament.Rounds = tournament.NumberOfTeams - 1;
+                        }
+                        else
+                        {
+                            tournament.Rounds = tournament.NumberOfTeams;
+                        }
+                        tournament.NumberOfMatches = tournament.Rounds * (tournament.NumberOfTeams / 2);
+                        break;
+                    case "Playoff":
+                        if (tournament.NumberOfTeams > 32 || tournament.NumberOfTeams < 2)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Number of teams in league format can't be greater than 32.");
+                        }
+                        break;
+                    default:
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't add that type of tournament.");
+
+                        //TODO, generate nuber of matches and rounds for Playoff tournament
                 }
+                //check if number of rounds can be played in interval between start and end time of tournament
+                TimeSpan daysDifference = tournament.EndTime.Subtract(tournament.StartTime);
+                if(daysDifference.Days < tournament.Rounds)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Date interval should be greater. Cosider that one round" +
+                        " will be played one day at time.");
+                }
+                tournament.IsScheduled = false;
 
                 var responseTournament = await TournamentService.Add(Mapper.Map<TournamentDomain>(tournament));
                 var responseLocation = await LocationService.Add(Mapper.Map<LocationDomain>(location));
@@ -151,10 +179,20 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 if (toBeUpdated == null)
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
 
-                toBeUpdated.StartTime = DateTime.Now;
-                toBeUpdated.EndTime = DateTime.Now;
+                toBeUpdated.Name = tournament.Name;
+                toBeUpdated.StartTime = tournament.StartTime;
+                toBeUpdated.EndTime = tournament.EndTime;
                 toBeUpdated.Type = tournament.Type;
-                tournament.AspNetUserId = "a4057af7-2e85-49bb-afe2-7ec14d4cfaf6";
+                toBeUpdated.NumberOfTeams = tournament.NumberOfTeams;
+                //Algorithm for generate number of matches and rounds
+                if (tournament.Type == "League")
+                {
+                    if (tournament.NumberOfTeams % 2 == 0)
+                    {
+                        tournament.Rounds = tournament.NumberOfTeams - 1;
+                        tournament.NumberOfMatches = tournament.Rounds * tournament.NumberOfTeams / 2;
+                    }
+                }
                 var response = await TournamentService.Update(Mapper.Map<TournamentDomain>(toBeUpdated));
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);

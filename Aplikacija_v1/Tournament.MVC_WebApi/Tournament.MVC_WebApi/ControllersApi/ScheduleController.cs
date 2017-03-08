@@ -40,6 +40,11 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid tournament id");
                 }
+                //check if tournament is already scheduled
+                if (tournament.IsScheduled == true)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Tournament is already scheduled.");
+                }
                 //check if number of teams in table Tournament.NumberOfTeams is equal to objects in table Teams
                 var teams = Mapper.Map<IEnumerable<TeamView>>(await TeamService.GetWhereTournamentId(tournamentId));
                 if(teams.Count() != tournament.NumberOfTeams)
@@ -61,6 +66,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                         switch(tournament.NumberOfTeams % 2)
                         {
                             case 0:
+                                //*******************************************************************************************************
                                 //even number of teams
                                 TeamView lastTeam = teams.Last();
                                 List<TeamView> teamsWithoutLast = teams.Take(teams.Count() - 1).ToList();
@@ -69,7 +75,9 @@ namespace Tournament.MVC_WebApi.ControllersApi
                                 //type list is used because Capacity property can't be used on IEnumerable
                                 List<TeamView> shiftedTeams = new List<TeamView>(teams.Count() - 1);
                                 int counterDown = teamsWithoutLast.Count() - 1;
-                                for(int i = 0; i < tournament.Rounds; i++)
+                                //days difference
+                                int daysDifferenceBetweenMatchesToAdd = 0;
+                                for (int i = 0; i < tournament.Rounds; i++)
                                 {
                                     counterDown = teamsWithoutLast.Count() - 1;
                                     MatchView match = new MatchView { Id = Guid.NewGuid(), TournametId = tournament.Id, Round = i + 1 };
@@ -92,15 +100,19 @@ namespace Tournament.MVC_WebApi.ControllersApi
                                     //set match date and time, it has to be days, beetween tournament date and time but if
                                     //there is a big number between them it dates per round has to be periodical setted
                                     int daysDifferenceBetweenMatches = Convert.ToInt32(daysDifference.Days / tournament.Rounds); //between matches
-                                    if(i == 0)
+                                    if (i == 0)
                                     {
                                         match.DateTime = tournament.StartTime;
                                     }
                                     else
                                     {
-                                        match.DateTime = tournament.StartTime.AddDays(daysDifferenceBetweenMatches);
+                                        daysDifferenceBetweenMatchesToAdd = daysDifferenceBetweenMatchesToAdd + daysDifferenceBetweenMatches;
+                                        match.DateTime = tournament.StartTime.AddDays(daysDifferenceBetweenMatchesToAdd);
                                     }
                                     match.RefereeId = referees.First().Id;
+                                    //this two properties will be null for initial values, it will be updated when user add result
+                                    match.Penalties = null;
+                                    match.Winner = null;
                                     //add match between fixed and first team
                                     await MatchService.Add(Mapper.Map<MatchDomain>(match));
                                     //add rest of teams, second team and last team, third and team before last...
@@ -128,8 +140,12 @@ namespace Tournament.MVC_WebApi.ControllersApi
                                     }
                                     shiftedTeams.Clear();
                                 }
+                                tournament.IsScheduled = true;
+                                await Tournamentservice.Update(Mapper.Map<TournamentDomain>(tournament));
+                                //*******************************************************************************************************
                                 return Request.CreateResponse(HttpStatusCode.OK, "1");
                             default:
+                                //*******************************************************************************************************
                                 //odd number of teams
                                 List<TeamView> oddTeams = teams.Take(teams.Count()).ToList();
                                 //array of teams without last must be copied for rotating it
@@ -190,12 +206,16 @@ namespace Tournament.MVC_WebApi.ControllersApi
                                     }
                                     shiftedOddTeams.Clear();
                                 }
+                                tournament.IsScheduled = true;
+                                await Tournamentservice.Update(Mapper.Map<TournamentDomain>(tournament));
+                                //*******************************************************************************************************
                                 return Request.CreateResponse(HttpStatusCode.OK, "1");
                         }
                     case "Playoff":
+                        //*******************************************************************************************************
+                        
                         break;
                 }
-
                 return Request.CreateResponse(HttpStatusCode.OK, 1);
             }
             catch(Exception e)

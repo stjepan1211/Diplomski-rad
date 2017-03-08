@@ -91,7 +91,7 @@ function editmatchController($scope, $http, $stateParams, $window, $state) {
                     $window.alert("Match added successfully.");
                     //$state.go('editmytournament.team');
                 }, function (response) {
-                    $window.alert("Can't add match.");
+                    $window.alert("Warning: " + response.data.Message);
                 });
         }
     }

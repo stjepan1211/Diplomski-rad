@@ -57,9 +57,9 @@ function editteamController($scope, $http, $stateParams, $window, $state) {
         $http.post('/api/team/add', team)
             .then(function (response) {
                 $window.alert("Team added successfully.");
-                $state.go('editmytournament.team');
+                //$state.go('editmytournament.team');
             }, function (response) {
-                $window.alert("Can't add tournament.");
+                $window.alert("Warning: " + response.data.Message);
             });
     }
     //get teams for selected tournaments

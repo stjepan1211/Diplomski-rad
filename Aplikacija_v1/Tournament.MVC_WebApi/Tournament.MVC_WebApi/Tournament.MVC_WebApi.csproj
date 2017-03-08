@@ -275,6 +275,7 @@
     <Content Include="app\controllers\editcontrollers\editrefereeController.js" />
     <Content Include="app\controllers\editcontrollers\editresultController.js" />
     <Content Include="app\controllers\editcontrollers\editteamController.js" />
+    <Content Include="app\controllers\editcontrollers\edittournamentController.js" />
     <Content Include="app\controllers\galleryController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\loginController.js" />
@@ -288,6 +289,8 @@
     <Content Include="app\js\ADM-dateTimePicker.js" />
     <Content Include="app\js\angular-google-maps.js" />
     <Content Include="app\js\angular-simple-loger.js" />
+    <Content Include="app\js\angularToArrayFilter.js" />
+    <Content Include="app\js\dirPagination.js" />
     <Content Include="app\js\md5.js" />
     <Content Include="app\js\moment.js" />
     <Content Include="app\js\ngDatepicker.js" />
@@ -301,6 +304,7 @@
     <Content Include="app\views\editcategory\editmatch\deletematch.html" />
     <Content Include="app\views\editcategory\editmatch\detailsmatch.html" />
     <Content Include="app\views\editcategory\editmatch\updatematch.html" />
+    <Content Include="app\views\editcategory\editmytournament.html" />
     <Content Include="app\views\editcategory\editplayer.html" />
     <Content Include="app\views\editcategory\editplayer\addplayer.html" />
     <Content Include="app\views\editcategory\editplayer\deleteplayer.html" />
@@ -321,6 +325,7 @@
     <Content Include="app\views\editcategory\editteam\deleteteam.html" />
     <Content Include="app\views\editcategory\editteam\detailsteam.html" />
     <Content Include="app\views\editcategory\editteam\updateteam.html" />
+    <Content Include="app\views\editcategory\edittournament\updatetournament.html" />
     <Content Include="app\views\editmytournament.html" />
     <Content Include="app\views\editcategory\editmatch.html" />
     <Content Include="app\views\gallery.html" />

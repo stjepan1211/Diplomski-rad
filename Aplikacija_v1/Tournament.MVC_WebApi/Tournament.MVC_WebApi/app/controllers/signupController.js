@@ -3,6 +3,13 @@ angular.module('TournamentModule').controller('signupController', ['$scope', '$h
 
 function signupController($scope, $http, $stateParams, $window, $state, $location, md5) {
 
+    $scope.$on('LOAD', function () {
+        $scope.loading = true;
+    })
+    $scope.$on('UNLOAD', function () {
+        $scope.loading = false;
+    })
+
     var takenUsernames = {
         UserName: undefined
     };
@@ -59,6 +66,8 @@ function signupController($scope, $http, $stateParams, $window, $state, $locatio
             }
             else
             {
+                $scope.$emit('LOAD');
+
                 var user = {
                     Address: $scope.signupData.Address,
                     Place: $scope.signupData.Place,
@@ -86,6 +95,7 @@ function signupController($scope, $http, $stateParams, $window, $state, $locatio
 
                 $http.post('/api/aspnetuser/add', user)
                     .then(function (response) {
+                        $scope.$emit('UNLOAD');
                         $window.alert("You are registered.");
                         $location.path('/login');
                     }, function (response) {

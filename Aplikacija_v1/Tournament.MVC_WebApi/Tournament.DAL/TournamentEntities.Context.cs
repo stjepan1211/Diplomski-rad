@@ -86,5 +86,4 @@ namespace Tournament.DAL
             }
         }
     }
-
 }

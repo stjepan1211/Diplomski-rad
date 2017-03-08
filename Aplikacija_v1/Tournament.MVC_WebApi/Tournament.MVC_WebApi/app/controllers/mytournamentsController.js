@@ -33,7 +33,7 @@ function mytournamentsController($scope, $http, $stateParams, $window, $state, A
             if(response.data != undefined)
                 $scope.tournamentNotAdded = false;
         }, function (response) {
-            $window.alert("Couldn't get response.");
+            $window.alert("Error: " + response.data.Message);
         });
     }
 

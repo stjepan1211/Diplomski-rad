@@ -1,7 +1,7 @@
 ﻿//Define tournaments controller
-angular.module('TournamentModule').controller('addTournamentController', ['$scope', '$http', '$stateParams', '$window', '$state','AuthenticationService', addTournamentController]);
+angular.module('TournamentModule').controller('addTournamentController', ['$scope', '$http', '$stateParams', '$window', '$state','AuthenticationService','uiGmapGoogleMapApi', addTournamentController]);
 
-function addTournamentController($scope, $http, $stateParams, $window, $state, AuthenticationService) {
+function addTournamentController($scope, $http, $stateParams, $window, $state, AuthenticationService, uiGmapGoogleMapApi) {
 
     var Place = undefined;
     var StartDate = undefined;
@@ -22,67 +22,91 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
         Name: undefined,
         NumberOfTeams: undefined
     }
-    //initial and handle objects and events on google map
-    angular.extend($scope, {
-        map: {
-            center: {
-                latitude: 45.5511111,
-                longitude: 18.6938889
-            },
-            zoom: 11,
-            markers: [],
-            markersEvents: {
-                click: function (marker, eventName, model) {
-                    $scope.map.window.model = model;
-                    $scope.map.window.show = true;
-                    $scope.address = Place;
-                }
-            },
-            events: {
-                click: function (map, eventName, originalEventArgs) {
-                    var e = originalEventArgs[0];
-                    var geocoder = new google.maps.Geocoder();
-                    var lat = e.latLng.lat(), lon = e.latLng.lng();
-                    var latlng = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
-                    //get place/address grom geocoder
-                    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                        if (status == google.maps.GeocoderStatus.OK) {
-                            if (results[1]) {
-                                //console.log(results[1].formatted_address); // details address
-                                Place = results[1].formatted_address;
-                            } else {
-                                console.log('Location not found');
-                                address = 'Address is unknown';
-                            }
-                        } else {
-                            console.log('Geocoder failed due to: ' + status);
-                        }
-                    });
-                    //set id and longitude and latitude for marker
-                    var marker = {
-                        id: Date.now(),
-                        coords: {
-                            latitude: lat,
-                            longitude: lon
-                        }
-                    };
-                    while ($scope.map.markers.length > 0) {
-                        $scope.map.markers.pop();
-                    }
-                    $scope.map.markers.push(marker);
-                    $scope.$apply();
-                }
-            },
-            window: {
-                marker: {},
-                show: false,
-                closeClick: function () {
-                    this.show = false;
+
+    //uiGmapGoogleMapApi.then(function (maps) {
+    //    // Configuration needed to display the road-map with traffic
+    //    // Displaying Ile-de-france (Paris neighbourhood)
+    //    maps.visualRefresh = true;
+    //    $scope.map = {
+    //        center: {
+    //            latitude: -23.598763,
+    //            longitude: -46.676547
+    //        },
+    //        zoom: 13,
+    //        options: {
+    //            mapTypeId: google.maps.MapTypeId.ROADMAP, // This is an example of a variable that cannot be placed outside of uiGmapGooogleMapApi without forcing of calling ( like ugly people ) the google.map helper outside of the function
+    //            streetViewControl: false,
+    //            mapTypeControl: false,
+    //            scaleControl: false,
+    //            rotateControl: false,
+    //            zoomControl: false
+    //        },
+    //        showTraficLayer: true
+    //    };
+    //    console.log($scope.map);
+    //    $scope.isOffline = false;
+    //})
+        //initial and handle objects and events on google map
+        angular.extend($scope, {
+            map: {
+                center: {
+                    latitude: 45.5511111,
+                    longitude: 18.6938889
                 },
-                options: {}
+                zoom: 11,
+                markers: [],
+                markersEvents: {
+                    click: function (marker, eventName, model) {
+                        $scope.map.window.model = model;
+                        $scope.map.window.show = true;
+                        $scope.address = Place;
+                    }
+                },
+                events: {
+                    click: function (map, eventName, originalEventArgs) {
+                        var e = originalEventArgs[0];
+                        var geocoder = new google.maps.Geocoder();
+                        var lat = e.latLng.lat(), lon = e.latLng.lng();
+                        var latlng = new google.maps.LatLng(e.latLng.lat(), e.latLng.lng());
+                        //get place/address grom geocoder
+                        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                if (results[1]) {
+                                    //console.log(results[1].formatted_address); // details address
+                                    Place = results[1].formatted_address;
+                                } else {
+                                    console.log('Location not found');
+                                    address = 'Address is unknown';
+                                }
+                            } else {
+                                console.log('Geocoder failed due to: ' + status);
+                            }
+                        });
+                        //set id and longitude and latitude for marker
+                        var marker = {
+                            id: Date.now(),
+                            coords: {
+                                latitude: lat,
+                                longitude: lon
+                            }
+                        };
+                        while ($scope.map.markers.length > 0) {
+                            $scope.map.markers.pop();
+                        }
+                        $scope.map.markers.push(marker);
+                        $scope.$apply();
+                    }
+                },
+                window: {
+                    marker: {},
+                    show: false,
+                    closeClick: function () {
+                        this.show = false;
+                    },
+                    options: {}
+                }
             }
-        }
-    });
+        });
 
     //set watchers on date pickers
     //for server, date need to be in YYYY-MM-DD format
@@ -133,10 +157,7 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
             $window.alert("Please select end date.");
         }
         else if ($scope.addtournamentdata.NumberOfTeams == undefined) {
-            $window.alert("Please add number of teams.");
-        }
-        else if ($scope.addtournamentdata.NumberOfTeams > 20 || $scope.addtournamentdata.NumberOfTeams < 2) {
-            $window.alert("Number of teams for league type must be lower than 20 annd greater than 2.");
+            $window.alert("Please add number of teams. It can be between 2 and 32.");
         }
         //else if ($scope.addtournamentdata.AspNetUserId == undefined) {
         //    $window.alert("To add tournament you need to log in first.");
@@ -173,7 +194,7 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
             //post two different objects
             $http({
                 method: 'POST',
-                url: '/api/tournament/add',
+                url: '/api/result/add',
                 data: {
                     tournament: tournament,
                     location: location
@@ -183,7 +204,7 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
                         $window.alert("Tournament added successfully.");
                         $state.go('mytournaments');
                     }, function (response) {
-                        $window.alert("Can't add tournament.");
+                        $window.alert("Error: " + response.data.Message);
                     });
         }
     }

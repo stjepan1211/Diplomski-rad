@@ -18,6 +18,8 @@ namespace Tournament.Model
         public Nullable<int> NumberOfMatches { get; set; }
         public Nullable<int> NumberOfTeams { get; set; }
         public Nullable<int> Rounds { get; set; }
+        public Nullable<bool> IsScheduled { get; set; }
+
         public virtual ICollection<IGalleryDomain> Galleries { get; set; }
         public virtual ICollection<ILocationDomain> Locations { get; set; }
         public virtual ICollection<IMatchDomain> Matches { get; set; }

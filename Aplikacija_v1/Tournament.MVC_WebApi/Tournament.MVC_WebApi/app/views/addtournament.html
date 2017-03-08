@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group col-lg-3">
                         <label>Number of teams:</label>
-                        <input type="number" min="0" max="20" placeholder="Enter Number of Teams Name Here.." class="form-control" required ng-model="addtournamentdata.NumberOfTeams" />
+                        <input type="number" min="2" max="32" placeholder="Enter Number of Teams Name Here.." class="form-control" required ng-model="addtournamentdata.NumberOfTeams" />
                     </div>
                     <div class="form-group col-lg-2">
                         <label>Start date:</label>
@@ -47,7 +47,7 @@
                     </div>
                 </div>  
                 <!-- google maps div --> 
-                <div>
+                <div class="map-wrapper">
                     <ui-gmap-google-map center="map.center" zoom="map.zoom" events="map.events">
                         <ui-gmap-window ng-repeat="m in map.markers"
                                         coords="m.coords"

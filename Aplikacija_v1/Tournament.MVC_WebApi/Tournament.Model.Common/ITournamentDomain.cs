@@ -17,6 +17,8 @@ namespace Tournament.Model.Common
         Nullable<int> NumberOfMatches { get; set; }
         Nullable<int> NumberOfTeams { get; set; }
         Nullable<int> Rounds { get; set; }
+        Nullable<bool> IsScheduled { get; set; }
+
         ICollection<IGalleryDomain> Galleries { get; set; }
         ICollection<ILocationDomain> Locations { get; set; }
         ICollection<IMatchDomain> Matches { get; set; }
