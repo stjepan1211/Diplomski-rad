@@ -1,4 +1,4 @@
-﻿<div class="container"  ng-controller="galleryController">
+﻿<div class="container"  ng-controller="galleryController" ng-init="getImages()">
     
     <h2 class="well">TOURNAMENTS GALLERY:</h2>
     <br />
@@ -7,7 +7,7 @@
 
         <img ng-show="loaded" bg-image class="center-block fullBggallery {{currentAnimation}}" ng-repeat="slide in slides"
              ng-if="isCurrentSlideIndex($index)"
-             ng-src="{{slide.src}}">
+             ng-src="{{slide.Url}}" />
 
     </div>
 

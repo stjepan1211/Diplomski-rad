@@ -2,20 +2,20 @@
     <form name="updatePlayerForm">
         <div class="row">
             <div class="col-lg-3">
-                <label>Select player:</label>
+                <label>Select team:</label>
             </div>
             <div class="col-lg-6">
-                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateplayerselected" ng-options="item as item.Surname + ' - ' + item.Name for item in getPlayerDataByTournament">
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateteamselected" ng-options="item as item.Name for item in getTeamDataByTournament" ng-change="getPlayers(updateteamselected.Id)">
                     <optgroup label="Select player:"></optgroup>
                 </select>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <label>Select team:</label>
+                <label>Select player:</label>
             </div>
             <div class="col-lg-6">
-                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateteamselected" ng-options="item as item.Name for item in getTeamDataByTournament"></select>
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateplayerselected" ng-options="item as item.Surname + ' - ' + item.Name for item in getPlayerDataByTeam"></select>
             </div>
         </div>
         <div class="row">
@@ -52,12 +52,7 @@
                 <input type="number" placeholder="Red cards number Here.." class="form-control" required ng-model="updatePlayerData.RedCards" />
             </div>
         </div>
-        <div class="row">
-            <label class="col-lg-3">Matches played:</label>
-            <div class="col-lg-6">
-                <input type="number" placeholder="Matches Played Here.." class="form-control" required ng-model="updatePlayerData.GamesPlayed" />
-            </div>
-        </div>
+
         <button ng-disabled="updatePlayerForm.$invalid" type="button" class="btn btn-lg btn-info" ng-click="updatePlayer()">Update player</button> 
     </form>
 </div>

@@ -9,7 +9,7 @@
                 <label>Select match:</label>
             </div>
             <div class="col-lg-6">
-                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="addresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="checkTeamDependencies(addresultmatchselected.Team.Id,addresultmatchselected.Team1.Id);"></select>
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="addresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name + ' Round: ' + item.Round + ' ' + item.Results[0].TeamOneGoals + ':' + item.Results[0].TeamTwoGoals for item in matches" ng-change="checkTeamDependencies(addresultmatchselected.Team.Id,addresultmatchselected.Team1.Id);"></select>
             </div>
         </div>
     <!-- SHOW ONLY IF ALL DEPENDICESA ARE ADDED - PLAYERS -->

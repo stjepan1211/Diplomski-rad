@@ -120,8 +120,7 @@ function editplayerController($scope, $http, $stateParams, $window, $state) {
     //update player
     $scope.updatePlayer = function () {
         if ($scope.updateteamselected.Id == undefined || $scope.updatePlayerData.Name == undefined || $scope.updatePlayerData.Surname == undefined ||
-            $scope.updatePlayerData.Goals == undefined || $scope.updatePlayerData.YellowCards == undefined || $scope.updatePlayerData.RedCards == undefined ||
-            $scope.updatePlayerData.GamesPlayed == undefined) {
+            $scope.updatePlayerData.Goals == undefined || $scope.updatePlayerData.YellowCards == undefined || $scope.updatePlayerData.RedCards == undefined) {
             $window.alert("You need to set all properties to update player.");
         }
         else
@@ -134,7 +133,7 @@ function editplayerController($scope, $http, $stateParams, $window, $state) {
                 Goals: $scope.updatePlayerData.Goals,
                 YellowCards: $scope.updatePlayerData.YellowCards,
                 RedCards: $scope.updatePlayerData.RedCards,
-                GamesPlayed: $scope.updatePlayerData.GamesPlayed
+                GamesPlayed: 0
             }
             console.log(player)
             $http.put('api/player/update', player)

@@ -138,7 +138,7 @@ function editresultController($scope, $http, $stateParams, $window, $state, $rou
             $window.alert("Please add team goals")
         }
         else if ($scope.detailsResultData.MatchId != $scope.updateresultmatchselected.Id) {
-            $window.alert("Imamo problem");
+            $window.alert("Can't update result.");
         }
         else {
             var result = {
@@ -147,13 +147,23 @@ function editresultController($scope, $http, $stateParams, $window, $state, $rou
                 TeamOneGoals: $scope.updateResultData.TeamOneGoals,
                 TeamTwoGoals: $scope.updateResultData.TeamTwoGoals
             }
-            $http.put('/api/result/update', result)
-                .then(function (response) {
-                    $window.alert("Result updated successfully.");
-                    $state.go('editmytournament.result');
-                }, function (response) {
-                    $window.alert("Can't update result.");
-                });
+            var penalties = {
+                Were: $scope.checkBox.Penalties,
+                Winner: $scope.winnerOnPenalties
+            }
+            $http({
+                method: 'PUT',
+                url: '/api/result/update',
+                data: {
+                    result: result,
+                    penalties: penalties
+                }
+            }).then(function (response) {
+                $window.alert("Updated successful.");
+                penalties = undefined;
+            }, function (response) {
+                $window.alert("Error: " + response.data.Message);
+            });
         }
     }
 

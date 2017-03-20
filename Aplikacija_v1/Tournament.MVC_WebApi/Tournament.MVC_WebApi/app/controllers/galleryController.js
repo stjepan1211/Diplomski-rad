@@ -1,14 +1,33 @@
 ﻿//Define gallery controller
-angular.module('TournamentModule').controller('galleryController', ['$scope', '$http', '$stateParams', '$window', '$state','$timeout', 'QueueService', galleryController]);
+angular.module('TournamentModule').controller('galleryController', ['$scope', '$http', '$stateParams', '$window', '$state','$timeout','PromiseUtilsService', 'QueueService', galleryController]);
 
-function galleryController($scope, $http, $stateParams, $window, $state, $timeout, QueueService) {
+function galleryController($scope, $http, $stateParams, $window, $state, $timeout, PromiseUtilsService, QueueService) {
 
     var INTERVAL = 10000;
 
-    var slides = [{ id: "image00", src: "http://www.mali-nogomet.hr/img/full/66561_6352.jpg" },
-        { id: "image02", src: "http://www.palmbeachsoccerclub.com.au/wp-content/uploads/2016/01/pb5.jpg" }];
+    //var slides = [{ id: "image00", src: "" }];
 
+    var slides = [{}];
 
+    $scope.getImages = function () {
+        PromiseUtilsService.getPromiseHttpResult($http.get('api/gallery/getall'))
+            .then(function (response) {
+                $scope.slides = response.data;
+
+                angular.forEach($scope.slides, function(value,key){
+                    $http.get('api/tournament/get?id=' + value.TournamentId)
+                        .then(function(response){
+                            value.Tournament = response.data.Name;
+                        }, function(response){
+                        
+                     })
+                })
+
+                console.log($scope.slides);
+            }, function (response) {
+                $window.alert("Couldn't get images.")
+            });
+    }
 
     function setCurrentSlideIndex(index) {
         $scope.currentIndex = index;

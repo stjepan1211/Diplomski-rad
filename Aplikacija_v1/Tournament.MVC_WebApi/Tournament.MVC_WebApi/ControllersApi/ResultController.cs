@@ -375,22 +375,272 @@ namespace Tournament.MVC_WebApi.ControllersApi
 
         [HttpPut]
         [Route("update")]
-        public async Task<HttpResponseMessage> Update(ResultView result)
+        public async Task<HttpResponseMessage> Update(JObject data)
         {
             try
             {
-                ResultView toBeUpdated = Mapper.Map<ResultView>(await ResultService.Read(result.Id));
+                //get result object from Json
+                ResultView result = data["result"].ToObject<ResultView>();
 
-                if (toBeUpdated == null)
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Entry not found");
+                ResultView resultToBeUpdated = Mapper.Map<ResultView>(await ResultService.Read(result.Id));
 
-                toBeUpdated.TeamOneGoals = result.TeamOneGoals;
-                toBeUpdated.TeamTwoGoals = result.TeamTwoGoals;
-                toBeUpdated.Id = toBeUpdated.Id;
-                toBeUpdated.MatchId = toBeUpdated.MatchId;
-                var response = await ResultService.Update(Mapper.Map<ResultDomain>(toBeUpdated));
+                if (resultToBeUpdated == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Result not found");
 
-                return Request.CreateResponse(HttpStatusCode.OK, response);
+
+
+                //check if penalties was selected and who is winner
+                dynamic penalty = data["penalties"];
+                bool wasPenalties = Convert.ToBoolean(penalty.Were);
+
+                MatchView matchToBeUpdated = Mapper.Map<MatchView>(await Matchservice.Read(result.MatchId));
+
+                if (resultToBeUpdated == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Match not found");
+
+                //check if next round for league and leagu cup next round is generated
+                //if it is user can't change result
+                TournamentView tournament = Mapper.Map<TournamentView>(await TournamentService.Read(matchToBeUpdated.TournametId));
+
+                if(tournament.Type == "Playoff" || tournament.Type == "League cup")
+                {
+                    IEnumerable<MatchView> matchesByRound = Mapper.Map<IEnumerable<MatchView>>(await Matchservice.ReadByTournamentAndRound(tournament.Id,(int)matchToBeUpdated.Round + 1));
+
+                    foreach(var match in matchesByRound)
+                    {
+                        if(match.TeamOneId != null || match.TeamOneId != null)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You can't update this result because you have already generated next round.");
+                        }
+                    }
+                }
+
+
+                TeamView teamOneToBeUpdated = Mapper.Map<TeamView>(await TeamService.Read(matchToBeUpdated.TeamOneId));
+                TeamView teamTwoToBeUpdated = Mapper.Map<TeamView>(await TeamService.Read(matchToBeUpdated.TeamTwoId));
+
+                if (teamOneToBeUpdated == null || teamTwoToBeUpdated == null)
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Teams not found");
+
+                //first it needs to be checked who is winner in updated match
+                //then method need to "delete" old values and add news
+                if (result.TeamOneGoals > result.TeamTwoGoals)
+                {
+                    if (wasPenalties)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "To add penalties score must be even.");
+
+                    //here goes tricky part
+                    //first, from team table, old values - won, lost, draw, scored, recieved, points need to be "deleted"
+                    //first check who was winner in first added result
+
+                    //"delete" old values
+                    if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals > matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamOneToBeUpdated.Won = teamOneToBeUpdated.Won - 1;
+                        teamOneToBeUpdated.Points = teamOneToBeUpdated.Points - 3;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                        teamTwoToBeUpdated.Lost = teamTwoToBeUpdated.Lost - 1;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+
+                    }
+                    else if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals < matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamTwoToBeUpdated.Won = teamTwoToBeUpdated.Won - 1;
+                        teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points - 3;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+
+                        teamOneToBeUpdated.Lost = teamOneToBeUpdated.Lost - 1;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                    }
+                    else if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals == matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamOneToBeUpdated.Draw = teamOneToBeUpdated.Draw - 1;
+                        teamOneToBeUpdated.Points = teamOneToBeUpdated.Points - 1;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                        teamTwoToBeUpdated.Draw = teamTwoToBeUpdated.Draw - 1;
+                        teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points - 1;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                    }
+                    //add new values
+                    //update row in result table
+                    resultToBeUpdated.TeamOneGoals = result.TeamOneGoals;
+                    resultToBeUpdated.TeamTwoGoals = result.TeamTwoGoals;
+                    //update row in match table
+                    matchToBeUpdated.Winner = teamOneToBeUpdated.Id;
+                    matchToBeUpdated.Penalties = false;
+                    //update rows in team table
+                    //team one
+                    teamOneToBeUpdated.Won = teamOneToBeUpdated.Won + 1;
+                    teamOneToBeUpdated.Points = teamOneToBeUpdated.Points + 3;
+                    teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored + resultToBeUpdated.TeamOneGoals;
+                    teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved + resultToBeUpdated.TeamTwoGoals;
+                    //team two
+                    teamTwoToBeUpdated.Lost = teamTwoToBeUpdated.Lost + 1;
+                    teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored + resultToBeUpdated.TeamTwoGoals;
+                    teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved + resultToBeUpdated.TeamOneGoals;
+
+                    await ResultService.Update(Mapper.Map<ResultDomain>(resultToBeUpdated));
+                    await Matchservice.Update(Mapper.Map<MatchDomain>(matchToBeUpdated));
+                    await TeamService.Update(Mapper.Map<TeamDomain>(teamOneToBeUpdated));
+                    await TeamService.Update(Mapper.Map<TeamDomain>(teamTwoToBeUpdated));
+
+                    return Request.CreateResponse(HttpStatusCode.OK, 1);
+
+                }
+                else if (result.TeamOneGoals < result.TeamTwoGoals)
+                {
+                    if (wasPenalties)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "To add penalties score must be even.");
+
+                    //"delete" old values
+                    if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals > matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamOneToBeUpdated.Won = teamOneToBeUpdated.Won - 1;
+                        teamOneToBeUpdated.Points = teamOneToBeUpdated.Points - 3;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                        teamTwoToBeUpdated.Lost = teamTwoToBeUpdated.Lost - 1;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+
+                    }
+                    else if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals < matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamTwoToBeUpdated.Won = teamTwoToBeUpdated.Won - 1;
+                        teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points - 3;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+
+                        teamOneToBeUpdated.Lost = teamOneToBeUpdated.Lost - 1;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                    }
+                    else if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals == matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamOneToBeUpdated.Draw = teamOneToBeUpdated.Draw - 1;
+                        teamOneToBeUpdated.Points = teamOneToBeUpdated.Points - 1;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                        teamTwoToBeUpdated.Draw = teamTwoToBeUpdated.Draw - 1;
+                        teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points - 1;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                    }
+
+                    //add new values
+                    //update row in result table
+                    resultToBeUpdated.TeamOneGoals = result.TeamOneGoals;
+                    resultToBeUpdated.TeamTwoGoals = result.TeamTwoGoals;
+                    //update row in match table
+                    matchToBeUpdated.Winner = teamTwoToBeUpdated.Id;
+                    matchToBeUpdated.Penalties = false;
+                    //update rows in team table
+                    //team one
+                    teamTwoToBeUpdated.Won = teamTwoToBeUpdated.Won + 1;
+                    teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points + 3;
+                    teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored + resultToBeUpdated.TeamTwoGoals;
+                    teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved + resultToBeUpdated.TeamOneGoals;
+                    //team two
+                    teamOneToBeUpdated.Lost = teamOneToBeUpdated.Lost + 1;
+                    teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored + resultToBeUpdated.TeamOneGoals;
+                    teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved + resultToBeUpdated.TeamTwoGoals;
+
+                    await ResultService.Update(Mapper.Map<ResultDomain>(resultToBeUpdated));
+                    await Matchservice.Update(Mapper.Map<MatchDomain>(matchToBeUpdated));
+                    await TeamService.Update(Mapper.Map<TeamDomain>(teamOneToBeUpdated));
+                    await TeamService.Update(Mapper.Map<TeamDomain>(teamTwoToBeUpdated));
+
+                    return Request.CreateResponse(HttpStatusCode.OK, 1);
+
+                }
+                else if (result.TeamOneGoals == result.TeamTwoGoals)
+                {
+                    if (!wasPenalties)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You need to select penalties.");
+
+                    if(penalty.Winner == null)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You need to add penalty winner.");
+
+                    //"delete" old values
+                    if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals > matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamOneToBeUpdated.Won = teamOneToBeUpdated.Won - 1;
+                        teamOneToBeUpdated.Points = teamOneToBeUpdated.Points - 3;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                        teamTwoToBeUpdated.Lost = teamTwoToBeUpdated.Lost - 1;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+
+                    }
+                    else if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals == matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamTwoToBeUpdated.Won = teamTwoToBeUpdated.Won - 1;
+                        teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points - 3;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+
+                        teamOneToBeUpdated.Lost = teamOneToBeUpdated.Lost - 1;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                    }
+                    else if (matchToBeUpdated.Results.ElementAt(0).TeamOneGoals == matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals)
+                    {
+                        teamOneToBeUpdated.Draw = teamOneToBeUpdated.Draw - 1;
+                        teamOneToBeUpdated.Points = teamOneToBeUpdated.Points - 1;
+                        teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                        teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+
+                        teamTwoToBeUpdated.Draw = teamTwoToBeUpdated.Draw - 1;
+                        teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points - 1;
+                        teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored - matchToBeUpdated.Results.ElementAt(0).TeamTwoGoals;
+                        teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved - matchToBeUpdated.Results.ElementAt(0).TeamOneGoals;
+                    }
+
+
+                    //add new values
+                    //update row in result table
+                    resultToBeUpdated.TeamOneGoals = result.TeamOneGoals;
+                    resultToBeUpdated.TeamTwoGoals = result.TeamTwoGoals;
+                    //update row in match table
+                    matchToBeUpdated.Winner = penalty.Winner;
+                    matchToBeUpdated.Penalties = true;
+                    //update rows in team table
+                    //team one
+                    teamTwoToBeUpdated.Draw = teamTwoToBeUpdated.Draw + 1;
+                    teamTwoToBeUpdated.Points = teamTwoToBeUpdated.Points + 1;
+                    teamTwoToBeUpdated.GoalsScored = teamTwoToBeUpdated.GoalsScored + resultToBeUpdated.TeamTwoGoals;
+                    teamTwoToBeUpdated.GoalsRecieved = teamTwoToBeUpdated.GoalsRecieved + resultToBeUpdated.TeamOneGoals;
+                    //team two
+                    teamOneToBeUpdated.Draw = teamOneToBeUpdated.Draw + 1;
+                    teamOneToBeUpdated.Points = teamOneToBeUpdated.Points + 1;
+                    teamOneToBeUpdated.GoalsScored = teamOneToBeUpdated.GoalsScored + resultToBeUpdated.TeamOneGoals;
+                    teamOneToBeUpdated.GoalsRecieved = teamOneToBeUpdated.GoalsRecieved + resultToBeUpdated.TeamTwoGoals;
+
+                    await ResultService.Update(Mapper.Map<ResultDomain>(resultToBeUpdated));
+                    await Matchservice.Update(Mapper.Map<MatchDomain>(matchToBeUpdated));
+                    await TeamService.Update(Mapper.Map<TeamDomain>(teamOneToBeUpdated));
+                    await TeamService.Update(Mapper.Map<TeamDomain>(teamTwoToBeUpdated));
+
+                    return Request.CreateResponse(HttpStatusCode.OK, 1);
+
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, 1);
             }
             catch (Exception e)
             {

@@ -3,12 +3,22 @@ angular.module('TournamentModule').controller('homeController', ['$scope', '$htt
 
 function homeController($scope, $http, $stateParams, $window, $state) {
 
-    initController();
-
-    function initController() {
-        
+    $scope.getInProgressTouraments = function () {
+        $http.get('api/tournament/getinprogresstournaments')
+            .then(function (response) {
+                $scope.tournamentInProgressData = response.data;
+            }, function (response) {
+                console.log("Can't get in progress tournaments.");
+            });
     }
 
-    
+    $scope.getTouramentsAnnouncements = function () {
+        $http.get('api/tournament/gettournamentannouncements')
+            .then(function (response) {
+                $scope.tournamentAnnouncements = response.data;
+            }, function (response) {
+                console.log("Can't get in progress tournaments.");
+            });
+    }
 
 }

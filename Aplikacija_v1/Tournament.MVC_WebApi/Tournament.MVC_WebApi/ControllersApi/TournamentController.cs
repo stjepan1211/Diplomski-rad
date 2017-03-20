@@ -71,6 +71,58 @@ namespace Tournament.MVC_WebApi.ControllersApi
         }
 
         [HttpGet]
+        [Route("getinprogresstournaments")]
+        public async Task<HttpResponseMessage> GetInProgressTournaments()
+        {
+            try
+            {
+                List<TournamentView> Tournaments = Mapper.Map<IEnumerable<TournamentView>>(await TournamentService.ReadAll()).ToList();
+                DateTime Now = DateTime.Now;
+                //check if tournament is over and delete it from list
+                foreach(var tournament in Tournaments.ToList())
+                {
+                    if((Now > tournament.EndTime) || !(Now < tournament.EndTime && Now > tournament.StartTime))
+                    {
+                        Tournaments.Remove(tournament);
+                    }
+                }
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, Tournaments);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("gettournamentannouncements")]
+        public async Task<HttpResponseMessage> GetTournamentsAnnouncements()
+        {
+            try
+            {
+                List<TournamentView> Tournaments = Mapper.Map<IEnumerable<TournamentView>>(await TournamentService.ReadAll()).ToList();
+                DateTime Now = DateTime.Now;
+                //check if tournament is over and delete it from list
+                foreach (var tournament in Tournaments.ToList())
+                {
+                    if (!(tournament.StartTime > Now && tournament.StartTime < Now.AddDays(30)))
+                    {
+                        Tournaments.Remove(tournament);
+                    }
+                }
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, Tournaments);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
         [Route("getbyusername")]
         public async Task<HttpResponseMessage> GetByUsername(string username)
         {

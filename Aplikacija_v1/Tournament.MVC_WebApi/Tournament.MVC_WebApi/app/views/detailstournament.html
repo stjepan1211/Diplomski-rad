@@ -35,7 +35,7 @@
                         Lost
                     </th>
                     <th>
-                        Goals diff.
+                        Goal diff.
                     </th>
                     <th  ng-show="tournament.Type == 'League' || tournament.Type == 'League cup'" ng-click="sort('Points')">
                         <span class="glyphicon sort-icon" ng-show="sortKey=='Points'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
@@ -103,40 +103,55 @@
         <div class="row">
             <label class="col-lg-1">Round 1:</label>
             <ul class="list-inline col-lg-11" style="text-align: center">
-                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundOneData">{{item.Team2.Name}} </li>
+                <li style="background-color:#00b300;color:black" title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundOneData">
+                    <span><b><i>{{item.Team2.Name}}</i></b></span> 
+                </li>
             </ul>
         </div>
-
+        <hr class="hrstyle" />
         <!-- Round 2 winners -->
         <div class="row"  style="text-align: center">
             <label  class="col-lg-1">Round 2:</label>
             <ul class="list-inline col-lg-11">
-                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundTwoData">{{item.Team2.Name}}</li>
+                <li style="background-color:#00cc00;color:black" title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundTwoData">
+                    <span><b><i>{{item.Team2.Name}}</i></b></span>
+                </li>
             </ul>
         </div>
+
+        <hr class="hrstyle" ng-show="tournament.Rounds > 2"/>
         <!-- Round 3 winners -->
-        <div class="row"  style="text-align: center"  ng-show="tournament.Rounds > 2 ">
+        <div class="row"  style="text-align: center"  ng-show="tournament.Rounds > 2">
             <label class="col-lg-1">Round 3:</label>
             <ul class="list-inline col-lg-11">
-                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundThreeData">{{item.Team2.Name}}</li>
+                <li style="background-color:#00e600;color:black" title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundThreeData">
+                    <span><b><i>{{item.Team2.Name}}</i></b></span>
+                </li>
             </ul>
         </div>
+
+        <hr class="hrstyle" ng-show="tournament.Rounds > 3 "/>
         <!-- Round 4 winners -->
         <div class="row"  style="text-align: center" ng-show="tournament.Rounds > 3 ">
             <label class="col-lg-1">Round 4:</label>
             <ul class="list-inline col-lg-11">
-                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundFourData">{{item.Team2.Name}}</li>
+                <li style="background-color:#00ff00;color:black" title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundFourData">
+                    <span><b><i>{{item.Team2.Name}}</i></b></span>
+                </li>
             </ul>
         </div>
+
+        <hr class="hrstyle" ng-show="tournament.Rounds > 4" />
         <!-- Round 5 winners -->
         <div class="row"  style="text-align: center" ng-show="tournament.Rounds > 4">
             <label class="col-lg-1">Round 5:</label>
             <ul class="list-inline col-lg-11">
-                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundFiveData">{{item.Team2.Name}}</li>
+                <li style="background-color:#1aff1a;color:black" title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundFiveData">
+                    <span><b><i>{{item.Team2.Name}}</i></b></span>
+                </li>
             </ul>
         </div>
     </div>
-    <!-- jQuery for popover -->
     <br />
 
 

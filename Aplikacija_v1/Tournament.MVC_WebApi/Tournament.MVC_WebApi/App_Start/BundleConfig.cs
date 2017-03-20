@@ -29,7 +29,8 @@ namespace Tournament.MVC_WebApi
                       "~/Content/angular-material.css",
                       "~/Content/angular-datepicker.css",
                       "~/Content/ADM-dateTimePicker.css",
-                      "~/Content/slide.css"
+                      "~/Content/slide.css",
+                      "~/Content/winnersbyrounds.css"
                       ));
 
             bundles.Add(new ScriptBundle("~/app/js").Include(

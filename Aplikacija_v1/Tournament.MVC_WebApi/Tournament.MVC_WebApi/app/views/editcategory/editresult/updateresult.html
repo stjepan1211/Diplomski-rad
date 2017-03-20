@@ -9,7 +9,7 @@
                 <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="getresultdetails(updateresultmatchselected.Id)"></select>
             </div>
         </div>
-        <div ng-show="false">
+        <div ng-show="updateresultmatchselected.Winner != undefined">
             <div class="row col-lg-12">
                 <div class="col-lg-3">
                     <label>Previous result:</label>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="row col-lg-12">
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <label>Team {{updateresultmatchselected.Team.Name}} goals:</label>
                 </div>
                 <div class="col-lg-6">
@@ -27,13 +27,38 @@
                 </div>
             </div>
             <div class="row col-lg-12">
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <label>Team {{updateresultmatchselected.Team1.Name}} goals:</label>
                 </div>
                 <div class="col-lg-6">
                     <input type="number" min="0" max="100" placeholder="Enter Number Of Goals Here..." class="form-control" required ng-model="updateResultData.TeamTwoGoals" />
                 </div>
             </div>
+            <!-- check for penalties -->
+            <div class="row col-lg-12">
+                <div class="col-lg-2">
+                    <label>Penalties?</label>
+                </div>
+                <div class="col-lg-1">
+                    <input type="checkbox" ng-model="checkBox.Penalties" />
+                </div>
+                <div class="col-lg-9" ng-show="checkBox.Penalties && (updateResultData.TeamTwoGoals == updateResultData.TeamOneGoals)">
+                    <div class="col-lg-4">
+                        <p>Who won? </p>
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="radio" ng-model="winnerOnPenalties" value="{{updateresultmatchselected.Team.Id}}" />
+                        {{updateresultmatchselected.Team.Name}}
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="radio" ng-model="winnerOnPenalties" value="{{updateresultmatchselected.Team1.Id}}" />
+                        {{updateresultmatchselected.Team1.Name}}
+                    </div>
+                </div>
+            </div>
+            <!-- check for penalties -->
+
+
             <button ng-disabled="updateresultform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="updateResult()">Edit result</button>
         </div>
     </form>
