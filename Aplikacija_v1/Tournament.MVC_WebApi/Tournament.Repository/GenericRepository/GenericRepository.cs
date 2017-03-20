@@ -144,7 +144,8 @@ namespace Tournament.Repository.GenericRepository
             try
             {
                 Context.Set<T>().AddOrUpdate(entity);
-                return await Context.SaveChangesAsync();
+                var response = await Context.SaveChangesAsync();
+                return response;
             }
             catch (Exception e)
             {

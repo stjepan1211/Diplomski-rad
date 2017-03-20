@@ -18,10 +18,14 @@ namespace Tournament.MVC_WebApi.ControllersApi
     {
         protected ITeamService TeamService { get; set; }
         protected ITournamentService TournamentService { get; set; }
-        public TeamController(ITeamService teamService, ITournamentService tournamentService)
+        protected IMatchService MatchService { get; set; }
+        protected IPlayerService PlayerService { get; set; }
+        public TeamController(ITeamService teamService, ITournamentService tournamentService, IMatchService matchService, IPlayerService playerService)
         {
             this.TeamService = teamService;
             this.TournamentService = tournamentService;
+            this.MatchService = matchService;
+            this.PlayerService = playerService;
         }
 
         [HttpGet]
@@ -47,6 +51,87 @@ namespace Tournament.MVC_WebApi.ControllersApi
             {
                 var response = Mapper.Map<TeamView>(await TeamService.Read(id));
                 return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("getmostpoints")]
+        public async Task<HttpResponseMessage> GetMostPoints()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<TeamView>>(await TeamService.ReadMostPoints());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("getmostwins")]
+        public async Task<HttpResponseMessage> GetMostWins()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<TeamView>>(await TeamService.ReadMostWins());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("getmostgoals")]
+        public async Task<HttpResponseMessage> GetMostGoals()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<TeamView>>(await TeamService.ReadMostGoals());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("getleaguewinners")]
+        public async Task<HttpResponseMessage> GetLeagueTournamentWinner(Guid tournamentId, int numberOfTeams)
+        {
+            try
+            {
+                if (numberOfTeams != 1 && numberOfTeams != 2)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Select number of teams.");
+                }
+                //check if all matches are played
+                IEnumerable<MatchView> matchesInTournament = Mapper.Map<IEnumerable<MatchView>>(await MatchService.ReadMatchesByTournament(tournamentId));
+                foreach(var match in matchesInTournament)
+                {
+                    if(match.Winner == null)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Matches aren't played in that group.");
+                    }
+                }
+                if(numberOfTeams == 1)
+                {
+                    var response = Mapper.Map<TeamView>(await TeamService.ReadWinnerLeagueTournament(tournamentId));
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    var response = Mapper.Map<IEnumerable<TeamView>>(await TeamService.ReadFirstTwoLeagueTournament(tournamentId));
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
             }
             catch (Exception e)
             {
@@ -85,15 +170,29 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You already added " + tournament.NumberOfTeams + " teams.");
                 }
+                //angular sends full object
+                if(tournament.Type != "League cup")
+                {
+                    team.Id = Guid.NewGuid();
+                    team.MatchesPlayed = 0;
+                    team.Won = 0;
+                    team.Lost = 0;
+                    team.Draw = 0;
+                    //team.NumberOfPlayers = 0;
+                    team.NumberOfMatches = tournament.NumberOfTeams - 1;
+                    team.Points = 0;
+                    team.GoalsScored = 0;
+                    team.GoalsRecieved = 0;
+                }
+                if (tournament.Type == "League cup")
+                {
 
-                team.Id = Guid.NewGuid();
-                team.MatchesPlayed = 0;
-                team.Won = 0;
-                team.Lost = 0;
-                team.Draw = 0;
-                //team.NumberOfPlayers = 0;
-                team.NumberOfMatches = tournament.NumberOfTeams - 1;
-                team.Points = 0;
+                    var responseLeagueCup = await TeamService.Update(Mapper.Map<TeamDomain>(team));
+
+                    return Request.CreateResponse(HttpStatusCode.OK, responseLeagueCup);
+
+                }
+
 
                 var response = await TeamService.Add(Mapper.Map<TeamDomain>(team));
 

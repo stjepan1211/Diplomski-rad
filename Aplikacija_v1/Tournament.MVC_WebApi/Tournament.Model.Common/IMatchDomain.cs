@@ -22,5 +22,7 @@ namespace Tournament.Model.Common
         IRefereeDomain Referee { get; set; }
         ITeamDomain Team { get; set; }
         ITeamDomain Team1 { get; set; }
+        ITeamDomain Team2 { get; set; }
+
     }
 }

@@ -1,0 +1,25 @@
+﻿<div ng-controller="editgalleryController" ng-init="getTournamentsByUsername()">
+    
+    <form name="addpictureform">
+        <label>Add new picture:</label>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Select tournament:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="tournamentselected" ng-options="item as item.Name for item in tournamentsByUsername" required>
+                    <optgroup label="Select team:"></optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+                <label>Add URL:</label>
+            </div>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Enter Image Url Here..." class="form-control" required ng-model="imageData.Url" />
+            </div>
+        </div>
+        <button ng-disabled="addpictureform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addImage()">Add</button>
+    </form>
+</div>

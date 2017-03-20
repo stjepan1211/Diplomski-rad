@@ -93,6 +93,21 @@ namespace Tournament.Repository.Repositories
             }
         }
 
+        ////Get Images By Tournament
+        //public async Task<IEnumerable<IGalleryDomain>> GetByTournament(Guid tournamentId)
+        //{
+        //    try
+        //    {
+        //        var response = Mapper.Map<IEnumerable<IGalleryDomain>>(await GenericRepository.GetQueryable<Gallery>()
+        //                .Where(g => g.TournamentId == tournamentId).ToListAsync());
+        //        return response;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
         //Update Gallery
         public async Task<int> Update(IGalleryDomain entity)
         {

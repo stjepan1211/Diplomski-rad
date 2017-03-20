@@ -16,5 +16,6 @@ namespace Tournament.Service.Common
         Task<IEnumerable<ITournamentDomain>> ReadAll();
         Task<int> Update(ITournamentDomain entry);
         Task<IEnumerable<ITournamentDomain>> ReadByUsername(string username);
+        Task<IEnumerable<ITournamentDomain>> ReadLeagueTournaments();
     }
 }

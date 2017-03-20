@@ -16,5 +16,10 @@ namespace Tournament.Service.Common
         Task<IEnumerable<ITeamDomain>> ReadAll();
         Task<int> Update(ITeamDomain entry);
         Task<IEnumerable<ITeamDomain>> GetWhereTournamentId(Guid tournamentId);
+        Task<ITeamDomain> ReadWinnerLeagueTournament(Guid tournamentId);
+        Task<IEnumerable<ITeamDomain>> ReadFirstTwoLeagueTournament(Guid tournamentId);
+        Task<IEnumerable<ITeamDomain>> ReadMostPoints();
+        Task<IEnumerable<ITeamDomain>> ReadMostGoals();
+        Task<IEnumerable<ITeamDomain>> ReadMostWins();
     }
 }

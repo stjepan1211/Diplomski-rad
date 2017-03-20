@@ -63,7 +63,7 @@ function editresultController($scope, $http, $stateParams, $window, $state, $rou
             .then(function(response){
                 $scope.areDependenciesAdded.MatchesTeamsAdded = true;
                 //$window.alert("Teams or matches aren't added for this tournament.");
-            }, function(response) {
+            }, function (response) {
                 $window.alert("Warning: " + response.data.Message);
             })
 
@@ -322,8 +322,15 @@ function editresultController($scope, $http, $stateParams, $window, $state, $rou
                 penalties: penalties
             }
         }).then(function (response) {
-            $window.alert("Data added successful.");
+            $window.alert("Added successful.");
+            team1Scorers.length = 0;
+            team2Scorers.length = 0;
+            playersYellowCards.length = 0;
+            playersRedCards.length = 0;
+            penalties = undefined;
         }, function (response) {
+            console.log(response);
+            console.log(response.data);
             $window.alert("Error: " + response.data.Message);
         });
     }
@@ -331,5 +338,4 @@ function editresultController($scope, $http, $stateParams, $window, $state, $rou
     $scope.changeState = function () {
         $state.reload();
     }
-
 }

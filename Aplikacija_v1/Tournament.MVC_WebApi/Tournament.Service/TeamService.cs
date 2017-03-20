@@ -67,12 +67,82 @@ namespace Tournament.Service
                 throw e;
             }
         }
+        //Get Team with most points
+        public async Task<IEnumerable<ITeamDomain>> ReadMostPoints()
+        {
+            try
+            {
+                var response = await TeamRepository.MostPoints();
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        //Get Team with most wins
+        public async Task<IEnumerable<ITeamDomain>> ReadMostWins()
+        {
+            try
+            {
+                var response = await TeamRepository.MostWins();
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        //Get Team with most goals
+        public async Task<IEnumerable<ITeamDomain>> ReadMostGoals()
+        {
+            try
+            {
+                var response = await TeamRepository.MostGoals();
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         //Get All Teams
         public async Task<IEnumerable<ITeamDomain>> ReadAll()
         {
             try
             {
                 var response = await TeamRepository.GetAll();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        //Get winner League Tournament Teams
+        public async Task<ITeamDomain> ReadWinnerLeagueTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = await TeamRepository.GetLeagueTournamentWinner(tournamentId);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        //Get Two best League Tournament Teams
+        public async Task<IEnumerable<ITeamDomain>> ReadFirstTwoLeagueTournament(Guid tournamentId)
+        {
+            try
+            {
+                var response = await TeamRepository.GetLeagueTournamentFirstTwoTeams(tournamentId);
                 return response;
             }
             catch (Exception ex)

@@ -78,6 +78,15 @@ namespace Tournament.MVC_WebApi.ControllersApi
 
                 gallery.Id = Guid.NewGuid();
 
+                Uri uriResult;
+                bool result = Uri.TryCreate(gallery.Url, UriKind.Absolute, out uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+               if(!result)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid url.");
+                }
+
                 var response = await GalleryService.Add(Mapper.Map<GalleryDomain>(gallery));
 
                 return Request.CreateResponse(HttpStatusCode.OK, response);

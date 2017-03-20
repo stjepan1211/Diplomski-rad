@@ -94,6 +94,21 @@ namespace Tournament.Service
             }
 
         }
+
+        //Get matches by tournament and round
+        public async Task<IEnumerable<IMatchDomain>> ReadByTournamentAndRound(Guid tournamentId, int round)
+        {
+            try
+            {
+                var response = await MatchRepository.GetMatchesByRounds(tournamentId, round);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         //Update Match 
         public async Task<int> Update(IMatchDomain entry)
         {

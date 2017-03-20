@@ -1,7 +1,7 @@
 ﻿//declare module
 var TournamentModule = angular.module('TournamentModule', ['ui.router', 'ngStorage', 'angular-md5', 'ngAnimate', 
     'ngMessages', '720kb.datepicker', 'LocalStorageModule', 'uiGmapgoogle-maps', 'ADM-dateTimePicker', 'ngRoute','angular-loading-bar',
-    'angular-toArrayFilter','angularUtils.directives.dirPagination']);
+    'angular-toArrayFilter','angularUtils.directives.dirPagination', 'ui.bootstrap']);
 
 TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider, localStorageServiceProvider, uiGmapGoogleMapApiProvider) {
 
@@ -9,7 +9,7 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
     localStorageServiceProvider.setStorageType('localStorage');
 
     uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA',
+        //key: 'AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA',
         v: '3.26', //defaults to latest 3.X anyhow
         libraries: 'weather,geometry,visualization'
     });
@@ -21,21 +21,21 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
 
     //define states
     $stateProvider
-        .state('home', {
-            url: '/home',
-            views: {
-                "root": {
-                    templateUrl: 'app/views/home.html',
-                }
-            },
-            controller: navbarController,
-            //onEnter: function() {
-            //    initController();
-            //},
-            //onExit: function() {
-               
-            //}
-        })
+.state('home', {
+    url: '/home',
+    views: {
+        "root": {
+            templateUrl: 'app/views/home.html',
+        }
+    },
+    controller: navbarController,
+    //onEnter: function() {
+    //    initController();
+    //},
+    //onExit: function() {
+
+    //}
+})
         .state('tournaments', {
             url: '/tournaments',
             views: {
@@ -146,6 +146,14 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             views: {
                 "editcategory": {
                     templateUrl: 'app/views/editcategory/editmatch.html'
+                }
+            }
+        })
+        .state('editmytournament.gallery', {
+            url: '/editgallery',
+            views: {
+                "editcategory": {
+                    templateUrl: 'app/views/editcategory/editgallery.html'
                 }
             }
         })
@@ -346,6 +354,22 @@ TournamentModule.config(function ($stateProvider, $urlRouterProvider, $qProvider
             views: {
                 "editresult": {
                     templateUrl: 'app/views/editcategory/editresult/updateresult.html'
+                }
+            }
+        })
+        .state('editmytournament.gallery.add', {
+            url: '/editgalleryadd',
+            views: {
+                "editgallery": {
+                    templateUrl: 'app/views/editcategory/editgallery/addPicture.html'
+                }
+            }
+        })
+        .state('editmytournament.gallery.delete', {
+            url: '/editgallerydelete',
+            views: {
+                "editgallery": {
+                    templateUrl: 'app/views/editcategory/editgallery/deletePicture.html'
                 }
             }
         })

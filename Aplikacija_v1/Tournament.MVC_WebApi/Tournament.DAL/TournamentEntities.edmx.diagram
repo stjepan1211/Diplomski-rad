@@ -30,7 +30,8 @@
         <AssociationConnector Association="Tournament_v1Model.FK_Referee_Tournament" ManuallyRouted="false" />
         <AssociationConnector Association="Tournament_v1Model.FK_Team_Tournament" ManuallyRouted="false" />
         <AssociationConnector Association="Tournament_v1Model.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Tournament_v1Model.Gallery" Width="1.5" PointX="7.5" PointY="13" />
+        <AssociationConnector Association="Tournament_v1Model.FK_Match_Team2" />
+        <EntityTypeShape EntityType="Tournament_v1Model.Gallery" Width="1.5" PointX="7.5" PointY="13.125" />
         <AssociationConnector Association="Tournament_v1Model.FK_Gallery_Tournament" />
       </Diagram>
     </edmx:Diagrams>

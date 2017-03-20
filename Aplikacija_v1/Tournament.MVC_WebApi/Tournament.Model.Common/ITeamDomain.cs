@@ -18,6 +18,8 @@ namespace Tournament.Model.Common
         Nullable<int> NumberOfMatches { get; set; }
         Nullable<int> Draw { get; set; }
         Nullable<int> Points { get; set; }
+        Nullable<int> GoalsScored { get; set; }
+        Nullable<int> GoalsRecieved { get; set; }
         ICollection<IMatchDomain> Matches { get; set; }
         ICollection<IMatchDomain> Matches1 { get; set; }
         ICollection<IPlayerDomain> Players { get; set; }

@@ -107,6 +107,20 @@ namespace Tournament.Service
             }
 
         }
+        //Get Top 20
+        public async Task<IEnumerable<IPlayerDomain>> ReadTopTwenty()
+        {
+            try
+            {
+                var response = await PlayerRepository.GetTopTwenty();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         //Update Player 
         public async Task<int> Update(IPlayerDomain entry)
         {

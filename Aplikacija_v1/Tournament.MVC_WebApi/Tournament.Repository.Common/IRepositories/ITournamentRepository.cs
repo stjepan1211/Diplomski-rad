@@ -16,5 +16,6 @@ namespace Tournament.Repository.Common.IRepositories
         Task<IEnumerable<ITournamentDomain>> GetAll();
         Task<int> Update(ITournamentDomain entity);
         Task<IEnumerable<ITournamentDomain>> GetByUsername(string username);
+        Task<IEnumerable<ITournamentDomain>> GetLeagueTournaments();
     }
 }

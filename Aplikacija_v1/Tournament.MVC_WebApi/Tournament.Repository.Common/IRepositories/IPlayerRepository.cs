@@ -17,5 +17,6 @@ namespace Tournament.Repository.Common.IRepositories
         Task<int> Update(IPlayerDomain entity);
         Task<IEnumerable<IPlayerDomain>> GetPlayersByTeam(Guid teamId);
         Task<IEnumerable<IPlayerDomain>> GetAllPlayersByTournament(Guid tournamentId);
+        Task<IEnumerable<IPlayerDomain>> GetTopTwenty();
     }
 }

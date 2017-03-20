@@ -1,22 +1,33 @@
 ﻿<div class="container" ng-controller="mytournamentsController" ng-init="getMyTournaments()">
     <h2 class="well">MY TOURNAMENTS:</h2>
     <br />
-    <table class="table table-responsive table-hover table-bordered table-striped well" ng-show="!tournamentNotAdded">
+    <form class="well">
+        <div class="row">
+            <label>Search by name:  <input ng-model="search.Name" /></label>
+        </div>
+    </form>
+    <br />
+    <table class="table table-responsive table-hover well" ng-show="!tournamentNotAdded">
         <thead>
             <tr>
-                <th>
-                    Start Date
-                </th>
-                <th>
-                    End Date
-                </th>
-                <th>
-                    Type
-                </th>
-                <th>
+                <th ng-click="sort('Name')">
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     Name
                 </th>
-                <th>
+                <th ng-click="sort('Type')">
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='Type'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    Type
+                </th>
+                <th ng-click="sort('StartTime')">
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='StartTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    Start Date
+                </th>
+                <th ng-click="sort('EndTime')">
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='EndTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    End Date
+                </th>
+                <th ng-click="sort('Locations[0].Place')">
+                    <span class="glyphicon sort-icon" ng-show="sortKey=='Locations[0].Place'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     Location
                 </th>
                 <th>
@@ -24,19 +35,19 @@
                 </th>
             </tr>
         </thead>
-        <tbody ng-repeat="item in myTournamentData">
+        <tbody dir-paginate="item in myTournamentData | toArray:false | orderBy:sortKey:reverse | filter: {Name: search.Name} | itemsPerPage:5">
             <tr>
-                <td ng-bind="item.StartTime | date:'yyyy-dd-MM'">
-                    {{item.StartTime}}
-                </td>
-                <td ng-bind="item.EndTime | date:'yyyy-dd-MM'">
-                    {{item.EndTime}}
+                <td>
+                    {{item.Name}}
                 </td>
                 <td>
                     {{item.Type}}
                 </td>
-                <td>
-                    {{item.Name}}
+                <td ng-bind="item.StartTime | date:'yyyy-MM-dd'">
+                    {{item.StartTime}}
+                </td>
+                <td ng-bind="item.EndTime | date:'yyyy-MM-dd'">
+                    {{item.EndTime}}
                 </td>
                 <td>
                     {{item.Locations[0].Place}}
@@ -47,6 +58,13 @@
             </tr>
         </tbody>
     </table>
-
+    <div class="col-lg-12 row">
+        <dir-pagination-controls 
+                                 class="pull-right"
+                                 max-size="5"
+                                 direction-links="true"
+                                 boundary-links="true">
+        </dir-pagination-controls>
+    </div>
     <h3 class="well" ng-show="tournamentNotAdded">You haven't add any tournament</h3>
 </div>

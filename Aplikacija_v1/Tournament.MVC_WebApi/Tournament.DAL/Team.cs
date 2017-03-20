@@ -20,6 +20,7 @@ namespace Tournament.DAL
             this.Matches = new HashSet<Match>();
             this.Matches1 = new HashSet<Match>();
             this.Players = new HashSet<Player>();
+            this.Matches2 = new HashSet<Match>();
         }
     
         public System.Guid Id { get; set; }
@@ -32,6 +33,8 @@ namespace Tournament.DAL
         public Nullable<int> NumberOfMatches { get; set; }
         public Nullable<int> Draw { get; set; }
         public Nullable<int> Points { get; set; }
+        public Nullable<int> GoalsScored { get; set; }
+        public Nullable<int> GoalsRecieved { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Match> Matches { get; set; }
@@ -40,5 +43,7 @@ namespace Tournament.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Player> Players { get; set; }
         public virtual Tournament Tournament { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Match> Matches2 { get; set; }
     }
 }

@@ -66,7 +66,7 @@ function signupController($scope, $http, $stateParams, $window, $state, $locatio
             }
             else
             {
-                $scope.$emit('LOAD');
+                
 
                 var user = {
                     Address: $scope.signupData.Address,
@@ -93,13 +93,15 @@ function signupController($scope, $http, $stateParams, $window, $state, $locatio
 
                 user.PasswordHash = md5.createHash($scope.signupData.PasswordHash || '');
 
+                $scope.$emit('LOAD');
                 $http.post('/api/aspnetuser/add', user)
                     .then(function (response) {
                         $scope.$emit('UNLOAD');
-                        $window.alert("You are registered.");
+                        $window.alert("Response: " + response.data.toString());
                         $location.path('/login');
                     }, function (response) {
-                        $window.alert("Can't register user.");
+                        $scope.$emit('UNLOAD');
+                        $window.alert("Error: " + response.data);
                     });
             }
     }

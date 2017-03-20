@@ -1,4 +1,20 @@
-﻿<div class="container" ng-controller="galleryController">
-    <h1>Pozdrav iz gallery</h1>
-    ovdje dodaj dropdown koji uneseni tournament zeli i iz toga izbaci galeriju
+﻿<div class="container"  ng-controller="galleryController">
+    
+    <h2 class="well">TOURNAMENTS GALLERY:</h2>
+    <br />
+
+    <div class="" >
+
+        <img ng-show="loaded" bg-image class="center-block fullBggallery {{currentAnimation}}" ng-repeat="slide in slides"
+             ng-if="isCurrentSlideIndex($index)"
+             ng-src="{{slide.src}}">
+
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 </div>

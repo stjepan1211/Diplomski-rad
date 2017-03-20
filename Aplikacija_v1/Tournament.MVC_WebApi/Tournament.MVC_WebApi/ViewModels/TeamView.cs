@@ -17,7 +17,8 @@ namespace Tournament.MVC_WebApi.ViewModels
         public Nullable<int> NumberOfMatches { get; set; }
         public Nullable<int> Draw { get; set; }
         public Nullable<int> Points { get; set; }
-
+        public Nullable<int> GoalsScored { get; set; }
+        public Nullable<int> GoalsRecieved { get; set; }
         //public virtual ICollection<MatchView> Matches { get; set; }
         //public virtual ICollection<MatchView> Matches1 { get; set; }
         public virtual ICollection<PlayerView> Players { get; set; }

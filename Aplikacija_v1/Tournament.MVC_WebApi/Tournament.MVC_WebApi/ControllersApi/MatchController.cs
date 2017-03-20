@@ -69,6 +69,22 @@ namespace Tournament.MVC_WebApi.ControllersApi
             }
         }
 
+
+        [HttpGet]
+        [Route("getmatchesbyround")]
+        public async Task<HttpResponseMessage> GetMatchesByRound(Guid tournamentId, int round)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<MatchView>>(await MatchService.ReadByTournamentAndRound(tournamentId,round));
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task<HttpResponseMessage> Add(MatchView match)

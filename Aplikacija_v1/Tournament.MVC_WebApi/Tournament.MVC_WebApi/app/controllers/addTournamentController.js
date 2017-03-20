@@ -194,13 +194,13 @@ function addTournamentController($scope, $http, $stateParams, $window, $state, A
             //post two different objects
             $http({
                 method: 'POST',
-                url: '/api/result/add',
+                url: '/api/tournament/add',
                 data: {
                     tournament: tournament,
                     location: location
                 }
             }).then(function (response) {
-                        console.log(response);
+                        //console.log(response);
                         $window.alert("Tournament added successfully.");
                         $state.go('mytournaments');
                     }, function (response) {

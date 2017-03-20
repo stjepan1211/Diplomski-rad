@@ -56,6 +56,21 @@ namespace Tournament.MVC_WebApi.ControllersApi
         }
 
         [HttpGet]
+        [Route("getleaguetournaments")]
+        public async Task<HttpResponseMessage> GetLeagueTournaments()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<TournamentView>>(await TournamentService.ReadLeagueTournaments());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
         [Route("getbyusername")]
         public async Task<HttpResponseMessage> GetByUsername(string username)
         {
@@ -105,21 +120,81 @@ namespace Tournament.MVC_WebApi.ControllersApi
                         tournament.NumberOfMatches = tournament.Rounds * (tournament.NumberOfTeams / 2);
                         break;
                     case "Playoff":
-                        if (tournament.NumberOfTeams > 32 || tournament.NumberOfTeams < 2)
+                        if(tournament.NumberOfTeams != 4 && tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
                         {
-                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Number of teams in league format can't be greater than 32.");
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't add that number of matches. Number of matches for"
+                                + " playoff type must be 4, 8, 16 or 32.");
+                        }
+                        else
+                        {
+                            switch(tournament.NumberOfTeams)
+                            {
+                                case 4:
+                                    tournament.Rounds = 2;
+                                    tournament.NumberOfMatches = 3;
+                                    break;
+                                case 8:
+                                    tournament.Rounds = 3;
+                                    tournament.NumberOfMatches = 7;
+                                    break;
+                                case 16:
+                                    tournament.Rounds = 4;
+                                    tournament.NumberOfMatches = 15;
+                                    break;
+                                case 32:
+                                    tournament.Rounds = 5;
+                                    tournament.NumberOfMatches = 31;
+                                    break;
+                            }
+                        }
+                        break;
+                    case "League cup":
+                        if (tournament.NumberOfTeams != 4 && tournament.NumberOfTeams != 8 && tournament.NumberOfTeams != 16 && tournament.NumberOfTeams != 32)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't add that number of matches. Number of matches for"
+                                + " playoff type must be 4, 8, 16 or 32.");
+                        }
+                        else
+                        {
+                            switch (tournament.NumberOfTeams)
+                            {
+                                case 4:
+                                    tournament.Rounds = 2;
+                                    tournament.NumberOfMatches = 3;
+                                    break;
+                                case 8:
+                                    tournament.Rounds = 3;
+                                    tournament.NumberOfMatches = 7;
+                                    break;
+                                case 16:
+                                    tournament.Rounds = 4;
+                                    tournament.NumberOfMatches = 15;
+                                    break;
+                                case 32:
+                                    tournament.Rounds = 5;
+                                    tournament.NumberOfMatches = 31;
+                                    break;
+                            }
                         }
                         break;
                     default:
                         return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't add that type of tournament.");
 
-                        //TODO, generate nuber of matches and rounds for Playoff tournament
                 }
                 //check if number of rounds can be played in interval between start and end time of tournament
                 TimeSpan daysDifference = tournament.EndTime.Subtract(tournament.StartTime);
                 if(daysDifference.Days < tournament.Rounds)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Date interval should be greater. Cosider that one round" +
+                    if(daysDifference.Days == 0 && tournament.NumberOfTeams == 2)
+                    {
+                        
+                    }
+                    else if(daysDifference.Days == 1 && tournament.NumberOfTeams == 3)
+                    {
+
+                    }
+                    else
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Date interval should be greater. Cosider that one round" +
                         " will be played one day at time.");
                 }
                 tournament.IsScheduled = false;
@@ -127,7 +202,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 var responseTournament = await TournamentService.Add(Mapper.Map<TournamentDomain>(tournament));
                 var responseLocation = await LocationService.Add(Mapper.Map<LocationDomain>(location));
 
-                if(responseTournament == 1 && responseLocation == 1)
+                if (responseTournament == 1 && responseLocation == 1)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, 1);
                 }
@@ -135,7 +210,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, 0);
                 }
-               
+
             }
             catch (Exception e)
             {

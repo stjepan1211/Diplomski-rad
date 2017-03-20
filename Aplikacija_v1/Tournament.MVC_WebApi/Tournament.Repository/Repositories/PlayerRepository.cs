@@ -99,7 +99,21 @@ namespace Tournament.Repository.Repositories
         {
             try
             {
-                var response = Mapper.Map<IEnumerable<IPlayerDomain>>(await GenericRepository.GetAll<Player>());
+                var response = Mapper.Map<IEnumerable<IPlayerDomain>>(await GenericRepository.GetQueryable<Player>().OrderBy(p => p.Goals).ToListAsync());
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Get top twenty by goals
+        public async Task<IEnumerable<IPlayerDomain>> GetTopTwenty()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<IPlayerDomain>>(await GenericRepository.GetQueryable<Player>().OrderByDescending(p => p.Goals).Take(20).ToListAsync());
                 return response;
             }
             catch (Exception ex)

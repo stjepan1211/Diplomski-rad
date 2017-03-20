@@ -17,5 +17,6 @@ namespace Tournament.Service.Common
         Task<int> Update(IPlayerDomain entry);
         Task<IEnumerable<IPlayerDomain>> ReadPlayersByTeam(Guid teamId);
         Task<IEnumerable<IPlayerDomain>> ReadPlayersByTournament(Guid tournamentId);
+        Task<IEnumerable<IPlayerDomain>> ReadTopTwenty();
     }
 }

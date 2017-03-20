@@ -39,8 +39,8 @@ function loginController($scope, $http, $stateParams, $window, $state, $location
             if (result === true) {
                 $scope.$emit('UNLOAD');
                 $window.alert("You are logged.");
-                $state.go('home');
                 location.reload(true);
+                $state.go('home');
             } else if (result == 404) {
                 $scope.$emit('UNLOAD');
                 $window.alert("Username not found.");

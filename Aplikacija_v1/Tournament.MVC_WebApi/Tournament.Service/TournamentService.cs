@@ -95,6 +95,20 @@ namespace Tournament.Service
             }
 
         }
+
+        public async Task<IEnumerable<ITournamentDomain>> ReadLeagueTournaments()
+        {
+            try
+            {
+                var response = await TournamentRepository.GetLeagueTournaments();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         //Update Tournament 
         public async Task<int> Update(ITournamentDomain entry)
         {

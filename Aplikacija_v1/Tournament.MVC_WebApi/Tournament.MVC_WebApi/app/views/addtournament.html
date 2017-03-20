@@ -16,6 +16,7 @@
                             <select class="selectpicker dropdown form-control" data-style="btn-primary" required ng-model="addtournamentdata.Type">
                                 <option>League</option>
                                 <option>Playoff</option>
+                                <option>League cup</option>
                             </select>
                         </div>
                     </div>
@@ -46,6 +47,11 @@
                         </datepicker>
                     </div>
                 </div>  
+                <div class="col-lg-12 row" ng-show="addtournamentdata.Type == 'League cup'">
+                    <label style="text-align:justify;">
+                        If you add this type of tournament, you will need to add teams who won league tournaments. You can add league type of tournament as one group.
+                    </label>
+                </div>
                 <!-- google maps div --> 
                 <div class="map-wrapper">
                     <ui-gmap-google-map center="map.center" zoom="map.zoom" events="map.events">

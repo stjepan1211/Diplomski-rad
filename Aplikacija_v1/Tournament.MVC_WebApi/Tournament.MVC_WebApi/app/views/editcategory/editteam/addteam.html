@@ -1,5 +1,6 @@
-﻿<div ng-controller="editteamController">
-    <form name="addteamform">
+﻿<div ng-controller="editteamController" ng-init="getTournament()">
+    <!-- add teams for league and playoff types -->
+    <form name="addteamform" ng-show="tournament.Type != 'League cup'">
         <label>Add new team:</label>
         <div class="row col-lg-12">
             <div class="col-lg-3">
@@ -18,5 +19,30 @@
             </div>
         </div>
         <button ng-disabled="addteamform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addTeam()">Add team</button>     
+    </form>
+
+    <!-- ********************************************************************************************
+        add teams for league cup -->
+    <form name="addleaguecupteamform" ng-show="tournament.Type == 'League cup'" ng-init="getLeagueTournaments()">
+        <input type="radio" ng-model="numberofteams.checked" ng-value="1" />Add group winner
+        <input type="radio" ng-model="numberofteams.checked" ng-value="2" />Add first two teams
+        <br />
+        <br />
+        <div class="col-lg-12 row">
+            <label class="col-lg-3">Select tournament:</label>
+            <div class="col-lg-6">
+                <select required class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="leaguetournamentselected" ng-options="item as item.Name + ' , ' + item.Locations[0].Place for item in leagueTournaments" ng-change="getTeamsToAdd(leaguetournamentselected.Id,numberofteams.checked)"></select>
+            </div>
+        </div>
+        <br />
+        <div class="row" ng-show="leagueWinner[1].Name">
+            <label class="col-lg-4">Do you want to add this team:</label>
+            <p class="col-lg-7" ng-repeat="item in leagueWinner">{{item.Name}}</p>
+        </div>
+        <div class="row" ng-show="leagueWinner.Name">
+            <label class="col-lg-4">Do you want to add this teams:</label>
+            <p class="col-lg-7"> {{leagueWinner.Name}}</p>
+        </div>
+        <button ng-disabled="addleaguecupteamform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addLeagueCupTeams()">Add</button>
     </form>
 </div>

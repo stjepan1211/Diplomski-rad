@@ -1,3 +1,93 @@
-﻿<div class="container" ng-controller="topteamsController">
-    <h1>Pozdrav iz top teams</h1>
+﻿<div class="container" ng-controller="topteamsController" ng-init="getMostPoints();getMostWins();getMostGoals();">
+    <h2 class="well">Most points, wins and goals</h2>
+    <br />
+    <!-- Most points -->
+
+    <table class="table table-responsive table-hover well">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Tournament
+                </th>
+                <th>
+                    Points
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in teamsMostPoints">
+                <td>
+                    {{item.Name}}
+                </td>
+                <td>
+                    {{item.Tournament}}
+                </td>
+                <td>
+                    {{item.Points}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Most wins -->
+
+    <table class="table table-responsive table-hover well">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Tournament
+                </th>
+                <th>
+                    Wins
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in teamsMostWins">
+                <td>
+                    {{item.Name}}
+                </td>
+                <td>
+                    {{item.Tournament}}
+                </td>
+                <td>
+                    {{item.Won}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Most goals -->
+
+    <table class="table table-responsive table-hover well">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Tournament
+                </th>
+                <th>
+                    Goals scored
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in teamsMostGoals">
+                <td>
+                    {{item.Name}}
+                </td>
+                <td>
+                    {{item.Tournament}}
+                </td>
+                <td>
+                    {{item.GoalsScored}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

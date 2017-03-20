@@ -33,8 +33,8 @@ function navbarController($scope, $http, $stateParams, $window, $state, Authenti
     $scope.LogOut = function () {
         if ($window.confirm('Are you sure you want to log out?')) {
             AuthenticationService.Logout();
-            $state.transitionTo('home', null, { 'reload': true });
             location.reload(true);
+            $state.transitionTo('home', null, { 'reload': true });
         };
     }
 

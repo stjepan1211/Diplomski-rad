@@ -10,7 +10,6 @@
     
     @Scripts.Render("~/app/js")
     @Scripts.Render("~/app")
-
 </head>
 <body ng-app="TournamentModule">
     <div ng-controller="navbarController">
@@ -28,9 +27,8 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li><a ui-sref="home">Home</a></li>
-                        <li><a ui-sref="news">News</a></li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="#">Hall of fame<span class="caret"></span></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown">Hall of fame<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a ui-sref="topplayers">Top players</a></li>
                                 <li><a ui-sref="topteams">Top teams</a></li>
@@ -41,26 +39,21 @@
                         <li ng-show="!isLogged"><a ng-click="Check()" ui-sref="mytournaments">My tournaments</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li ng-show="isLogged"><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li ng-show="isLogged"><a  ng-click="Check()" ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
-                        <li ng-show="!isLogged"><a  ng-click="Check();LogOut()" ui-sref="home"><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
+                        <li ng-show="isLogged" class="ng-hide"><a ui-sref="signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li ng-show="isLogged" class="ng-hide"><a  ng-click="Check()" ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+                        <li ng-show="!isLogged" class="ng-hide"><a  ng-click="Check();LogOut()" ui-sref="home"><span class="glyphicon glyphicon-log-in"></span>Log Out</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
+    
     <div class="container-fluid" ui-view="root">
         
         @RenderBody()
 
     </div>
-    @*<script>
-      function initMap() {
-        // Add your map here.
-        console.log('Google Maps API version: ' + google.maps.version);
-      }
-    </script>*@
-    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA"></script>*@
+
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?v=3.26&key=AIzaSyA5hrIdvl69FjzQ1XwPqIYjM2764MXm6FA"></script>
     @Scripts.Render("~/bundles/jquery")

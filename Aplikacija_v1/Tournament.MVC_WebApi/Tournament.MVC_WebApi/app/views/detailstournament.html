@@ -1,16 +1,25 @@
-﻿<div class="container" ng-controller="tournamentsController" ng-init="getTeamsByTournament();getRefereesByTournament();getMatchesData();getLocationData()">
-    <br />
-    <br />
+﻿<div class="container" ng-controller="tournamentsController" ng-init="getTeamsByTournament();getRefereesByTournament();getMatchesData();getLocationData();getTournament()">
+   
     <h2 class="well">Tournament details</h2>
-    <div class="well col-lg-12">
+    <!-- SHOW IF TYPE IS LEAGUE
+        ****************************************************************************************** -->
+    <div class="well">
         <h4>Teams in this tournament:</h4>
-        <table class="table table-responsive table-hover table-bordered table-striped">
+        <form>
+            <div class="row">
+                <label>Search by name:  <input ng-model="search.TeamName" /></label>
+            </div>
+        </form>
+    </div>
+        <br />
+        <table  class="table table-responsive table-hover well">
             <thead>
                 <tr>
-                    <th>
+                    <th ng-click="sort('Name')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Name
                     </th>
-                    <th>
+                    <th  ng-show="tournament.Type == 'League' || tournament.Type == 'League cup'">
                         Number Of Matches
                     </th>
                     <th>
@@ -20,12 +29,16 @@
                         Won
                     </th>
                     <th>
-                        Lost
-                    </th>
-                    <th>
                         Draw
                     </th>
                     <th>
+                        Lost
+                    </th>
+                    <th>
+                        Goals diff.
+                    </th>
+                    <th  ng-show="tournament.Type == 'League' || tournament.Type == 'League cup'" ng-click="sort('Points')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Points'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Points
                     </th>
                     <th>
@@ -36,12 +49,12 @@
                     </th>
                 </tr>
             </thead>
-            <tbody ng-repeat="item in teamData">
+            <tbody dir-paginate="item in teamData | toArray:false | orderBy:sortKey:reverse | filter: {Name: search.TeamName} | itemsPerPage:5" pagination-id="teams">
                 <tr>
                     <td>
                         {{item.Name}}
                     </td>
-                    <td>
+                    <td  ng-show="tournament.Type == 'League' || tournament.Type == 'League cup'">
                         {{item.NumberOfMatches}}
                     </td>
                     <td>
@@ -51,38 +64,109 @@
                         {{item.Won}}
                     </td>
                     <td>
-                        {{item.Lost}}
-                    </td>
-                    <td>
                         {{item.Draw}}
                     </td>
                     <td>
+                        {{item.Lost}}
+                    </td>
+                    <td>
+                        {{item.GoalsScored}}:{{item.GoalsRecieved}}
+                    </td>
+                    <td  ng-show="tournament.Type == 'League' || tournament.Type == 'League cup'">
                         {{item.Points}}
                     </td>
                     <td>
                         {{item.NumberOfPlayers}}
                     </td>
                     <td>
-                        <a class="btn btn-lg btn-info" ui-sref="players({teamId: item.Id})">Show</a>
+                        <a class="btn btn-lg btn-info btn-xs" ui-sref="players({teamId: item.Id})">Show</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div  class="col-lg-12 row">
+            <dir-pagination-controls pagination-id="teams"
+                                     class="pull-right"
+                                     max-size="5"
+                                     direction-links="true"
+                                     boundary-links="true">
+            </dir-pagination-controls>
+        </div>
+    <!-- **************************************************************************************************************************** -->
+
+    <!-- **********************************************************************************************************************************
+        SHOW IF TYPE IS PLAYOFF -->
+    <div ng-show="tournament.Type == 'Playoff' || tournament.Type == 'League cup'" class="well">
+        <h4>Winners by rounds:</h4>
+
+        <!-- Round 1 winners -->
+        <div class="row">
+            <label class="col-lg-1">Round 1:</label>
+            <ul class="list-inline col-lg-11" style="text-align: center">
+                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundOneData">{{item.Team2.Name}} </li>
+            </ul>
+        </div>
+
+        <!-- Round 2 winners -->
+        <div class="row"  style="text-align: center">
+            <label  class="col-lg-1">Round 2:</label>
+            <ul class="list-inline col-lg-11">
+                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundTwoData">{{item.Team2.Name}}</li>
+            </ul>
+        </div>
+        <!-- Round 3 winners -->
+        <div class="row"  style="text-align: center"  ng-show="tournament.Rounds > 2 ">
+            <label class="col-lg-1">Round 3:</label>
+            <ul class="list-inline col-lg-11">
+                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundThreeData">{{item.Team2.Name}}</li>
+            </ul>
+        </div>
+        <!-- Round 4 winners -->
+        <div class="row"  style="text-align: center" ng-show="tournament.Rounds > 3 ">
+            <label class="col-lg-1">Round 4:</label>
+            <ul class="list-inline col-lg-11">
+                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundFourData">{{item.Team2.Name}}</li>
+            </ul>
+        </div>
+        <!-- Round 5 winners -->
+        <div class="row"  style="text-align: center" ng-show="tournament.Rounds > 4">
+            <label class="col-lg-1">Round 5:</label>
+            <ul class="list-inline col-lg-11">
+                <li title="{{item.Team.Name}} vs. {{item.Team1.Name}} Result: {{item.Results[0].TeamOneGoals}}:{{item.Results[0].TeamTwoGoals}} Winner: {{item.Team2.Name}}" ng-repeat="item in roundFiveData">{{item.Team2.Name}}</li>
+            </ul>
+        </div>
+    </div>
+    <!-- jQuery for popover -->
+    <br />
+
+
+    <!-- *************************************************************************************************************************************
+         -->
+
+
         <div class="col-lg-12 row">
-            <div class="col-lg-7">
+            <div class="col-lg-7 well">
                 <h4>Referees in this tournament:</h4>
+                <form>
+                    <div class="row">
+                        <label>Search by name:  <input ng-model="search.RefereeName" /></label>
+                    </div>
+                </form>
+                <br />
                 <table class="table table-responsive table-hover table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>
+                            <th ng-click="sort('Name')">
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                                 Name
                             </th>
-                            <th>
+                            <th ng-click="sort('Surname')">
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='Surname'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                                 Surname
                             </th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="item in refereeData">
+                    <tbody dir-paginate="item in refereeData | toArray:false | orderBy:sortKey:reverse | filter: {Name: search.RefereeName} | itemsPerPage:5" pagination-id="referees">
                         <tr>
                             <td>
                                 {{item.Name}}
@@ -93,46 +177,63 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="col-lg-12 row">
+                    <dir-pagination-controls pagination-id="referees"
+                                             class="pull-right"
+                                             max-size="5"
+                                             direction-links="true"
+                                             boundary-links="true">
+                    </dir-pagination-controls>
+                </div>
             </div>
             <div class="col-lg-5">
-                <ui-gmap-google-map
-                                ng-if="map.center"
-                                center="map.center"
-                                zoom="map.zoom"
-                                events="map.events">
-                    <ui-gmap-window
-                        coords="map.marker.coords"
-                        show="map.window.show"
-                        options="windowOptions"
-                        closeClick="map.window.closeClick()">
+                <ui-gmap-google-map ng-if="map.center"
+                                    center="map.center"
+                                    zoom="map.zoom"
+                                    events="map.events">
+                    <ui-gmap-window coords="map.marker.coords"
+                                    show="map.window.show"
+                                    options="windowOptions"
+                                    closeClick="map.window.closeClick()">
                         <h5>{{address}}</h5>
                     </ui-gmap-window>
-                    <ui-gmap-marker
-                        coords="map.marker.coords"
-                        icon="map.marker.icon"
-                        idkey="map.marker.id"
-                        events="map.markersEvents">
+                    <ui-gmap-marker coords="map.marker.coords"
+                                    icon="map.marker.icon"
+                                    idkey="map.marker.id"
+                                    events="map.markersEvents">
                     </ui-gmap-marker>
                 </ui-gmap-google-map>
             </div>
         </div>
-        <h4>Matches in this tournament:</h4>
-        <table class="table table-responsive table-hover table-bordered table-striped">
+        <h4 class="well">Matches in this tournament:</h4>
+        <form class="well">
+            <div class="row">
+                <div class="col-lg-4"><label class="col-lg-4">Search by team one:</label> <input ng-model="search.TeamOne" /></div>
+                <div class="col-lg-4"><label class="col-lg-4">Search by team two:</label> <input ng-model="search.TeamTwo" /></div>
+                <div class="col-lg-4"><label class="col-lg-4">Search round:</label> <input ng-model="search.MatchDate" /></div>
+            </div>
+        </form>
+        <br />
+        <table class="table table-responsive table-hover table-bordered table-striped well">
             <thead>
                 <tr>
-                    <th>
+                    <th ng-click="sort('Team.Name')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Team.Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Team One
                     </th>
-                    <th>
+                    <th ng-click="sort('Team1.Name')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Team1.Name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Team Two
                     </th>
                     <th>
                         Referee
                     </th>
-                    <th>
+                    <th ng-click="sort('DateTime')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='DateTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Date
                     </th>
-                    <th>
+                    <th ng-click="sort('Round')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Round'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Round
                     </th>
                     <th>
@@ -140,7 +241,8 @@
                     </th>
                 </tr>
             </thead>
-            <tbody ng-repeat="item in matchData">
+            <tbody dir-paginate="item in matchData | toArray:false | orderBy:sortKey:reverse  | filter: {DateTime: search.MatchDate, Team: {Name: search.TeamOne}, Team1: {Name: search.TeamTwo}}
+                   | itemsPerPage:10" pagination-id="matches">
                 <tr>
                     <td>
                         {{item.Team.Name}}
@@ -151,17 +253,30 @@
                     <td>
                         {{item.Referee.Name + " "}}{{item.Referee.Surname}}
                     </td>
-                    <td ng-bind="item.DateTime | date:'yyyy-dd-MM'">
+                    <td ng-bind="item.DateTime | date:'yyyy-MM-dd'">
                         {{item.DateTime}}
                     </td>
                     <td>
                         {{item.Round}}
                     </td>
                     <td>
-                        ispravi algoritam
+                        
+                        <div class="row col-lg-12">
+                            {{item.Results[0].TeamOneGoals}} - {{item.Results[0].TeamTwoGoals}}
+                            <span ng-show="isPenalties(item.Results[0].TeamOneGoals, item.Results[0].TeamTwoGoals)"
+                                   title="Penalties" style="color:blue" class="glyphicon glyphicon-info-sign"></span>                    
+                        </div>
+                        <p>Winner: {{item.Team2.Name}} </p>
                     </td>
                 </tr>
             </tbody>
         </table>
-</div>
+        <div class="col-lg-12 row">
+            <dir-pagination-controls pagination-id="matches"
+                                     class="pull-right"
+                                     max-size="10"
+                                     direction-links="true"
+                                     boundary-links="true">
+            </dir-pagination-controls>
+        </div>
 </div>

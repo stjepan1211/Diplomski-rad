@@ -16,5 +16,11 @@ namespace Tournament.Repository.Common.IRepositories
         Task<IEnumerable<ITeamDomain>> GetAll();
         Task<int> Update(ITeamDomain entity);
         Task<IEnumerable<ITeamDomain>> GetAllWhereTournamentId(Guid tournamentId);
+        Task<ITeamDomain> GetLeagueTournamentWinner(Guid tournamentId);
+        Task<IEnumerable<ITeamDomain>> GetLeagueTournamentFirstTwoTeams(Guid tournamentId);
+        Task<IEnumerable<ITeamDomain>> MostPoints();
+        Task<IEnumerable<ITeamDomain>> MostWins();
+        Task<IEnumerable<ITeamDomain>> MostGoals();
+
     }
 }

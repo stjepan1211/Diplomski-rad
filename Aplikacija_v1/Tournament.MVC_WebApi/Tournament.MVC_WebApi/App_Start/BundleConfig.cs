@@ -28,7 +28,8 @@ namespace Tournament.MVC_WebApi
                       "~/Content/site.css",
                       "~/Content/angular-material.css",
                       "~/Content/angular-datepicker.css",
-                      "~/Content/ADM-dateTimePicker.css"
+                      "~/Content/ADM-dateTimePicker.css",
+                      "~/Content/slide.css"
                       ));
 
             bundles.Add(new ScriptBundle("~/app/js").Include(
@@ -48,15 +49,19 @@ namespace Tournament.MVC_WebApi
                     "~/app/js/moment.js",
                     "~/app/js/ADM-dateTimePicker.js",
                     "~/app/js/angularToArrayFilter.js",
-                    "~/app/js/dirPagination.js"
+                    "~/app/js/dirPagination.js",
+                    "~/app/js/TweenMax.js",
+                    "~/Scripts/angular-ui/ui-bootstrap.js",
+                    "~/app/js/PreloadJs.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/app").Include(
                     "~/app/app.js",
-                    "~/app/services/*Service.js",
                     "~/app/controllers/*Controller.js",
                     "~/app/controllers/editcontrollers/*Controller.js",
-                    "~/app/directives/*Directive.js"
+                    "~/app/directives/*Directive.js",
+                    "~/app/animations/*Animation.js",
+                    "~/app/services/*Service.js"
                 ));
         }
     }

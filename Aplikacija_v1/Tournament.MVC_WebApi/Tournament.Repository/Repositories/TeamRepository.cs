@@ -121,5 +121,136 @@ namespace Tournament.Repository.Repositories
                 throw ex;
             }
         }
+
+        //Get Team with most points
+        public async Task<IEnumerable<ITeamDomain>> MostPoints()
+        {
+            try
+            {
+                IEnumerable<ITeamDomain> teams = Mapper.Map<IEnumerable<ITeamDomain>>
+                   (await GenericRepository.GetQueryable<Team>().OrderByDescending(t => t.Points).ToListAsync());
+                IEnumerable<ITeamDomain> teamWithMostPoints = teams.Take(1);
+
+                List<ITeamDomain> response = new List<ITeamDomain>();
+                //response.Add(teamWithMostPoints.First());
+
+                foreach (var team in teams)
+                {
+                    if (team.Points == teamWithMostPoints.First().Points)
+                    {
+                        response.Add(team);
+                    }
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+         //Get Team With most wins
+        public async Task<IEnumerable<ITeamDomain>> MostWins()
+        {
+            try
+            {
+                IEnumerable<ITeamDomain> teams = Mapper.Map<IEnumerable<ITeamDomain>>
+                   (await GenericRepository.GetQueryable<Team>().OrderByDescending(t => t.Won)
+                   .ToListAsync());
+                IEnumerable<ITeamDomain> teamWithMostWins = teams.Take(1);
+
+                List<ITeamDomain> response = new List<ITeamDomain>();
+                //response.Add(teamWithMostWins.First());
+
+                foreach (var team in teams)
+                {
+                    if (team.Won == teamWithMostWins.First().Won)
+                    {
+                        response.Add(team);
+                    }
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Get Team With most goals
+        public async Task<IEnumerable<ITeamDomain>> MostGoals()
+        {
+            try
+            {
+                IEnumerable<ITeamDomain> teams = Mapper.Map<IEnumerable<ITeamDomain>>
+                    (await GenericRepository.GetQueryable<Team>().OrderByDescending(t => t.GoalsScored).ToListAsync());
+
+                IEnumerable<ITeamDomain> teamWithMostGoals = teams.Take(1);
+
+
+
+                List<ITeamDomain> response = new List<ITeamDomain>();
+                //response.Add(teamWithMostGoals.First());
+
+                foreach (var team in teams)
+                {
+                    if (team.GoalsScored == teamWithMostGoals.First().GoalsScored)
+                    {
+                        response.Add(team);
+                    }
+                }
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //Get Team Where Type = League and Winner
+        public async Task<ITeamDomain> GetLeagueTournamentWinner(Guid tournamentId)
+        {
+            try
+            {
+                IEnumerable<ITeamDomain> getAllTeams = Mapper.Map<IEnumerable<ITeamDomain>>
+                (await GenericRepository.GetQueryable<Team>().Where(t => t.TournamentId == tournamentId).Include(t => t.Tournament).OrderByDescending(t => t.Points)
+                .ToListAsync());
+                if (getAllTeams.Count() != 0)
+                {
+                    var response = getAllTeams.First();
+                    return response;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<IEnumerable<ITeamDomain>> GetLeagueTournamentFirstTwoTeams(Guid tournamentId)
+        {
+            try
+            {
+                IEnumerable<ITeamDomain> getAllTeams = Mapper.Map<IEnumerable<ITeamDomain>>
+                (await GenericRepository.GetQueryable<Team>().Where(t => t.TournamentId == tournamentId).Include(t => t.Tournament).OrderByDescending(t => t.Points)
+                .ToListAsync());
+                if (getAllTeams.Count() != 0)
+                {
+                    List<ITeamDomain> response = new List<ITeamDomain>();
+                    response.Add(getAllTeams.First());
+                    response.Add(getAllTeams.ElementAt(1));
+                    return response;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

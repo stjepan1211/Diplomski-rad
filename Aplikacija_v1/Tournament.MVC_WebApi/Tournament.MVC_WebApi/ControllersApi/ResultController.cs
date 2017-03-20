@@ -95,7 +95,6 @@ namespace Tournament.MVC_WebApi.ControllersApi
             try
             {
 
-
                 //get result object from Json
                 ResultView result = data["result"].ToObject<ResultView>();
 
@@ -142,18 +141,15 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 dynamic tournamentId = new Guid(data["tournamentId"].ToString());
 
                 //check if result is already added 
-                var matches = Mapper.Map<IEnumerable<MatchView>>(await Matchservice.ReadMatchesByTournament(tournamentId)); ;
+                var results = Mapper.Map<IEnumerable<ResultView>>(await ResultService.ReadResultByMatchId(result.MatchId)); ;
 
-                foreach(var match in matches)
+                foreach(var item in results)
                 {
-                    if(match.Id == result.MatchId)
+                    if(result.MatchId == item.MatchId)
                     {
                         return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You already added result for this match.");
                     }
                 }
-
-                //add result
-                var resultResponse = await ResultService.Add(Mapper.Map<ResultDomain>(result));
 
                 //check if goals by scorers match team goals
                 if (goalsTeamOneSum != result.TeamOneGoals || goalsTeamTwoSum != result.TeamTwoGoals)
@@ -172,10 +168,16 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     playedMatch.Winner = playedMatch.Team.Id;
                     playedMatch.Penalties = false;
 
+                    var matchResponse = await Matchservice.Update(Mapper.Map<MatchDomain>(playedMatch));
+                    if (matchResponse == 0)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't update match.");
+
                     var teamOne = Mapper.Map<TeamView>(await TeamService.Read(playedMatch.Team.Id));
                     teamOne.MatchesPlayed += 1;
                     teamOne.Won += 1;
                     teamOne.Points += 3;
+                    teamOne.GoalsScored = teamOne.GoalsScored + result.TeamOneGoals;
+                    teamOne.GoalsRecieved = teamOne.GoalsRecieved + result.TeamTwoGoals;
                     var teamOneResponse = await TeamService.Update(Mapper.Map<TeamDomain>(teamOne));
                     if(teamOneResponse == 0)
                         return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't update team one.");
@@ -183,6 +185,8 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     var teamTwo = Mapper.Map<TeamView>(await TeamService.Read(playedMatch.Team1.Id));
                     teamTwo.MatchesPlayed += 1;
                     teamTwo.Lost += 1;
+                    teamTwo.GoalsScored = teamTwo.GoalsScored + result.TeamTwoGoals;
+                    teamTwo.GoalsRecieved = teamTwo.GoalsRecieved + result.TeamOneGoals;
                     var teamTwoResponse = await TeamService.Update(Mapper.Map<TeamDomain>(teamTwo));
                     if (teamTwoResponse == 0)
                         return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't update team two.");
@@ -197,9 +201,15 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     playedMatch.Winner = playedMatch.Team1.Id;
                     playedMatch.Penalties = false;
 
+                    var matchResponse = await Matchservice.Update(Mapper.Map<MatchDomain>(playedMatch));
+                    if (matchResponse == 0)
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't update match.");
+
                     var teamOne = Mapper.Map<TeamView>(await TeamService.Read(playedMatch.Team.Id));
                     teamOne.MatchesPlayed += 1;
                     teamOne.Lost += 1;
+                    teamOne.GoalsScored = teamOne.GoalsScored + result.TeamOneGoals;
+                    teamOne.GoalsRecieved = teamOne.GoalsRecieved + result.TeamTwoGoals;
 
                     var teamOneResponse = await TeamService.Update(Mapper.Map<TeamDomain>(teamOne));
                     if (teamOneResponse == 0)
@@ -208,7 +218,9 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     var teamTwo = Mapper.Map<TeamView>(await TeamService.Read(playedMatch.Team1.Id));
                     teamTwo.MatchesPlayed += 1;
                     teamTwo.Won += 1;
-                    teamOne.Points += 3;
+                    teamTwo.Points += 3;
+                    teamTwo.GoalsScored = teamTwo.GoalsScored + result.TeamTwoGoals;
+                    teamTwo.GoalsRecieved = teamTwo.GoalsRecieved + result.TeamOneGoals;
 
                     var teamTwoResponse = await TeamService.Update(Mapper.Map<TeamDomain>(teamTwo));
                     if (teamTwoResponse == 0)
@@ -225,10 +237,16 @@ namespace Tournament.MVC_WebApi.ControllersApi
                         playedMatch.Winner = penaltyWinnerId;
                         playedMatch.Penalties = true;
 
+                        var matchResponse = await Matchservice.Update(Mapper.Map<MatchDomain>(playedMatch));
+                        if (matchResponse == 0)
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't update match.");
+
                         var teamOne = Mapper.Map<TeamView>(await TeamService.Read(playedMatch.Team.Id));
                         teamOne.MatchesPlayed += 1;
                         teamOne.Draw +=1;
                         teamOne.Points += 1;
+                        teamOne.GoalsScored = teamOne.GoalsScored + result.TeamOneGoals;
+                        teamOne.GoalsRecieved = teamOne.GoalsRecieved + result.TeamTwoGoals;
 
                         var teamOneResponse = await TeamService.Update(Mapper.Map<TeamDomain>(teamOne));
                         if (teamOneResponse == 0)
@@ -237,8 +255,10 @@ namespace Tournament.MVC_WebApi.ControllersApi
                         var teamTwo = Mapper.Map<TeamView>(await TeamService.Read(playedMatch.Team1.Id));
                         teamTwo.MatchesPlayed += 1;
                         teamTwo.Draw +=1;
-                        teamOne.Points += 1;
+                        teamTwo.Points += 1;
+                        teamTwo.GoalsScored = teamTwo.GoalsScored + result.TeamTwoGoals;
 
+                        teamTwo.GoalsRecieved = teamTwo.GoalsRecieved + result.TeamOneGoals;
                         var teamTwoResponse = await TeamService.Update(Mapper.Map<TeamDomain>(teamTwo));
                         if (teamTwoResponse == 0)
                             return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Can't update team two.");
@@ -286,7 +306,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     playerToAddGoals.Goals = player.Goals;
                     var updateResponse = await PlayerService.Update(Mapper.Map<PlayerDomain>(playerToAddGoals));
                     if (updateResponse == 0)
-                        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Couldn't add team one scorers");
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Couldn't add team one scorers");
                 }
                 foreach(var player in ScorersTeamTwo)
                 {
@@ -294,7 +314,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     playerToAddGoals.Goals = player.Goals;
                     var updateResponse = await PlayerService.Update(Mapper.Map<PlayerDomain>(playerToAddGoals));
                     if(updateResponse == 0)
-                        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Couldn't add team two scorers");
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Couldn't add team two scorers");
                 }
 
                 //update yellow cards
@@ -304,7 +324,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     playerToAddYellowCard.YellowCards += 1;
                     var updateResponse = await PlayerService.Update(Mapper.Map<PlayerDomain>(playerToAddYellowCard));
                     if (updateResponse == 0)
-                        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Couldn't add players with yellow cards");
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Couldn't add players with yellow cards");
                 }
 
                 //updates red cards
@@ -314,10 +334,11 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     playerToAddRedCard.RedCards += 1;
                     var updateResponse = await PlayerService.Update(Mapper.Map<PlayerDomain>(playerToAddRedCard));
                     if (updateResponse == 0)
-                        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Couldn't add players with red cards");
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Couldn't add players with red cards");
                 }
 
-                //var response = await ResultService.Add(Mapper.Map<ResultDomain>(result));
+                //add result
+                var resultResponse = await ResultService.Add(Mapper.Map<ResultDomain>(result));
 
                 return Request.CreateResponse(HttpStatusCode.OK, 1);
             }
@@ -387,9 +408,12 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 //check  if matches are added
                 var matches = Mapper.Map<IEnumerable<MatchView>>(await Matchservice.ReadMatchesByTournament(tournamentId));
                 var tournament = Mapper.Map<TournamentView>(await TournamentService.Read(tournamentId));
-                if(matches.Count() != tournament.NumberOfMatches)
+                if(tournament.Type == "League")
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Matches aren't added.");
+                    if (matches.Count() != tournament.NumberOfMatches)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Matches aren't added.");
+                    }
                 }
                 //check  if teams are added
                 var teams = Mapper.Map<IEnumerable<TeamView>>(await TeamService.GetWhereTournamentId(tournamentId));

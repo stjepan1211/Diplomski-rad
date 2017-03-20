@@ -114,7 +114,7 @@ namespace Tournament.Repository.Repositories
             try
             {
                 var x = await GenericRepository.GetQueryable<Match>()
-                    .Where(m => m.TournametId == tournamentId).Include(m => m.Referee).Include(m => m.Team).Include(m => m.Team1)
+                    .Where(m => m.TournametId == tournamentId).Include(m => m.Referee).Include(m => m.Team).Include(m => m.Team1).Include(m => m.Results)
                     .OrderBy(m => m.Round).ToListAsync();
                 var response = Mapper.Map<IEnumerable<IMatchDomain>>(x);
                 return response;
@@ -131,6 +131,20 @@ namespace Tournament.Repository.Repositories
             try
             {
                 return await GenericRepository.Update(Mapper.Map<Match>(entity));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        //Get matches by rounds
+        public async Task<IEnumerable<IMatchDomain>> GetMatchesByRounds(Guid tournamentId, int round)
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<IMatchDomain>>(await GenericRepository.GetQueryable<Match>()
+                    .Where(m => m.TournametId == tournamentId && m.Round == round).Include(m => m.Team2).ToListAsync());
+                return response;
             }
             catch (Exception ex)
             {

@@ -20,5 +20,6 @@ namespace Tournament.MVC_WebApi.ViewModels
         public virtual RefereeView Referee { get; set; }
         public virtual TeamView Team { get; set; }
         public virtual TeamView Team1 { get; set; }
+        public virtual TeamView Team2 { get; set; }
     }
 }

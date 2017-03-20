@@ -12,6 +12,6 @@ namespace Tournament.Model.Common
         System.Guid TournamentId { get; set; }
         string Url { get; set; }
 
-        ITournamentDomain Tournament { get; set; }
+        //ITournamentDomain Tournament { get; set; }
     }
 }

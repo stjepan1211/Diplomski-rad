@@ -1,14 +1,13 @@
 ﻿<div class="container" ng-controller="tournamentsController" ng-init="getAllTournaments()">
     <h2 class="well">ALL TOURNAMENTS:</h2>
     <br />
-    <div class="well">
-        <form>
+        <form class="well">
             <div class="row">
                 <label>Search by name:  <input ng-model="search.Name" /></label>
             </div>
         </form>
         <br />
-        <table class="col-lg-12 table table-responsive table-hover table-bordered table-striped">
+        <table class="table table-responsive table-hover well">
             <thead>
                 <tr>
                     <th ng-click="sort('Name')">
@@ -19,16 +18,16 @@
                         <span class="glyphicon sort-icon" ng-show="sortKey=='Type'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Type
                     </th>
-                    <th ng-click="sort('StartDate')">
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='StartDate'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    <th ng-click="sort('StartTime')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='StartTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Start Date
                     </th>
-                    <th ng-click="sort('EndDate')">
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='EndDate'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    <th ng-click="sort('EndTime')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='EndTime'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         End Date
                     </th>
-                    <th ng-click="sort('Location')">
-                        <span class="glyphicon sort-icon" ng-show="sortKey=='Location'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    <th ng-click="sort('Locations[0].Place')">
+                        <span class="glyphicon sort-icon" ng-show="sortKey=='Locations[0].Place'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                         Location
                     </th>
                     <th>
@@ -45,10 +44,10 @@
                     <td>
                         {{item.Type}}
                     </td>
-                    <td ng-bind="item.StartTime | date:'yyyy-dd-MM'">
+                    <td ng-bind="item.StartTime | date:'yyyy-MM-dd'">
                         {{item.StartTime}}
                     </td>
-                    <td ng-bind="item.EndTime | date:'yyyy-dd-MM'">
+                    <td ng-bind="item.EndTime | date:'yyyy-MM-dd'">
                         {{item.EndTime}}
                     </td>
                     <td>
@@ -68,5 +67,4 @@
             </dir-pagination-controls>
         </div>
         <a class="btn btn-lg btn-info" ng-click="addTournament()">Create new tournament</a>
-    </div>
 </div>

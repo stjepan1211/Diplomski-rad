@@ -71,17 +71,13 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Gallery">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="TournamentId" />
-            <PropertyRef Name="Url" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TournamentId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Url" Type="nchar" MaxLength="128" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -153,6 +149,8 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="NumberOfMatches" Type="int" />
           <Property Name="Draw" Type="int" />
           <Property Name="Points" Type="int" />
+          <Property Name="GoalsScored" Type="int" />
+          <Property Name="GoalsRecieved" Type="int" />
         </EntityType>
         <EntityType Name="Tournament">
           <Key>
@@ -285,6 +283,18 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Match_Team2">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Match" Type="Self.Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="Winner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Match_Tournament">
           <End Role="Tournament" Type="Self.Tournament" Multiplicity="1" />
           <End Role="Match" Type="Self.Match" Multiplicity="*" />
@@ -364,6 +374,7 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gallery" EntityType="Self.Gallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Match" EntityType="Self.Match" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
@@ -371,13 +382,6 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <EntitySet Name="Result" EntityType="Self.Result" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tournament" EntityType="Self.Tournament" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Gallery" EntityType="Self.Gallery" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Gallery].[Id] AS [Id], 
-    [Gallery].[TournamentId] AS [TournamentId], 
-    [Gallery].[Url] AS [Url]
-    FROM [dbo].[Gallery] AS [Gallery]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -411,6 +415,10 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
             <End Role="Match" EntitySet="Match" />
           </AssociationSet>
           <AssociationSet Name="FK_Match_Team1" Association="Self.FK_Match_Team1">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Match" EntitySet="Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Match_Team2" Association="Self.FK_Match_Team2">
             <End Role="Team" EntitySet="Team" />
             <End Role="Match" EntitySet="Match" />
           </AssociationSet>
@@ -538,6 +546,7 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="Round" Type="Int32" Nullable="false" />
           <Property Name="Winner" Type="Guid" />
           <Property Name="Penalties" Type="Boolean" />
+          <NavigationProperty Name="Team2" Relationship="Tournament_v1Model.FK_Match_Team2" FromRole="Match" ToRole="Team" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -592,6 +601,9 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="NumberOfMatches" Type="Int32" />
           <Property Name="Draw" Type="Int32" />
           <Property Name="Points" Type="Int32" />
+          <NavigationProperty Name="Matches2" Relationship="Tournament_v1Model.FK_Match_Team2" FromRole="Team" ToRole="Match" />
+          <Property Name="GoalsScored" Type="Int32" />
+          <Property Name="GoalsRecieved" Type="Int32" />
         </EntityType>
         <EntityType Name="Tournament">
           <Key>
@@ -611,8 +623,8 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <Property Name="NumberOfMatches" Type="Int32" />
           <Property Name="NumberOfTeams" Type="Int32" />
           <Property Name="Rounds" Type="Int32" />
-          <NavigationProperty Name="Galleries" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Tournament" ToRole="Gallery" />
           <Property Name="IsScheduled" Type="Boolean" />
+          <NavigationProperty Name="Galleries" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Tournament" ToRole="Gallery" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -831,21 +843,35 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Match_Team2" Association="Tournament_v1Model.FK_Match_Team2">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Match" EntitySet="Matches" />
+          </AssociationSet>
           <EntitySet Name="Galleries" EntityType="Tournament_v1Model.Gallery" />
           <AssociationSet Name="FK_Gallery_Tournament" Association="Tournament_v1Model.FK_Gallery_Tournament">
             <End Role="Tournament" EntitySet="Tournaments" />
             <End Role="Gallery" EntitySet="Galleries" />
           </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Match_Team2">
+          <End Type="Tournament_v1Model.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="Tournament_v1Model.Match" Role="Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Match">
+              <PropertyRef Name="Winner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Gallery">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="TournamentId" />
-            <PropertyRef Name="Url" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="TournamentId" Type="Guid" Nullable="false" />
-          <Property Name="Url" Type="String" Nullable="false" MaxLength="128" FixedLength="true" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Tournament" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Gallery" ToRole="Tournament" />
         </EntityType>
         <Association Name="FK_Gallery_Tournament">
@@ -990,6 +1016,8 @@ warning 6002: The table/view 'Tournament_v1.dbo.Gallery' does not have a primary
           <EntitySetMapping Name="Teams">
             <EntityTypeMapping TypeName="Tournament_v1Model.Team">
               <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="GoalsRecieved" ColumnName="GoalsRecieved" />
+                <ScalarProperty Name="GoalsScored" ColumnName="GoalsScored" />
                 <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="Draw" ColumnName="Draw" />
                 <ScalarProperty Name="NumberOfMatches" ColumnName="NumberOfMatches" />

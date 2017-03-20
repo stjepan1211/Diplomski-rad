@@ -39,6 +39,21 @@ namespace Tournament.MVC_WebApi.ControllersApi
         }
 
         [HttpGet]
+        [Route("gettoptwenty")]
+        public async Task<HttpResponseMessage> GetTopTwenty()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<PlayerView>>(await PlayerService.ReadTopTwenty());
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
         [Route("get")]
         public async Task<HttpResponseMessage> Get(Guid id)
         {

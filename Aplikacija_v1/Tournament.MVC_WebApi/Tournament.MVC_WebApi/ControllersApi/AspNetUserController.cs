@@ -13,6 +13,10 @@ using Tournament.Model;
 using Tournament.MVC_WebApi.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading;
+using System.Net.Mail;
+using Tournament.MVC_WebApi.HelperClasses;
+using Microsoft.AspNet.Identity;
+using System.Text;
 
 namespace Tournament.MVC_WebApi.ControllersApi
 {
@@ -119,9 +123,19 @@ namespace Tournament.MVC_WebApi.ControllersApi
                 aspNetUser.PhoneNumberConfirmed = false;
                 aspNetUser.LockoutEnabled = false;
                 aspNetUser.AccessFailedCount = 0;
+
                 var response = await AspNetUserService.Add(Mapper.Map<AspNetUserDomain>(aspNetUser));
 
-                return Request.CreateResponse(HttpStatusCode.OK, response);
+
+                //TODO: manually set password
+                if (SendEmail.Send("tournamentapp1@gmail.com", "tournament_1", aspNetUser.Email) && Convert.ToBoolean(response))
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,"You are registered. Check your mail.");
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "You are registered.");
+                }
             }
             catch (Exception e)
             {

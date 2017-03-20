@@ -67,7 +67,7 @@ namespace Tournament.Service
                 throw e;
             }
         }
-        //Get All Teams
+
         public async Task<IEnumerable<IGalleryDomain>> ReadAll()
         {
             try

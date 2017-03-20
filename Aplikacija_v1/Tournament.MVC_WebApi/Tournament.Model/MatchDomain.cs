@@ -23,5 +23,7 @@ namespace Tournament.Model
         public virtual ITeamDomain Team { get; set; }
         public virtual ITeamDomain Team1 { get; set; }
         public virtual ICollection<IResultDomain> Results { get; set; }
+        public virtual ITeamDomain Team2 { get; set; }
+
     }
 }

@@ -1,0 +1,16 @@
+﻿<div ng-controller="editgalleryController" ng-init="getImagesByTournament()">
+
+    <form name="deletepictureform">
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Select image:</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="selectpicker dropdown form-control" data-style="btn-primary" ng-model="imageselected" ng-options="item as item.Url for item in tournamentImages" required>
+                    <optgroup label="Select team:"></optgroup>
+                </select>
+            </div>           
+        </div>
+        <button ng-disabled="deletepictureform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="deleteImage()">Delete</button>
+    </form>
+</div>

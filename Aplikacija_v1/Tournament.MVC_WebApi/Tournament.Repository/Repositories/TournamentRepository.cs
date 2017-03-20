@@ -107,6 +107,22 @@ namespace Tournament.Repository.Repositories
             }
         }
 
+
+        //Get all where type is League
+        public async Task<IEnumerable<ITournamentDomain>> GetLeagueTournaments()
+        {
+            try
+            {
+                var response = Mapper.Map<IEnumerable<ITournamentDomain>>(await GenericRepository.GetQueryable<DAL.Tournament>()
+                    .Where(t => t.Type == "League").ToListAsync());
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         //Update Result
         public async Task<int> Update(ITournamentDomain entity)
         {

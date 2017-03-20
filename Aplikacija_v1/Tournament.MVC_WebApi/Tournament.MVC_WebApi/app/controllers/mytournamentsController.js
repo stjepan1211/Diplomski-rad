@@ -55,8 +55,12 @@ function mytournamentsController($scope, $http, $stateParams, $window, $state, A
             else {
                 $http.post('api/schedule/add?tournamentId=' + $stateParams.tournamentId)
                 .then(function (response) {
-                    $window.alert("Schedule added successful.");
+                    console.log(response);
+                    console.log(response.data);
+                    $window.alert("Schedule added successful." + response.data.toString());
                 }, function (response) {
+                    console.log(response);
+                    console.log(response.data);
                     $window.alert("Couldn't add schedule. Error: " + response.data.Message);
                 });
             }
@@ -66,5 +70,10 @@ function mytournamentsController($scope, $http, $stateParams, $window, $state, A
     //change state when dropdown is changed
     $scope.changeState = function (path) {
         $state.go(path, {});
+    }
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
 }

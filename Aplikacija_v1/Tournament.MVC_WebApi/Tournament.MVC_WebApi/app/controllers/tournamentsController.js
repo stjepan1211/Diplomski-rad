@@ -16,6 +16,11 @@ function tournamentsController($scope, $http, $stateParams, $window, $state, $ro
         Teams: undefined
     }
     
+    $scope.tournament = {
+        Type: undefined,
+        Rounds: undefined
+    }
+
     $scope.teamData = {
         Id: undefined,
         TournamentId: undefined,
@@ -66,10 +71,129 @@ function tournamentsController($scope, $http, $stateParams, $window, $state, $ro
         });
     }
 
+    $scope.getTournament = function () {
+        PromiseUtilsService.getPromiseHttpResult($http.get('api/tournament/get?id=' + $stateParams.tournamentId))
+        .then(function (response) {
+            $scope.tournament = response.data;
+
+            //console.log($scope.tournament.Rounds);
+            switch ($scope.tournament.Rounds) {
+                case 2:
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 1)
+                        .then(function (response) {
+                            $scope.roundOneData = response.data;
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 2)
+                    .then(function (response) {
+                        $scope.roundTwoData = response.data;
+                        //console.log($scope.roundTwoData);
+                    }, function (response) {
+                        $window.alert("Error: " + response.data.Message);
+                    });
+                    break;
+                case 3:
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 1)
+                        .then(function (response) {
+                            $scope.roundOneData = response.data;
+                            //console.log($scope.roundOneData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 2)
+                        .then(function (response) {
+                            $scope.roundTwoData = response.data;
+                            //console.log($scope.roundTwoData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 3)
+                        .then(function (response) {
+                            $scope.roundThreeData = response.data;
+                            //console.log($scope.roundThreeData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    break;
+                case 4:
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 1)
+                        .then(function (response) {
+                            $scope.roundOneData = response.data;
+                            //console.log($scope.roundOneData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 2)
+                        .then(function (response) {
+                            $scope.roundTwoData = response.data;
+                            //console.log($scope.roundTwoData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 3)
+                        .then(function (response) {
+                            $scope.roundThreeData = response.data;
+                            //console.log($scope.roundThreeData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 4)
+                        .then(function (response) {
+                            $scope.roundFourData = response.data;
+                            //console.log($scope.roundFourData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    break;
+                case 5:
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 1)
+                        .then(function (response) {
+                            $scope.roundOneData = response.data;
+                            //console.log($scope.roundOneData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 2)
+                        .then(function (response) {
+                            $scope.roundTwoData = response.data;
+                            //console.log($scope.roundTwoData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 3)
+                        .then(function (response) {
+                            $scope.roundThreeData = response.data;
+                            //console.log($scope.roundThreeData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 4)
+                        .then(function (response) {
+                            $scope.roundFourData = response.data;
+                            //console.log($scope.roundFourData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    $http.get('api/match/getmatchesbyround?tournamentId=' + $stateParams.tournamentId + '&round=' + 5)
+                        .then(function (response) {
+                            $scope.roundFiveData = response.data;
+                            //console.log($scope.roundFiveData);
+                        }, function (response) {
+                            $window.alert("Error: " + response.data.Message);
+                        });
+                    break;
+            }
+
+        }, function (response) {
+            return "Couldn't get response.";
+        });
+    }
+
     $scope.addTournament = function () {
         if (!AuthenticationService.Check()) {
             $window.alert("To add tournament you need to log in first.");
-            location.reload(true);
+            //location.reload(true);
         }
         else {
             $state.go('addtournament');
@@ -161,5 +285,28 @@ function tournamentsController($scope, $http, $stateParams, $window, $state, $ro
     $scope.sort = function (keyname) {
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.getPenaltyWinner = function (winnerId) {
+        if (winnerId == undefined) {
+
+        }
+        else {
+            $http.get('api/team/get?id=' + winnerId)
+            .then(function (response) {
+                $scope.WinnerName = response.data.Name;
+            }, function (response) {
+                console.log(response.data.Message);
+            })
+        }
+    }
+
+    $scope.isPenalties = function (teamOneGoals, teamTwoGoals) {
+        if (teamOneGoals == undefined || teamTwoGoals == undefined || teamOneGoals != teamTwoGoals) {
+            return false;
+        }
+        else if ((teamOneGoals == teamTwoGoals)) {
+            return true;
+        }
     }
 }

@@ -1,0 +1,40 @@
+﻿.htmlgallery{
+    height: 100%;
+}
+.bodygallery {
+    overflow: hidden;
+    min-height: 100%;
+}
+
+.fullBggallery {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:auto;
+    height:auto;
+}
+
+.navgallery {
+    position: absolute;
+    right: 35px;
+    top: 35px;
+    z-index: 110;
+    float: none;
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+
+.navgallery li {
+    cursor: pointer;
+}
+
+.navgallery a {
+    background-color: rgba(255, 255, 255, 0.50);
+}
+.progress {
+    margin-top: 10%;
+}

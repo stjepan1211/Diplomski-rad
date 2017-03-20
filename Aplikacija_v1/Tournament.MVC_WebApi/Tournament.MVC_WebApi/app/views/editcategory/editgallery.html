@@ -1,0 +1,10 @@
+﻿<div class="container" ng-controller="editgalleryController">
+
+    <input type="radio" name="crudmatch" value="editmytournament.gallery.add" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Add
+    <input type="radio" name="crudmatch" value="editmytournament.gallery.delete" ng-model="route.selectedroute" ng-change="changestate(route.selectedroute)"> Delete
+    <br />
+    <br />
+    <div class="form-group col-lg-8" ui-view="editgallery">
+
+    </div>
+</div>

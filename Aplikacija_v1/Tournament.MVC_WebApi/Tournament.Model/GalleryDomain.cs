@@ -13,6 +13,6 @@ namespace Tournament.Model
         public System.Guid TournamentId { get; set; }
         public string Url { get; set; }
 
-        public virtual ITournamentDomain Tournament { get; set; }
+        //public virtual ITournamentDomain Tournament { get; set; }
     }
 }
