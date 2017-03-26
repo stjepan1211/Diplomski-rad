@@ -78,6 +78,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TournamentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Url" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -873,6 +874,7 @@
           <Property Name="TournamentId" Type="Guid" Nullable="false" />
           <Property Name="Url" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Tournament" Relationship="Tournament_v1Model.FK_Gallery_Tournament" FromRole="Gallery" ToRole="Tournament" />
+          <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Gallery_Tournament">
           <End Type="Tournament_v1Model.Tournament" Role="Tournament" Multiplicity="1" />
@@ -1058,6 +1060,7 @@
           <EntitySetMapping Name="Galleries">
             <EntityTypeMapping TypeName="Tournament_v1Model.Gallery">
               <MappingFragment StoreEntitySet="Gallery">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

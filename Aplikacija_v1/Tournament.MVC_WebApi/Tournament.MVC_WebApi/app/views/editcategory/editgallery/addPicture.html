@@ -20,6 +20,14 @@
                 <input type="text" placeholder="Enter Image Url Here..." class="form-control" required ng-model="imageData.Url" />
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-2">
+                <label>Add description:</label>
+            </div>
+            <div class="col-lg-10">
+                <input type="text" placeholder="Enter Description Here..." class="form-control" required ng-model="imageData.Description" />
+            </div>
+        </div>
         <button ng-disabled="addpictureform.$invalid" type="button" class="btn btn-lg btn-info" ng-click="addImage()">Add</button>
     </form>
 </div>

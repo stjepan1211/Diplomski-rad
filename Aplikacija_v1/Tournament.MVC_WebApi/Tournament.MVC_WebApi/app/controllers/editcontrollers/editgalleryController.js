@@ -4,7 +4,8 @@ function editgalleryController($scope, $http, $stateParams, $window, $state, Aut
 
     $scope.imageData = {
         TournamentId: undefined,
-        Url: undefined
+        Url: undefined,
+        Description: undefined
     }
 
     //get tournaments by username
@@ -26,7 +27,8 @@ function editgalleryController($scope, $http, $stateParams, $window, $state, Aut
     $scope.addImage = function () {
         var gallery = {
             TournamentId: $scope.tournamentselected.Id,
-            Url: $scope.imageData.Url
+            Url: $scope.imageData.Url,
+            Description: $scope.imageData.Description
         }
 
         $http.post('api/gallery/add', gallery)

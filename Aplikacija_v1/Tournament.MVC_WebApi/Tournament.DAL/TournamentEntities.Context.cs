@@ -85,5 +85,6 @@ namespace Tournament.DAL
                 this.Configuration.AutoDetectChangesEnabled = value;
             }
         }
+
     }
 }

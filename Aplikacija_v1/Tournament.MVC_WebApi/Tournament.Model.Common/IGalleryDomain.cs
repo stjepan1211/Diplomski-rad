@@ -11,6 +11,7 @@ namespace Tournament.Model.Common
         System.Guid Id { get; set; }
         System.Guid TournamentId { get; set; }
         string Url { get; set; }
+        string Description { get; set; }
 
         //ITournamentDomain Tournament { get; set; }
     }

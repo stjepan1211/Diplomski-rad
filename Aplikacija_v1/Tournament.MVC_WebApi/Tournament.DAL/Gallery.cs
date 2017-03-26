@@ -17,6 +17,7 @@ namespace Tournament.DAL
         public System.Guid Id { get; set; }
         public System.Guid TournamentId { get; set; }
         public string Url { get; set; }
+        public string Description { get; set; }
     
         public virtual Tournament Tournament { get; set; }
     }

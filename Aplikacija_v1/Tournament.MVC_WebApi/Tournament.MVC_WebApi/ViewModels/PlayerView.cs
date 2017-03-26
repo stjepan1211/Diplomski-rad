@@ -15,5 +15,7 @@ namespace Tournament.MVC_WebApi.ViewModels
         public int YellowCards { get; set; }
         public int RedCards { get; set; }
         public Nullable<int> GamesPlayed { get; set; }
+        public string TeamName { get; set; }
+        public string TournamentName { get; set; }
     }
 }

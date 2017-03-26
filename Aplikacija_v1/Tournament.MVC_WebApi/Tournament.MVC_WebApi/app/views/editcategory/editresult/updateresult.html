@@ -6,7 +6,7 @@
                 <label>Select match:</label>
             </div>
             <div class="col-lg-6">
-                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name for item in matches" ng-change="getresultdetails(updateresultmatchselected.Id)"></select>
+                <select class="col-lg-6 selectpicker dropdown form-control" data-style="btn-primary" ng-model="updateresultmatchselected" ng-options="item as item.Team.Name + ' vs. ' + item.Team1.Name + ' Round: ' + item.Round  for item in matches" ng-change="getresultdetails(updateresultmatchselected.Id)"></select>
             </div>
         </div>
         <div ng-show="updateresultmatchselected.Winner != undefined">

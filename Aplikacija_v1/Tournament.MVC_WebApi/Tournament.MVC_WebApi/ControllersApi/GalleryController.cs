@@ -77,7 +77,7 @@ namespace Tournament.MVC_WebApi.ControllersApi
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid input.");
 
                 gallery.Id = Guid.NewGuid();
-
+                
                 Uri uriResult;
                 bool result = Uri.TryCreate(gallery.Url, UriKind.Absolute, out uriResult)
                     && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);

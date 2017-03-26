@@ -1,12 +1,13 @@
 ﻿<div class="container"  ng-controller="galleryController" ng-init="getImages()">
     
     <h2 class="well">TOURNAMENTS GALLERY:</h2>
+  
     <br />
 
-    <div class="" >
+    <div class=""  ng-if="isCurrentSlideIndex($index)" ng-show="loaded" ng-repeat="slide in slides" >
+        <h2 class="well">Description: {{slide.Description}}</h2>
 
-        <img ng-show="loaded" bg-image class="center-block fullBggallery {{currentAnimation}}" ng-repeat="slide in slides"
-             ng-if="isCurrentSlideIndex($index)"
+        <img bg-image class="center-block fullBggallery {{currentAnimation}}"
              ng-src="{{slide.Url}}" />
 
     </div>

@@ -14,15 +14,6 @@ function galleryController($scope, $http, $stateParams, $window, $state, $timeou
             .then(function (response) {
                 $scope.slides = response.data;
 
-                angular.forEach($scope.slides, function(value,key){
-                    $http.get('api/tournament/get?id=' + value.TournamentId)
-                        .then(function(response){
-                            value.Tournament = response.data.Name;
-                        }, function(response){
-                        
-                     })
-                })
-
                 console.log($scope.slides);
             }, function (response) {
                 $window.alert("Couldn't get images.")

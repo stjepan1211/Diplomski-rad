@@ -17,10 +17,12 @@ namespace Tournament.MVC_WebApi.ControllersApi
     {
         protected IPlayerService PlayerService { get; set; }
         protected ITeamService TeamService { get; set; }
-        public PlayerController(IPlayerService service, ITeamService teamService)
+        protected ITournamentService TournamentService { get; set; }
+        public PlayerController(IPlayerService service, ITeamService teamService, ITournamentService tournamentService)
         {
             this.PlayerService = service;
             this.TeamService = teamService;
+            this.TournamentService = tournamentService;
         }
 
         [HttpGet]
@@ -44,8 +46,15 @@ namespace Tournament.MVC_WebApi.ControllersApi
         {
             try
             {
-                var response = Mapper.Map<IEnumerable<PlayerView>>(await PlayerService.ReadTopTwenty());
-                return Request.CreateResponse(HttpStatusCode.OK, response);
+                IEnumerable<PlayerView> topTwenty = Mapper.Map<IEnumerable<PlayerView>>(await PlayerService.ReadTopTwenty());
+                foreach(var item in topTwenty)
+                {
+                    var team = Mapper.Map<TeamView>(await TeamService.Read(item.TeamId));
+                    item.TeamName = team.Name;
+                    item.TournamentName = Mapper.Map<TournamentView>(await TournamentService.Read(team.TournamentId)).Name;
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, topTwenty);
             }
             catch (Exception e)
             {
